@@ -1,6 +1,7 @@
 import ViewsNotes from '@/views/ViewsNotes.vue'
 import ViewsEditNote from '@/views/ViewsEditNote.vue'
 import ViewsStats from '@/views/ViewsStats.vue'
+import ViewRegister from '@/views/Login/ViewRegister.vue'
 
 const publicRoutes = [
   {
@@ -17,7 +18,12 @@ const publicRoutes = [
     path: '/stats',
     name: 'stats',
     component: ViewsStats
-  }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: ViewRegister
+  },
 ]
 
 export default publicRoutes.map((route) => {
