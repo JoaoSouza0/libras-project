@@ -15,7 +15,7 @@ const showMobileNav = ref(true)
 <style lang="less" scoped>
 #nav-bar {
   width: 100%;
-  background-color: var(--dark-teal);
+  background-color: var(--text-primary);
 
   .container {
     margin: 0 auto;
