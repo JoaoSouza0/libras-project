@@ -13,7 +13,10 @@ import NavBar from '@/components/Layout/NavBar.vue'
 @import '@/less/main.less';
 
 #view-container {
-  width: 80%;
+  display: flex;
+  align-items: center;
+  max-width: 80%;
   margin: 0 auto;
+  min-height: 92.5svh;
 }
 </style>
