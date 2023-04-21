@@ -1,7 +1,9 @@
 <template>
   <nav id="nav-bar">
     <div class="container">
-      <img src="@/assets/helpers-logo.svg" alt="helpers logo" />
+      <div class="img">
+        <img src="@/assets/helpers-logo.svg" alt="helpers logo" />
+      </div>
     </div>
   </nav>
 </template>
@@ -19,8 +21,12 @@ const showMobileNav = ref(true)
 
   .container {
     margin: 0 auto;
-    padding: 2.0rem;
+    padding: 2rem;
     width: 80%;
+
+    .img {
+      max-width: 14.4rem;
+    }
   }
 }
 </style>

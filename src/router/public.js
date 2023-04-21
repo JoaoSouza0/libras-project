@@ -1,24 +1,12 @@
-import ViewsNotes from '@/views/ViewsNotes.vue'
-import ViewsEditNote from '@/views/ViewsEditNote.vue'
-import ViewsStats from '@/views/ViewsStats.vue'
 import ViewRegister from '@/views/Login/ViewRegister.vue'
 import ViewLogin from '@/views/Login/ViewLogin.vue'
+import ViewHome from '@/views/ViewHome.vue'
 
 const publicRoutes = [
   {
     path: '/',
-    name: 'notes',
-    component: ViewsNotes
-  },
-  {
-    path: '/edit/:id',
-    name: 'edit-note',
-    component: ViewsEditNote
-  },
-  {
-    path: '/stats',
-    name: 'stats',
-    component: ViewsStats
+    name: 'home',
+    component: ViewHome
   },
   {
     path: '/register',

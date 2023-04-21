@@ -32,14 +32,10 @@ const props = defineProps({
 })
 
 const optionsFormatted = computed(() => {
-  return props.options.map((option) => {
-    return option.value
-      ? option
-      : {
-          label: option.label,
-          value: option.label
-        }
-  })
+  return props.options.map((option) => ({
+    label: option.label,
+    value: option.value ?? option.label
+  }))
 })
 </script>
 
@@ -76,8 +72,8 @@ const optionsFormatted = computed(() => {
       input:checked::before {
         content: '';
         display: block;
-        width: 1.0rem;
-        height: 1.0rem;
+        width: 1rem;
+        height: 1rem;
         margin: 0.7rem auto;
         border-radius: 50%;
         background: var(--link-primary);
