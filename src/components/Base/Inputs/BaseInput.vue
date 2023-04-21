@@ -61,21 +61,19 @@ const emit = defineEmits(['update:modelValue'])
 
   label {
     display: block;
-    font-size: 2rem;
     padding: 8px 0;
   }
 
   .input-content {
     display: flex;
     align-items: center;
-    background: #cae9ff;
+    background: var(--input-primary);
     border-radius: 8px;
 
     input {
       width: 100%;
       padding: 22px;
       padding-right: 50px;
-      font-size: 2rem;
       background: transparent;
       border: none;
     }
@@ -85,7 +83,7 @@ const emit = defineEmits(['update:modelValue'])
     }
 
     input:focus-visible {
-      outline: 2px solid #5fa8d3d0;
+      outline: 2px solid var(--link-primary);
       border-radius: 8px;
     }
 
