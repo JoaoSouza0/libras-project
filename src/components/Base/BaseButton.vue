@@ -1,0 +1,51 @@
+<template>
+  <button id="button">
+    <slot />
+  </button>
+</template>
+
+<script setup>
+import { computed } from 'vue'
+
+const props = defineProps({
+  theme: {
+    type: Boolean,
+    default: true
+  }
+})
+
+const themeStyle = computed(() => {
+  return props.theme
+    ? {
+        color: 'var(--white)',
+        bgColor: 'var(--text-primary)',
+        hoverColor: 'var(--text-primary)',
+        hoverBgColor: 'var(--input-secondary)'
+      }
+    : {
+        color: 'var(--text-primary)',
+        bgColor: 'var(--input-secondary)',
+        hoverColor: 'var(--white)',
+        hoverBgColor: 'var(--text-primary)'
+      }
+})
+</script>
+
+<style>
+#button {
+  width: 240px;
+  font-size: 2rem;
+  padding: 25px;
+  border: none;
+  color: v-bind('themeStyle.color');
+  cursor: pointer;
+  border-radius: 8px;
+  background: v-bind('themeStyle.bgColor');
+}
+
+#button:hover {
+  transition: 0.5s;
+  color: v-bind('themeStyle.hoverColor');
+  background: v-bind('themeStyle.hoverBgColor');
+}
+</style>

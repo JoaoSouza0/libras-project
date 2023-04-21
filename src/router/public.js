@@ -24,6 +24,11 @@ const publicRoutes = [
     name: 'register',
     component: ViewRegister
   },
+  {
+    path: '/login',
+    name: 'login',
+    component: ViewRegister
+  }
 ]
 
 export default publicRoutes.map((route) => {
