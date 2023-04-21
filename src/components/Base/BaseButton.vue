@@ -33,13 +33,13 @@ const themeStyle = computed(() => {
 
 <style>
 #button {
-  width: 240px;
+  width: 24rem;
   font-size: 2rem;
-  padding: 25px;
+  padding: 2.5rem;
   border: none;
   color: v-bind('themeStyle.color');
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 0.8rem;
   background: v-bind('themeStyle.bgColor');
 }
 

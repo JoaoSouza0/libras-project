@@ -77,7 +77,7 @@ const student = ref(0)
 
   .img {
     width: 100%;
-    max-width: 800px;
+    max-width: 80.0rem;
 
     img {
       width: 100%;
@@ -86,21 +86,21 @@ const student = ref(0)
 
   .content {
     h1 {
-      margin-bottom: 16px;
+      margin-bottom: 1.6rem;
     }
 
     & > p {
       color: var(--text-dark);
       font-size: 2rem;
-      margin-bottom: 64px;
+      margin-bottom: 6.4rem;
     }
     .text-input {
-      margin-bottom: 24px;
+      margin-bottom: 2.4rem;
     }
 
     .radio-input {
-      margin-top: 8px;
-      margin-bottom: 48px;
+      margin-top: 0.8rem;
+      margin-bottom: 4.8rem;
     }
   }
 }

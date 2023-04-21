@@ -52,33 +52,33 @@ const optionsFormatted = computed(() => {
     div {
       display: flex;
       align-items: center;
-      margin-right: 33px;
+      margin-right: 3.3rem;
 
       input {
-        margin-right: 8px;
+        margin-right: 0.8rem;
         appearance: none;
 
         border-radius: 50%;
 
-        width: 24px;
-        height: 24px;
+        width: 2.4rem;
+        height: 2.4rem;
         background: var(--input-primary);
-        outline: 2px solid var(--link-primary);
+        outline: 0.2rem solid var(--link-primary);
 
-        margin-right: 8px;
+        margin-right: 0.8rem;
         cursor: pointer;
       }
 
       input:checked {
-        outline: 3px solid var(--input-primary);
+        outline: 0.3rem solid var(--input-primary);
       }
 
       input:checked::before {
         content: '';
         display: block;
-        width: 10px;
-        height: 10px;
-        margin: 7px auto;
+        width: 1.0rem;
+        height: 1.0rem;
+        margin: 0.7rem auto;
         border-radius: 50%;
         background: var(--link-primary);
       }

@@ -52,7 +52,7 @@ const student = ref(0)
 
   .img {
     width: 50%;
-    max-width: 625px;
+    max-width: 62.5rem;
 
     img {
       width: 100%;
@@ -60,22 +60,22 @@ const student = ref(0)
   }
   .content {
     width: 50%;
-    max-width: 515px;
+    max-width: 51.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
 
     h1 {
-      margin-bottom: 16px;
+      margin-bottom: 1.6rem;
     }
 
     & > p {
       color: var(--text-dark);
       font-size: 2rem;
-      margin-bottom: 56px;
+      margin-bottom: 5.6rem;
     }
     .text-input {
-      margin-bottom: 24px;
+      margin-bottom: 2.4rem;
     }
   }
 }
