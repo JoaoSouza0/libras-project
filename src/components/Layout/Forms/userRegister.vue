@@ -5,8 +5,7 @@
     </div>
 
     <div class="content">
-      <h1>Criar conta</h1>
-      <p>Já é cadastrado? <a>Entre na sua conta.</a></p>
+      <slot name="head" />
 
       <base-input
         class="text-input"
@@ -77,7 +76,7 @@ const student = ref(0)
 
   .img {
     width: 100%;
-    max-width: 80.0rem;
+    max-width: 80rem;
 
     img {
       width: 100%;
@@ -85,15 +84,8 @@ const student = ref(0)
   }
 
   .content {
-    h1 {
-      margin-bottom: 1.6rem;
-    }
+    max-width: 51.5rem;
 
-    & > p {
-      color: var(--text-dark);
-      font-size: 2rem;
-      margin-bottom: 6.4rem;
-    }
     .text-input {
       margin-bottom: 2.4rem;
     }

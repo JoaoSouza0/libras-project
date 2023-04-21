@@ -5,8 +5,7 @@
     </div>
 
     <div class="content">
-      <h1>Bem-vindo de volta!</h1>
-      <p>Ainda não é cadastrado? <a>Crie sua conta</a></p>
+      <slot name="head" />
 
       <base-input
         class="text-input"
@@ -41,6 +40,7 @@ const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 const student = ref(0)
+
 </script>
 
 <style lang="less" scoped>
@@ -65,15 +65,6 @@ const student = ref(0)
     flex-direction: column;
     justify-content: center;
 
-    h1 {
-      margin-bottom: 1.6rem;
-    }
-
-    & > p {
-      color: var(--text-dark);
-      font-size: 2rem;
-      margin-bottom: 5.6rem;
-    }
     .text-input {
       margin-bottom: 2.4rem;
     }

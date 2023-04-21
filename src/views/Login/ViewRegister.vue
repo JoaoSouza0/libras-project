@@ -1,5 +1,11 @@
 <template>
   <user-register>
+    <template #head>
+      <div class="head-content">
+        <h1>Criar conta</h1>
+        <p>Já é cadastrado? <a @click.prevent="login">Entre na sua conta.</a></p>
+      </div>
+    </template>
     <template #button>
       <div class="user-term">
         <p>Ao prosseguir, você concorda com nossos <a>Termos de uso</a></p>
@@ -12,10 +18,27 @@
 <script setup>
 import userRegister from '@/components/Layout/Forms/userRegister.vue'
 
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+const login = () => {
+  return router.push({ name: 'login' })
+}
 //colorar os métodos de registro aqui
 </script>
 
 <style lang="less" scoped>
+.head-content {
+  h1 {
+    margin-bottom: 1.6rem;
+  }
+
+  & > p {
+    color: var(--text-dark);
+    font-size: 2rem;
+    margin-bottom: 3.4rem;
+  }
+}
 .user-term {
   display: flex;
   align-items: center;
@@ -23,7 +46,7 @@ import userRegister from '@/components/Layout/Forms/userRegister.vue'
 
   p,
   a {
-    margin-right: 2.0rem;
+    margin-right: 2rem;
     font-size: 1.6rem;
   }
 }
