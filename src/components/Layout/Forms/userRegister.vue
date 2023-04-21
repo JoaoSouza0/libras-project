@@ -1,7 +1,7 @@
 <template>
-  <section id="register-user-form">
+  <form id="register-user-form">
     <div class="img">
-      <img src="@/assets/student-photo.svg" alt="jovem fazendo sinal de foto" />
+      <img src="@/assets/register-image.svg" alt="jovem fazendo sinal de foto" />
     </div>
 
     <div class="content">
@@ -41,12 +41,9 @@
 
       <radio-input class="radio-input" v-model="student" :options="radioOptions" />
 
-      <div class="user-term">
-        <p>Ao prosseguir, você concorda com nossos <a>Termos de uso</a></p>
-        <base-button>Cadastre-se</base-button>
-      </div>
+      <slot name="button" />
     </div>
-  </section>
+  </form>
 </template>
 
 <script setup>
@@ -104,18 +101,6 @@ const student = ref(0)
     .radio-input {
       margin-top: 8px;
       margin-bottom: 48px;
-    }
-
-    .user-term {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      p,
-      a {
-        margin-right: 20px;
-        font-size: 1.6rem;
-      }
     }
   }
 }

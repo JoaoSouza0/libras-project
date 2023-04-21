@@ -2,6 +2,7 @@ import ViewsNotes from '@/views/ViewsNotes.vue'
 import ViewsEditNote from '@/views/ViewsEditNote.vue'
 import ViewsStats from '@/views/ViewsStats.vue'
 import ViewRegister from '@/views/Login/ViewRegister.vue'
+import ViewLogin from '@/views/Login/ViewLogin.vue'
 
 const publicRoutes = [
   {
@@ -27,7 +28,7 @@ const publicRoutes = [
   {
     path: '/login',
     name: 'login',
-    component: ViewRegister
+    component: ViewLogin
   }
 ]
 

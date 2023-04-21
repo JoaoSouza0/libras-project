@@ -67,7 +67,7 @@ const emit = defineEmits(['update:modelValue'])
   .input-content {
     display: flex;
     align-items: center;
-    background: var(--input-primary);
+    background: #cae9ff;
     border-radius: 8px;
 
     input {
@@ -83,7 +83,7 @@ const emit = defineEmits(['update:modelValue'])
     }
 
     input:focus-visible {
-      outline: 2px solid var(--link-primary);
+      outline: 2px solid #5fa8d3d0;
       border-radius: 8px;
     }
 
