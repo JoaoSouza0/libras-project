@@ -1,5 +1,5 @@
 <template>
-  <base-input v-bind="$props" :type="type" @update:modelValue="$emit('update:modelValue', $event)">
+  <base-input v-bind="$props" :type="type" required @update:modelValue="$emit('update:modelValue', $event)">
     <template #icon>
       <img
         src="@/assets/open-eye.svg"
@@ -49,7 +49,4 @@ const changePasswordStatus = (hide) => {
 </script>
 
 <style lang="less" scoped>
-img {
-  cursor: pointer;
-}
 </style>

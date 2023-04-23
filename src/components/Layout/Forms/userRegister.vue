@@ -1,5 +1,5 @@
 <template>
-  <form id="register-user-form">
+  <form ref="refForm" id="register-user-form" @submit="handleSubmit">
     <div class="img">
       <img src="@/assets/register-image.svg" alt="jovem fazendo sinal de foto" />
     </div>
@@ -9,8 +9,8 @@
 
       <base-input
         class="text-input"
-        :valid="true"
-        v-model="email"
+        required
+        v-model="email.value"
         id="email"
         type="email"
         autocomplete="off"
@@ -21,8 +21,7 @@
       <password-input
         class="text-input"
         id="password"
-        v-model="password"
-        :valid="true"
+        v-model="password.value"
         autocomplete="off"
         label="Senha"
         placeholder="Senha"
@@ -31,8 +30,7 @@
       <password-input
         class="text-input"
         id="confirm-password"
-        v-model="confirmPassword"
-        :valid="true"
+        v-model="confirmPassword.value"
         autocomplete="off"
         label="Confirmar Senha"
         placeholder="Confirmar senha"
@@ -46,7 +44,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue';
+
+const refForm = ref(null);
 
 const radioOptions = [
   {
@@ -54,15 +54,21 @@ const radioOptions = [
     label: 'Sou estudantes'
   },
   {
-    value: 2,
+    value: 1,
     label: 'Sou professor'
   }
-]
+];
 
-const email = ref('')
-const password = ref('')
-const confirmPassword = ref('')
-const student = ref(0)
+const email = ref('');
+const password = ref('');
+const confirmPassword = ref('');
+const student = ref(0);
+
+
+const handleSubmit = () => {
+  const a = refForm.value.reportValidity();
+  console.log(a);
+};
 
 //create validator
 </script>
@@ -84,6 +90,7 @@ const student = ref(0)
   }
 
   .content {
+    width: 72%;
     max-width: 51.5rem;
 
     .text-input {

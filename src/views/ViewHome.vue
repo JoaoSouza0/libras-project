@@ -11,12 +11,13 @@
       <base-input
         v-model="searchValue"
         class="search-input"
-        :valid="true"
         id="search"
         placeholder="Encontrar professores próximos a..."
       >
         <template #icon>
+          <div class="icon-wrapper">
             <img src="@/assets/global-search-home.svg" alt="" srcset="" />
+          </div>
         </template>
       </base-input>
 
@@ -30,21 +31,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 const options = [
   {
     value: 0,
-    label: 'Sou estudantes'
+    label: 'Aulas presenciais'
   },
   {
     value: 2,
-    label: 'Sou professor'
+    label: 'Aulas remotas'
   }
-]
+];
 
-const searchValue = ref('')
-const option = ref(0)
+const searchValue = ref('');
+const option = ref(0);
 </script>
 
 <style lang="less" scoped>
@@ -61,7 +62,7 @@ const option = ref(0)
   p {
     max-width: 85.6rem;
     font-size: 2rem;
-    margin-bottom: 8.7rem;
+    margin-bottom: 4.7rem;
     text-align: center;
     color: var(--text-primary);
   }
@@ -73,8 +74,19 @@ const option = ref(0)
       margin-bottom: 1.7rem;
     }
 
-    .icon {
+    .icon-wrapper {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background-color: var(--text-primary);
+      border-radius: 0 0.8rem 0.8rem 0;
+
+      img {
+        width: 42%;
+        cursor: pointer;
+      }
     }
 
     .radio-input {
