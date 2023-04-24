@@ -10,7 +10,7 @@
       <base-input
         class="text-input"
         required
-        v-model="email.value"
+        v-model="email"
         id="email"
         type="email"
         autocomplete="off"
@@ -21,7 +21,7 @@
       <password-input
         class="text-input"
         id="password"
-        v-model="password.value"
+        v-model="password"
         autocomplete="off"
         label="Senha"
         placeholder="Senha"
@@ -30,7 +30,7 @@
       <password-input
         class="text-input"
         id="confirm-password"
-        v-model="confirmPassword.value"
+        v-model="confirmPassword"
         autocomplete="off"
         label="Confirmar Senha"
         placeholder="Confirmar senha"
