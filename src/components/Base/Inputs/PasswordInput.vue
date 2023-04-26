@@ -1,5 +1,11 @@
 <template>
-  <base-input v-bind="$props" :type="type" required @update:modelValue="$emit('update:modelValue', $event)">
+  <base-input
+    ref="refPassword"
+    v-bind="$props"
+    :type="type"
+    required
+    @update:modelValue="$emit('update:modelValue', $event)"
+  >
     <template #icon>
       <img
         src="@/assets/open-eye.svg"
@@ -7,22 +13,16 @@
         @click="changePasswordStatus(hidePassword)"
       />
     </template>
-
-    <template #error-message>
-      <slot name="error-message"></slot>
-    </template>
   </base-input>
 </template>
 
 <script setup>
-import { ref, computed, unref } from 'vue'
+import { ref, computed } from 'vue';
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
+const refPassword = ref(null);
 
 const props = defineProps({
-  valid: {
-    type: Boolean
-  },
   modelValue: {
     type: String,
     required: true
@@ -37,16 +37,20 @@ const props = defineProps({
     type: String,
     default: 'on'
   }
-})
+});
 
-const hidePassword = ref(true)
+const hidePassword = ref(true);
 
-const type = computed(() => (hidePassword.value ? 'password' : 'text'))
+const type = computed(() => (hidePassword.value ? 'password' : 'text'));
 
 const changePasswordStatus = (hide) => {
-  return (hidePassword.value = !hide)
-}
+  return (hidePassword.value = !hide);
+};
+
+const setCustomValidity = (message) => refPassword.value.setCustomValidity(message);
+defineExpose({
+  setCustomValidity
+});
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

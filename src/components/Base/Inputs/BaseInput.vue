@@ -20,20 +20,15 @@
         <slot name="icon" />
       </span>
     </div>
-
-    <div class="error">
-      <slot name="error-message">
-        <p>{{ message }}</p>
-      </slot>
-    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, computed } from 'vue';
 
 const refInput = ref(null);
 const hasFocused = ref(false);
+const autocompleteBackground = ref(true);
 const message = ref('');
 
 const props = defineProps({
@@ -43,10 +38,6 @@ const props = defineProps({
   },
   id: {
     type: String,
-    required: true
-  },
-  valid: {
-    type: Boolean
   },
   label: {
     type: String
@@ -68,12 +59,12 @@ const props = defineProps({
   }
 });
 
-const handleInput = ({ target, srcElement }) => {
+const handleInput = ({ target }) => {
   emit('update:modelValue', target.value);
-
-  if (!srcElement.validity.valid) {
-    message.value = srcElement.validationMessage;
-    return emit('validation', getError(srcElement.validity));
+  if (!target.validity.valid) {
+    refInput.value.setCustomValidity('');
+    message.value = target.validationMessage;
+    return emit('validation', getError(target.validity));
   }
 
   message.value = '';
@@ -86,11 +77,22 @@ const getError = (validity) => {
   }
 };
 
+const setCustomValidity = (customMessage) => {
+  autocompleteBackground.value = !customMessage;
+  message.value = customMessage;
+  return refInput.value.setCustomValidity(customMessage);
+};
+
 const hasFocus = () => {
   // It will be replaced in the future for "user-invalid" pseudo class in the future
   hasFocused.value = true;
 };
 
+const backgroundValid = computed(() => {
+  return autocompleteBackground.value ? 'var(--input-secondary)' : 'var(--error-background)';
+});
+
+defineExpose({ setCustomValidity });
 const emit = defineEmits(['update:modelValue', 'validation']);
 </script>
 
@@ -108,7 +110,7 @@ const emit = defineEmits(['update:modelValue', 'validation']);
   .input-content {
     display: flex;
     align-items: center;
-    background: #cae9ff;
+    background: var(--input-secondary);
     border-radius: 0.8rem;
 
     input {
@@ -125,17 +127,25 @@ const emit = defineEmits(['update:modelValue', 'validation']);
     }
 
     input:focus-visible {
-      outline: 0.2rem solid #5fa8d3d0;
+      outline: 0.2rem solid var(--link-primary);
       border-radius: 0.8rem;
     }
 
     input:invalid.input {
-      background: #fdeeec;
+      background: var(--error-background);
       border-radius: 0.8rem;
     }
 
     input:invalid:focus-visible.input {
-      outline: 2px solid red;
+      outline: 2px solid var(--red)
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 40px v-bind(backgroundValid) inset !important;
+      
     }
 
     .icon {
@@ -157,7 +167,7 @@ const emit = defineEmits(['update:modelValue', 'validation']);
     position: absolute;
     margin-top: 5px;
     padding-left: 2px;
-    color: red;
+    color: var(--red)
   }
 }
 </style>

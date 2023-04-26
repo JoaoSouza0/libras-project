@@ -1,5 +1,5 @@
 <template>
-  <form ref="refForm" id="register-user-form" @submit="handleSubmit">
+  <form ref="refForm" id="register-user-form" @submit.prevent="handleSubmit">
     <div class="img">
       <img src="@/assets/register-image.svg" alt="jovem fazendo sinal de foto" />
     </div>
@@ -8,6 +8,7 @@
       <slot name="head" />
 
       <base-input
+        ref="refEmail"
         class="text-input"
         required
         v-model="email"
@@ -19,6 +20,7 @@
       />
 
       <password-input
+        ref="refPassword"
         class="text-input"
         id="password"
         v-model="password"
@@ -47,6 +49,8 @@
 import { reactive, ref } from 'vue';
 
 const refForm = ref(null);
+const refEmail = ref(null);
+const refPassword = ref(null);
 
 const radioOptions = [
   {
@@ -64,10 +68,8 @@ const password = ref('');
 const confirmPassword = ref('');
 const student = ref(0);
 
-
 const handleSubmit = () => {
-  const a = refForm.value.reportValidity();
-  console.log(a);
+  refPassword.value.setCustomValidity('teste joao');
 };
 
 //create validator
