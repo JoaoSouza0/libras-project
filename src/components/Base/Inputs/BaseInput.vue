@@ -20,6 +20,9 @@
         <slot name="icon" />
       </span>
     </div>
+    <div class="error">
+      <p>{{ message }}</p>
+    </div>
   </div>
 </template>
 
@@ -37,7 +40,7 @@ const props = defineProps({
     required: true
   },
   id: {
-    type: String,
+    type: String
   },
   label: {
     type: String
@@ -66,7 +69,6 @@ const handleInput = ({ target }) => {
     message.value = target.validationMessage;
     return emit('validation', getError(target.validity));
   }
-
   message.value = '';
   return emit('validation', null);
 };
@@ -137,7 +139,7 @@ const emit = defineEmits(['update:modelValue', 'validation']);
     }
 
     input:invalid:focus-visible.input {
-      outline: 2px solid var(--red)
+      outline: 2px solid var(--red);
     }
 
     input:-webkit-autofill,
@@ -145,7 +147,6 @@ const emit = defineEmits(['update:modelValue', 'validation']);
     input:-webkit-autofill:focus,
     input:-webkit-autofill:active {
       -webkit-box-shadow: 0 0 0 40px v-bind(backgroundValid) inset !important;
-      
     }
 
     .icon {
@@ -167,7 +168,7 @@ const emit = defineEmits(['update:modelValue', 'validation']);
     position: absolute;
     margin-top: 5px;
     padding-left: 2px;
-    color: var(--red)
+    color: var(--red);
   }
 }
 </style>

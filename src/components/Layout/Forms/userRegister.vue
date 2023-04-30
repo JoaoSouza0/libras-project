@@ -30,6 +30,7 @@
       />
 
       <password-input
+        ref="refConfirmPassword"
         class="text-input"
         id="confirm-password"
         v-model="confirmPassword"
@@ -46,11 +47,11 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 
-const refForm = ref(null);
 const refEmail = ref(null);
 const refPassword = ref(null);
+const refConfirmPassword = ref(null);
 
 const radioOptions = [
   {
@@ -69,7 +70,10 @@ const confirmPassword = ref('');
 const student = ref(0);
 
 const handleSubmit = () => {
-  refPassword.value.setCustomValidity('teste joao');
+  if (password.value !== confirmPassword.value) {
+    refPassword.value.setCustomValidity('As senhas não coincidem');
+    refConfirmPassword.value.setCustomValidity('As senhas não coincidem');
+  }
 };
 
 //create validator

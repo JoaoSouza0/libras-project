@@ -48,6 +48,7 @@ const changePasswordStatus = (hide) => {
 };
 
 const setCustomValidity = (message) => refPassword.value.setCustomValidity(message);
+
 defineExpose({
   setCustomValidity
 });
