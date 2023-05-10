@@ -1,5 +1,5 @@
 <template>
-  <user-login-form>
+  <user-login-form @submit="handleSubmit">
     <template #head>
       <h1>Bem-vindo de volta!</h1>
       <p>Ainda não é cadastrado? <a @click.prevent="createAccount">Crie sua conta</a></p>
@@ -14,14 +14,28 @@
 </template>
 
 <script setup>
-import userLoginForm from '@/components/Layout/Forms/userLogin.vue'
+import userLoginForm from '@/components/Layout/Forms/userLogin.vue';
+import { useLoginStore } from '../../stores/LoginStore';
+import { useRouter } from 'vue-router';
 
-import { useRouter } from 'vue-router'
-const router = useRouter()
+const userStore = useLoginStore();
+const router = useRouter();
 
 const createAccount = () => {
-  return router.push({ name: 'register' })
-}
+  return router.push({ name: 'register' });
+};
+
+const handleSubmit = (data) => {
+  if (!data.valid) return;
+
+  const result = userStore.signIn(data);
+
+  if (result.success) {
+    console.log('success');
+  } else {
+    console.log('failure');
+  }
+};
 </script>
 
 <style lang="less" scoped>

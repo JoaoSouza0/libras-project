@@ -24,7 +24,7 @@ const refPassword = ref(null);
 
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: [null, String],
     required: true
   },
   label: {

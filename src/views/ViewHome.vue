@@ -15,7 +15,7 @@
         placeholder="Encontrar professores próximos a..."
       >
         <template #icon>
-          <div class="icon-wrapper">
+          <div class="icon-wrapper" @click="handleSearch">
             <img src="@/assets/global-search-home.svg" alt="" srcset="" />
           </div>
         </template>
@@ -31,7 +31,11 @@
 </template>
 
 <script setup>
+import { useIsAuthenticate } from '@/composables/user.js';
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+
+const router = useRouter();
 
 const options = [
   {
@@ -46,6 +50,14 @@ const options = [
 
 const searchValue = ref('');
 const option = ref(0);
+
+const handleSearch = () => {
+  console.log('teste');
+  router.push({ name: 'register' });
+  //TODO: mandar para a tela de procura com os resultados já
+};
+
+
 </script>
 
 <style lang="less" scoped>

@@ -11,19 +11,20 @@
         ref="refEmail"
         class="text-input"
         required
-        v-model="email"
+        v-model="userData.email"
         id="email"
         type="email"
         autocomplete="off"
         label="Email"
         placeholder="example@email.com"
+        @onBlur="setEmailCustomValidity('')"
       />
 
       <password-input
         ref="refPassword"
         class="text-input"
         id="password"
-        v-model="password"
+        v-model="userData.password"
         autocomplete="off"
         label="Senha"
         placeholder="Senha"
@@ -33,13 +34,13 @@
         ref="refConfirmPassword"
         class="text-input"
         id="confirm-password"
-        v-model="confirmPassword"
+        v-model="userData.confirmPassword"
         autocomplete="off"
         label="Confirmar Senha"
         placeholder="Confirmar senha"
       />
 
-      <radio-input class="radio-input" v-model="student" :options="radioOptions" />
+      <radio-input class="radio-input" v-model="userData.student" :options="radioOptions" />
 
       <slot name="button" />
     </div>
@@ -47,11 +48,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { reactive, ref, toRefs, watchEffect } from 'vue';
 
 const refEmail = ref(null);
 const refPassword = ref(null);
 const refConfirmPassword = ref(null);
+const refForm = ref(null);
 
 const radioOptions = [
   {
@@ -64,17 +66,40 @@ const radioOptions = [
   }
 ];
 
-const email = ref('');
-const password = ref('');
-const confirmPassword = ref('');
-const student = ref(0);
+const userData = reactive({
+  email: null,
+  password: null,
+  confirmPassword: null,
+  student: 0
+});
+
+watchEffect(() => {
+  if (userData.password === userData.confirmPassword) {
+    refPassword.value?.setCustomValidity('');
+    refConfirmPassword.value?.setCustomValidity('');
+  }
+});
 
 const handleSubmit = () => {
-  if (password.value !== confirmPassword.value) {
+  const { password, confirmPassword, email, student } = userData;
+
+  if (password !== confirmPassword) {
     refPassword.value.setCustomValidity('As senhas não coincidem');
     refConfirmPassword.value.setCustomValidity('As senhas não coincidem');
   }
+
+  emit('submit', {
+    valid: refForm.value.reportValidity(),
+    email: email,
+    password: password,
+    type: student
+  });
 };
+
+const setEmailCustomValidity = (message) => refEmail.value.setCustomValidity(message);
+
+defineExpose({ setEmailCustomValidity });
+const emit = defineEmits(['submit']);
 
 //create validator
 </script>

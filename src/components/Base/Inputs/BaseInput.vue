@@ -15,6 +15,7 @@
         @input.stop="handleInput"
         @invalid.prevent
         @focus="hasFocus"
+        @blur="$emit('onBlur')"
       />
       <span class="icon">
         <slot name="icon" />
@@ -36,7 +37,7 @@ const message = ref('');
 
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: [null, String],
     required: true
   },
   id: {
@@ -85,7 +86,8 @@ const setCustomValidity = (customMessage) => {
   return refInput.value.setCustomValidity(customMessage);
 };
 
-const hasFocus = () => {
+const hasFocus = (event) => {
+  handleInput(event);
   // It will be replaced in the future for "user-invalid" pseudo class in the future
   hasFocused.value = true;
 };
@@ -95,7 +97,7 @@ const backgroundValid = computed(() => {
 });
 
 defineExpose({ setCustomValidity });
-const emit = defineEmits(['update:modelValue', 'validation']);
+const emit = defineEmits(['update:modelValue', 'validation', 'onBlur']);
 </script>
 
 <style lang="less">

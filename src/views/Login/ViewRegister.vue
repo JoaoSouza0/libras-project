@@ -1,5 +1,5 @@
 <template>
-  <user-register>
+  <user-register ref="formRef" @submit="register">
     <template #head>
       <div class="head-content">
         <h1>Criar conta</h1>
@@ -16,14 +16,33 @@
 </template>
 
 <script setup>
-import userRegister from '@/components/Layout/Forms/userRegister.vue'
+import userRegister from '@/components/Layout/Forms/userRegister.vue';
+import { useLoginStore } from '../../stores/LoginStore';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
-import { useRouter } from 'vue-router'
-const router = useRouter()
+const userStore = useLoginStore();
+const router = useRouter();
+
+const formRef = ref(null);
 
 const login = () => {
-  return router.push({ name: 'login' })
-}
+  return router.push({ name: 'login' });
+};
+
+const register = async (form) => {
+  if (!form.valid) return;
+
+  const result = await userStore.create(form);
+
+  if (result.success) {
+    //leva pra rota de professores ou pegar mais dados
+  } else {
+    formRef.value.setEmailCustomValidity(`CODE: ${result.code}
+    MESSAGE: ${result.message}`);
+  }
+};
+
 //colorar os métodos de registro aqui
 </script>
 

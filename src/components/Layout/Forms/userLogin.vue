@@ -1,5 +1,5 @@
 <template>
-  <form id="login-user-form">
+  <form id="login-user-form" ref="refForm" @submit.prevent="handleSubmit">
     <div class="img">
       <img src="@/assets/login-image.svg" alt="jovem fazendo sinal de foto" />
     </div>
@@ -8,24 +8,27 @@
       <slot name="head" />
 
       <base-input
+        ref="refEmail"
         class="text-input"
-        :valid="true"
-        v-model="email"
+        v-model="userData.email"
         id="email"
         type="email"
         autocomplete="off"
         label="Email"
         placeholder="example@email.com"
+        required
+        @onBlur="handleBlur"
       />
 
       <password-input
+        ref="refPassword"
         class="text-input"
         id="password"
-        v-model="password"
-        :valid="true"
+        v-model="userData.password"
         autocomplete="off"
         label="Senha"
         placeholder="Senha"
+        @onBlur="handleBlur"
       />
 
       <slot name="button" />
@@ -34,13 +37,34 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue';
 
-const email = ref('')
-const password = ref('')
-const confirmPassword = ref('')
-const student = ref(0)
+const refForm = ref(null);
+const refPassword = ref(null);
+const refEmail = ref(null);
+const userData = reactive({
+  email: null,
+  password: null
+});
 
+const handleBlur = () => {
+  refPassword.value.setCustomValidity('');
+  refEmail.value.setCustomValidity('');
+};
+
+const handleSubmit = () => {
+  const { email, password } = userData;
+
+  if ((!email, password)) return;
+
+  emit('submit', {
+    valid: refForm.value.reportValidity(),
+    email: email.value,
+    password: password.value
+  });
+};
+
+const emit = defineEmits(['submit']);
 </script>
 
 <style lang="less" scoped>
