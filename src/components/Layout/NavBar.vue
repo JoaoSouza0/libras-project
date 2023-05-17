@@ -11,12 +11,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useUserStore } from '../../stores/UserStore';
+import { useUserStore } from '@/stores/UserStore.js';
 
 const userStore = useUserStore();
 
 const signOut = async () => {
+  //TODO: REMOVE SIGNOUT
   await userStore.signOut();
 };
 </script>

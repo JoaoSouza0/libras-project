@@ -13,13 +13,14 @@ export const useUserStore = defineStore('storeUser', {
         type
       };
       const authService = new AuthService(email, password);
-      const studentService = new UserService();
+      const userService = new UserService();
+
       try {
         const { success, body } = await authService.create();
         payload.id = body.user.uid;
-        await studentService.post(payload).catch((e) => {
+        await userService.post(payload).catch((e) => {
           body.user.delete();
-          return studentService.failure(e);
+          return userService.failure(e);
         });
 
         return { success };

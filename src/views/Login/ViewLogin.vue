@@ -27,10 +27,10 @@ const createAccount = () => {
 
 const handleSubmit = async (data) => {
   if (!data.valid) return;
-  const { body, success } = await userStore.signIn(data);
+  const response = await userStore.signIn(data);
 
-  if (success) {
-    router.push({ name: 'teacherList' });
+  if (response.success) {
+    return router.push({ name: 'teacherList' });
   } else {
     console.log('failure');
   }

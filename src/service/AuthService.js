@@ -28,11 +28,11 @@ export default class LoginService extends BaseService {
 
   async signOut() {
     return signOut(auth)
-      .then(this.success)
-      .catch(this.failure);
+    .then(this.success)
+    .catch(this.failure);
   }
 
-  async verifyUser(token) {
-    return onAuthStateChanged(auth, (user) => console.log(user));
+  async verifyUser() {
+    return onAuthStateChanged(auth);
   }
 }
