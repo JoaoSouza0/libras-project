@@ -159,9 +159,9 @@ const emit = defineEmits(['update:modelValue', 'validation', 'onBlur']);
       right: 0;
       height: 6.6rem;
       width: 6rem;
+      cursor: pointer;
 
       img {
-        cursor: pointer;
         width: auto;
       }
     }

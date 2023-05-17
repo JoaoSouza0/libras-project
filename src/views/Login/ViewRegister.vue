@@ -17,11 +17,11 @@
 
 <script setup>
 import userRegister from '@/components/Layout/Forms/userRegister.vue';
-import { useLoginStore } from '../../stores/LoginStore';
+import { useUserStore } from '../../stores/UserStore';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 
-const userStore = useLoginStore();
+const userStore = useUserStore();
 const router = useRouter();
 
 const formRef = ref(null);
@@ -36,9 +36,9 @@ const register = async (form) => {
   const result = await userStore.create(form);
 
   if (result.success) {
-    //leva pra rota de professores ou pegar mais dados
+    return router.push({ name: 'teacherList' });
   } else {
-    formRef.value.setEmailCustomValidity(`CODE: ${result.code}
+    return formRef.value.setEmailCustomValidity(`CODE: ${result.code}
     MESSAGE: ${result.message}`);
   }
 };

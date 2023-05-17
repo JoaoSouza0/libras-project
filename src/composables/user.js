@@ -1,7 +1,12 @@
-export const useIsAuthenticate = () => {
-  const token = JSON.parse(localStorage.getItem('Token:'));
+import AuthService from '../service/AuthService';
+
+export const useIsAuthenticate = async () => {
+  const token = JSON.parse(localStorage.getItem('Token'));
+  const authService = new AuthService();
+  const validate = await authService.verifyUser(token);
+
   return {
     token,
-    authenticate: !!token
+    validate
   };
 };

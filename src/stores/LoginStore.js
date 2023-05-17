@@ -1,8 +1,8 @@
-import LoginService from '../service/LoginService';
+import AuthService from '../service/AuthService';
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import StudentsService from '../service/StudentsService';
+import UserService from '../service/UserService';
 
-export const useLoginStore = defineStore('storeLogin', {
+export const useUserStore = defineStore('storeUser', {
   state: () => ({
     user: {}
   }),
@@ -12,8 +12,8 @@ export const useLoginStore = defineStore('storeLogin', {
         email,
         type
       };
-      const authService = new LoginService(email, password);
-      const studentService = new StudentsService();
+      const authService = new AuthService(email, password);
+      const studentService = new UserService();
       try {
         const { success, body } = await authService.create();
         payload.id = body.user.uid;
@@ -28,14 +28,36 @@ export const useLoginStore = defineStore('storeLogin', {
       }
     },
 
-    signIn(email, password) {
-      const service = new LoginService(email, password);
-      
-      return (this.user = service.signIn());
+    async signIn({ email, password }) {
+      const authService = new AuthService(email, password);
+      const userService = new UserService();
+
+      try {
+        const { body: authBody } = await authService.signIn();
+        const response = await userService.get(authBody.user.uid);
+
+        this.user = response.body;
+        localStorage.setItem('Token:', authBody._tokenResponse.refreshToken);
+
+        return response;
+      } catch (e) {
+        console.log(e);
+        return e;
+      }
+    },
+
+    async signOut() {
+      const authService = new AuthService();
+      try {
+        return await authService.signOut();
+      } catch (e) {
+        console.log(e);
+        return e;
+      }
     }
   }
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useLoginStore, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useUserStore, import.meta.hot));
 }

@@ -27,6 +27,48 @@
     <div class="img">
       <img src="@/assets/people-home.svg" alt="jovens fazendo sinais" />
     </div>
+
+    <div class="section-1">
+      <div>
+        <h1>Sobre o projeto</h1>
+        <p>
+          Yorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum
+          est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin
+          lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet
+          feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+          inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante
+          pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel
+          bibendum lorem.
+        </p>
+      </div>
+    </div>
+
+    <div class="section-2">
+      <div>
+        <h1>Para alunos</h1>
+        <p>
+          Yorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum
+          est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin
+          lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet
+          feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+          inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante
+          pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel
+          bibendum lorem.
+        </p>
+      </div>
+      <div>
+        <h1>Para professores</h1>
+        <p>
+          Yorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum
+          est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin
+          lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet
+          feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+          inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante
+          pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel
+          bibendum lorem.
+        </p>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -52,12 +94,9 @@ const searchValue = ref('');
 const option = ref(0);
 
 const handleSearch = () => {
-  console.log('teste');
   router.push({ name: 'register' });
   //TODO: mandar para a tela de procura com os resultados já
 };
-
-
 </script>
 
 <style lang="less" scoped>

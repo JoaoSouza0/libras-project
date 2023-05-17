@@ -1,17 +1,24 @@
 <template>
   <nav id="nav-bar">
     <div class="container">
-      <div class="img">
-        <img src="@/assets/helpers-logo.svg" alt="helpers logo" />
-      </div>
+      <RouterLink to="/">
+        <div class="img" @click="signOut">
+          <img src="@/assets/helpers-logo.svg" alt="helpers logo" />
+        </div>
+      </RouterLink>
     </div>
   </nav>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
+import { useUserStore } from '../../stores/UserStore';
 
-const showMobileNav = ref(true)
+const userStore = useUserStore();
+
+const signOut = async () => {
+  await userStore.signOut();
+};
 </script>
 
 <style lang="less" scoped>

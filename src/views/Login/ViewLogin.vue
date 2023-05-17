@@ -15,23 +15,22 @@
 
 <script setup>
 import userLoginForm from '@/components/Layout/Forms/userLogin.vue';
-import { useLoginStore } from '../../stores/LoginStore';
+import { useUserStore } from '../../stores/UserStore';
 import { useRouter } from 'vue-router';
 
-const userStore = useLoginStore();
+const userStore = useUserStore();
 const router = useRouter();
 
 const createAccount = () => {
   return router.push({ name: 'register' });
 };
 
-const handleSubmit = (data) => {
+const handleSubmit = async (data) => {
   if (!data.valid) return;
+  const { body, success } = await userStore.signIn(data);
 
-  const result = userStore.signIn(data);
-
-  if (result.success) {
-    console.log('success');
+  if (success) {
+    router.push({ name: 'teacherList' });
   } else {
     console.log('failure');
   }
@@ -42,7 +41,7 @@ const handleSubmit = (data) => {
 .user-term {
   display: flex;
   justify-content: end;
-  margin-top: 8.3rem;
+  margin-top: 1.3rem;
 }
 
 h1 {

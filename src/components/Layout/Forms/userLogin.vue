@@ -55,12 +55,12 @@ const handleBlur = () => {
 const handleSubmit = () => {
   const { email, password } = userData;
 
-  if ((!email, password)) return;
+  if ((!email && !password)) return;
 
   emit('submit', {
     valid: refForm.value.reportValidity(),
-    email: email.value,
-    password: password.value
+    email: email,
+    password: password
   });
 };
 
