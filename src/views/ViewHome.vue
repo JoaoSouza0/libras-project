@@ -73,7 +73,9 @@
 </template>
 
 <script setup>
-import { useIsAuthenticate } from '@/composables/user.js';
+import { REGISTER } from '@/consts/publicRoutes.js';
+
+console.log(REGISTER);
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 
@@ -94,7 +96,7 @@ const searchValue = ref('');
 const option = ref(0);
 
 const handleSearch = () => {
-  router.push({ name: 'register' });
+  router.push({ name: REGISTER.NAME });
   //TODO: mandar para a tela de procura com os resultados já
 };
 </script>

@@ -14,7 +14,6 @@ router.beforeEach(async (to, from) => {
   if (!meta.requireAuth) return true;
 
   const user = await useIsAuthenticate();
-  console.log(user)
   if (!user.token) return false; //retornar para a pagina de not found
 
   return true;

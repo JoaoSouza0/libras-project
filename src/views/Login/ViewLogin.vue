@@ -14,6 +14,9 @@
 </template>
 
 <script setup>
+import { REGISTER } from '@/consts/publicRoutes.js';
+import { TEACHER_LIST } from '@/consts/privateRoutes.js';
+
 import userLoginForm from '@/components/Layout/Forms/userLogin.vue';
 import { useUserStore } from '../../stores/UserStore';
 import { useRouter } from 'vue-router';
@@ -22,7 +25,7 @@ const userStore = useUserStore();
 const router = useRouter();
 
 const createAccount = () => {
-  return router.push({ name: 'register' });
+  return router.push({ name: REGISTER.NAME });
 };
 
 const handleSubmit = async (data) => {
@@ -30,7 +33,7 @@ const handleSubmit = async (data) => {
   const response = await userStore.signIn(data);
 
   if (response.success) {
-    return router.push({ name: 'teacherList' });
+    return router.push({ name: TEACHER_LIST.NAME });
   } else {
     console.log('failure');
   }

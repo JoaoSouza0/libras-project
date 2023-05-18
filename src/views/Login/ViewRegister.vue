@@ -16,6 +16,9 @@
 </template>
 
 <script setup>
+import { LOGIN } from '@/consts/publicRoutes.js';
+import { TEACHER_LIST } from '@/consts/privateRoutes.js';
+
 import userRegister from '@/components/Layout/Forms/userRegister.vue';
 import { useUserStore } from '../../stores/UserStore';
 import { useRouter } from 'vue-router';
@@ -27,7 +30,7 @@ const router = useRouter();
 const formRef = ref(null);
 
 const login = () => {
-  return router.push({ name: 'login' });
+  return router.push({ name: LOGIN.NAME });
 };
 
 const register = async (form) => {
@@ -36,7 +39,7 @@ const register = async (form) => {
   const result = await userStore.create(form);
 
   if (result.success) {
-    return router.push({ name: 'teacherList' });
+    return router.push({ name: TEACHER_LIST.NAME });
   } else {
     return formRef.value.setEmailCustomValidity(`CODE: ${result.code}
     MESSAGE: ${result.message}`);

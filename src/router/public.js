@@ -1,28 +1,30 @@
-import ViewRegister from '@/views/Login/ViewRegister.vue'
-import ViewLogin from '@/views/Login/ViewLogin.vue'
-import ViewHome from '@/views/ViewHome.vue'
+import _ from '@/consts/publicRoutes.js';
+
+import ViewRegister from '@/views/Login/ViewRegister.vue';
+import ViewLogin from '@/views/Login/ViewLogin.vue';
+import ViewHome from '@/views/ViewHome.vue';
 
 const publicRoutes = [
   {
-    path: '/',
-    name: 'home',
+    path: _.HOME.PATH,
+    name: _.HOME.NAME,
     component: ViewHome
   },
   {
-    path: '/register',
-    name: 'register',
+    path: _.REGISTER.PATH,
+    name: _.REGISTER.NAME,
     component: ViewRegister
   },
   {
-    path: '/login',
-    name: 'login',
+    path: _.LOGIN.PATH,
+    name: _.LOGIN.NAME,
     component: ViewLogin
   }
-]
+];
 
 export default publicRoutes.map((route) => {
   route.meta = {
     requireAuth: false
-  }
-  return route
-})
+  };
+  return route;
+});
