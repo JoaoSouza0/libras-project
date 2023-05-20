@@ -73,11 +73,11 @@
 </template>
 
 <script setup>
-import { REGISTER } from '@/consts/publicRoutes.js';
-
-console.log(REGISTER);
+import { LOGIN } from '@/consts/publicRoutes.js';
+import { TEACHER_LIST } from '@/consts/privateRoutes.js';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { useIsAuthenticate } from '../composables/user';
 
 const router = useRouter();
 
@@ -95,9 +95,17 @@ const options = [
 const searchValue = ref('');
 const option = ref(0);
 
-const handleSearch = () => {
-  router.push({ name: REGISTER.NAME });
-  //TODO: mandar para a tela de procura com os resultados já
+const handleSearch = async () => {
+  const { user } = await useIsAuthenticate();
+
+  if (user) {
+    return router.push({
+      name: TEACHER_LIST.NAME,
+      query: { address: searchValue.value, type: option.value }
+    });
+  }
+
+  //return router.push({ name: LOGIN.NAME });
 };
 </script>
 

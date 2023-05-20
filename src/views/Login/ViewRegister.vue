@@ -19,7 +19,7 @@
 import { LOGIN } from '@/consts/publicRoutes.js';
 import { TEACHER_LIST } from '@/consts/privateRoutes.js';
 
-import userRegister from '@/components/Layout/Forms/userRegister.vue';
+import userRegister from '@/layouts/Forms/userRegister.vue';
 import { useUserStore } from '../../stores/UserStore';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
@@ -37,7 +37,6 @@ const register = async (form) => {
   if (!form.valid) return;
 
   const result = await userStore.create(form);
-
   if (result.success) {
     return router.push({ name: TEACHER_LIST.NAME });
   } else {

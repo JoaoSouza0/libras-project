@@ -1,5 +1,5 @@
 <template>
-  <user-login-form @submit="handleSubmit">
+  <user-login-form ref="formRef" @submit="handleSubmit">
     <template #head>
       <h1>Bem-vindo de volta!</h1>
       <p>Ainda não é cadastrado? <a @click.prevent="createAccount">Crie sua conta</a></p>
@@ -17,12 +17,15 @@
 import { REGISTER } from '@/consts/publicRoutes.js';
 import { TEACHER_LIST } from '@/consts/privateRoutes.js';
 
-import userLoginForm from '@/components/Layout/Forms/userLogin.vue';
+import userLoginForm from '@/layouts/Forms/userLogin.vue';
 import { useUserStore } from '../../stores/UserStore';
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
 const userStore = useUserStore();
 const router = useRouter();
+
+const formRef = ref(null);
 
 const createAccount = () => {
   return router.push({ name: REGISTER.NAME });
@@ -35,7 +38,9 @@ const handleSubmit = async (data) => {
   if (response.success) {
     return router.push({ name: TEACHER_LIST.NAME });
   } else {
-    console.log('failure');
+
+    return formRef.value.setEmailCustomValidity(`CODE: ${response.code}
+    MESSAGE: ${response.message}`);
   }
 };
 </script>

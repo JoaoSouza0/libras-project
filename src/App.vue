@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import NavBar from '@/components/Layout/NavBar.vue';
+import NavBar from '@/layouts/NavBar.vue';
 </script>
 
 <style lang="less">

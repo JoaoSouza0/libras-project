@@ -10,11 +10,11 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   const { meta } = to;
-
+  const { user } = await useIsAuthenticate();
+  
   if (!meta.requireAuth) return true;
 
-  const user = await useIsAuthenticate();
-  if (!user.token) return false; //retornar para a pagina de not found
+  if (!user) return false; //retornar para a pagina de not found
 
   return true;
 });

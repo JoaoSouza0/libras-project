@@ -64,7 +64,10 @@ const handleSubmit = () => {
   });
 };
 
+const setEmailCustomValidity = (message) => refEmail.value.setCustomValidity(message);
 const emit = defineEmits(['submit']);
+
+defineExpose({ setEmailCustomValidity });
 </script>
 
 <style lang="less" scoped>

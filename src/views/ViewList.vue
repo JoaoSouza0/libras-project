@@ -1,11 +1,26 @@
 <template>
   <section id="view-list">
-    <p>welcome to route</p>
+    <p>{{ teacherList }}</p>
   </section>
 </template>
 
 <script setup>
+import { onBeforeMount, onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import LocationService from '../service/LocationService';
 
+const teacherList = ref([]);
+
+const route = useRoute();
+
+
+onMounted(async () => {
+  //pegar latitude e longitude com o endereço puxando da api
+  //Tipo de aula para filtrar
+  const locationService = new LocationService('users');
+  teacherList.value.push(await locationService.getByRadius());
+  console.log('hi')
+});
 </script>
 
 <style lang="less" scoped>
