@@ -92,11 +92,16 @@ const hasFocus = (event) => {
   hasFocused.value = true;
 };
 
+const focus = (event) => {
+  // It will be replaced in the future for "user-invalid" pseudo class in the future
+  return refInput.value.focus();
+};
+
 const backgroundValid = computed(() => {
   return autocompleteBackground.value ? 'var(--input-secondary)' : 'var(--error-background)';
 });
 
-defineExpose({ setCustomValidity });
+defineExpose({ setCustomValidity, focus });
 const emit = defineEmits(['update:modelValue', 'validation', 'onBlur']);
 </script>
 

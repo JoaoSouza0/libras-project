@@ -9,9 +9,11 @@
 
     <div>
       <base-input
+        ref="searchRef"
         v-model="searchValue"
         class="search-input"
         id="search"
+        required
         placeholder="Encontrar professores próximos a..."
       >
         <template #icon>
@@ -81,6 +83,8 @@ import { useIsAuthenticate } from '../composables/user';
 
 const router = useRouter();
 
+const searchRef = ref(null);
+
 const options = [
   {
     value: 0,
@@ -98,6 +102,10 @@ const option = ref(0);
 const handleSearch = async () => {
   const { user } = await useIsAuthenticate();
 
+  if (!searchValue.value) {
+   return  searchRef.value.focus();
+  }
+
   if (user) {
     return router.push({
       name: TEACHER_LIST.NAME,
@@ -105,12 +113,13 @@ const handleSearch = async () => {
     });
   }
 
-  //return router.push({ name: LOGIN.NAME });
+  return router.push({ name: LOGIN.NAME });
 };
 </script>
 
 <style lang="less" scoped>
 #view-home {
+  margin-top: 8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -132,11 +141,11 @@ const handleSearch = async () => {
     width: 70rem;
 
     .search-input {
-      margin-bottom: 1.7rem;
+      margin-bottom: 3rem;
     }
 
     .icon-wrapper {
-      height: 100%;
+      height: 102%;
       width: 100%;
       display: flex;
       align-items: center;

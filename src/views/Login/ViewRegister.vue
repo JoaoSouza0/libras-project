@@ -17,7 +17,7 @@
 
 <script setup>
 import { LOGIN } from '@/consts/publicRoutes.js';
-import { TEACHER_LIST } from '@/consts/privateRoutes.js';
+import { TEACHER_COMPLEMENT_DATA, STUDENT_COMPLEMENT_DATA } from '@/consts/privateRoutes.js';
 
 import userRegister from '@/layouts/Forms/userRegister.vue';
 import { useUserStore } from '../../stores/UserStore';
@@ -37,15 +37,19 @@ const register = async (form) => {
   if (!form.valid) return;
 
   const result = await userStore.create(form);
-  if (result.success) {
-    return router.push({ name: TEACHER_LIST.NAME });
-  } else {
+
+  if (!result.success) {
     return formRef.value.setEmailCustomValidity(`CODE: ${result.code}
     MESSAGE: ${result.message}`);
   }
+
+  if (form.type) {
+    return router.push({ name: TEACHER_COMPLEMENT_DATA.name });
+  } else {
+    return router.push({ name: STUDENT_COMPLEMENT_DATA.name });
+  }
 };
 
-//colorar os métodos de registro aqui
 </script>
 
 <style lang="less" scoped>

@@ -15,7 +15,11 @@
 
 <script setup>
 import { REGISTER } from '@/consts/publicRoutes.js';
-import { TEACHER_LIST } from '@/consts/privateRoutes.js';
+import {
+  TEACHER_LIST,
+  STUDENT_COMPLEMENT_DATA,
+  TEACHER_COMPLEMENT_DATA
+} from '@/consts/privateRoutes.js';
 
 import userLoginForm from '@/layouts/Forms/userLogin.vue';
 import { useUserStore } from '../../stores/UserStore';
@@ -35,13 +39,27 @@ const handleSubmit = async (data) => {
   if (!data.valid) return;
   const response = await userStore.signIn(data);
 
-  if (response.success) {
-    return router.push({ name: TEACHER_LIST.NAME });
-  } else {
-
+  if (!response.success) {
     return formRef.value.setEmailCustomValidity(`CODE: ${response.code}
     MESSAGE: ${response.message}`);
   }
+  const { body } = response;
+  
+  return body.type ? handleStudentResponse(body) : handleTeacherResponse(body);
+};
+
+const handleStudentResponse = ({ complemented_data }) => {
+  if (!complemented_data) {
+    return router.push({ name: STUDENT_COMPLEMENT_DATA.NAME });
+  }
+  return router.push({ name: TEACHER_LIST.NAME });
+};
+
+const handleTeacherResponse = ({ complemented_data }) => {
+  if (!complemented_data) {
+    return router.push({ name: TEACHER_COMPLEMENT_DATA.NAME });
+  }
+  // return router.push({ name: TEACHER_LIST.NAME }); mandar para a tela de requisições
 };
 </script>
 

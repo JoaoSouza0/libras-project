@@ -19,7 +19,7 @@ const signOut = async () => {
   console.log(signOut);
 
   //TODO: REMOVE SIGNOUT
-  // await userStore.signOut();  
+  await userStore.signOut();  
 };
 </script>
 

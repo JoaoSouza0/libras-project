@@ -1,77 +1,96 @@
 <template>
   <section id="view-list">
-    <p>{{ teacherList }}</p>
+    <h1>Encontramos {{ teacherList.length }} professores na sua região!</h1>
+    <div class="informative">
+      <img src="@/assets/location.svg" />
+      <label>perto de {{ address }} </label>
+    </div>
+
+    <base-slide-swiper
+      :list="teacherList"
+      @next="handlePage"
+      @prev="handlePage"
+      @selected="handlePage"
+    >
+      <template #list-item="{}">
+        <teacher-card />
+      </template>
+      <template #pagination-informative>
+        <div class="pagination">
+          <span>
+            {{ currentItem + 1 }}
+          </span>
+        </div>
+      </template>
+    </base-slide-swiper>
   </section>
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, ref } from 'vue';
+import TeacherCard from '@/components/TeacherCard.vue';
+import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import LocationService from '../service/LocationService';
+import BaseSlideSwiper from '../components/Base/BaseSlideSwiper.vue';
 
 const teacherList = ref([]);
+const currentItem = ref(0);
 
 const route = useRoute();
+const address = ref(route.query.address);
 
+const handlePage = (page) => {
+  return (currentItem.value = page);
+};
 
 onMounted(async () => {
+  teacherList.value = new Array(20);
   //pegar latitude e longitude com o endereço puxando da api
   //Tipo de aula para filtrar
-  const locationService = new LocationService('users');
-  teacherList.value.push(await locationService.getByRadius());
-  console.log('hi')
+  //const locationService = new LocationService('users');
+  //teacherList.value.push(await locationService.getByRadius());
 });
 </script>
 
 <style lang="less" scoped>
-#view-home {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+#view-list {
+  margin-top: 8rem;
+  width: 70svw;
 
-  h1 {
-    margin-bottom: 3.2rem;
+  .informative {
+    padding-bottom: 3.2rem;
+    padding-top: 2.6rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    img {
+      width: 24px;
+      height: 24px;
+      margin-right: 0.5rem;
+    }
   }
 
-  p {
-    max-width: 85.6rem;
-    font-size: 2rem;
-    margin-bottom: 4.7rem;
-    text-align: center;
+  .content {
+    margin-bottom: 6.6rem;
+  }
+
+  .pagination {
     color: var(--text-primary);
-  }
+    background-color: var(--input-primary);
+    width: 28px;
+    height: 28px;
+    padding: 2px;
+    border-radius: 50%;
+    margin: 0 2.4rem;
 
-  & > div {
-    width: 70rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    .search-input {
-      margin-bottom: 1.7rem;
+    span {
+      font-size: 2rem;
     }
-
-    .icon-wrapper {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: var(--text-primary);
-      border-radius: 0 0.8rem 0.8rem 0;
-
-      img {
-        width: 42%;
-        cursor: pointer;
-      }
-    }
-
-    .radio-input {
-      margin-bottom: 8.1rem;
-    }
-  }
-
-  .img {
-    min-width: 85.6rem;
-    border-bottom: 3px solid black;
   }
 }
 </style>

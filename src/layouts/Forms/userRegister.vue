@@ -49,7 +49,7 @@
 
 <script setup>
 import { reactive, ref, toRefs, watchEffect } from 'vue';
-
+import { enumUserType } from '@/consts/enums';
 const refEmail = ref(null);
 const refPassword = ref(null);
 const refConfirmPassword = ref(null);
@@ -57,11 +57,11 @@ const refForm = ref(null);
 
 const radioOptions = [
   {
-    value: 0,
+    value: enumUserType.student,
     label: 'Sou estudantes'
   },
   {
-    value: 1,
+    value: enumUserType.teacher,
     label: 'Sou professor'
   }
 ];
