@@ -9,8 +9,8 @@ export const TEACHER_COMPLEMENT_DATA = {
 };
 
 export const STUDENT_COMPLEMENT_DATA = {
-  PATH: '/teacher-complement-data',
-  NAME: 'teacherComplementData'
+  PATH: '/student-complement-data',
+  NAME: 'studentComplementData'
 };
 
 export default {

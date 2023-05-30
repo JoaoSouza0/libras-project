@@ -5,5 +5,6 @@ export const enumUserType = {
 
 export const enumClassType = {
   remote: 0,
-  inPerson: 1
+  inPerson: 1,
+  bothClass: 3
 };

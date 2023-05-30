@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { useIsAuthenticate } from '@/composables/user.js';
+import { LOGIN } from '@/consts/publicRoutes.js';
 import publicRoutes from './public';
 import privateRoutes from './private';
 
@@ -11,10 +12,10 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
   const { meta } = to;
   const { user } = await useIsAuthenticate();
-  
+
   if (!meta.requireAuth) return true;
 
-  if (!user) return false; //retornar para a pagina de not found
+  if (!user) return { name: LOGIN.NAME }; //retornar para a pagina de not found
 
   return true;
 });

@@ -3,20 +3,14 @@
     <label :for="id">{{ label }}</label>
 
     <div class="input-content">
-      <input
+      <renderedInput
         ref="refInput"
-        :class="{ input: hasFocused }"
-        :id="id"
-        :type="type"
-        :value="modelValue"
-        :placeholder="placeholder"
-        :autocomplete="autocomplete"
-        :required="required"
         @input.stop="handleInput"
         @invalid.prevent
         @focus="hasFocus"
         @blur="$emit('onBlur')"
       />
+
       <span class="icon">
         <slot name="icon" />
       </span>
@@ -28,7 +22,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, h } from 'vue';
 
 const refInput = ref(null);
 const hasFocused = ref(false);
@@ -60,8 +54,23 @@ const props = defineProps({
   required: {
     type: Boolean,
     default: false
+  },
+  pattern: {
+    type: String
   }
 });
+
+const renderedInput = () =>
+  h(inputType(), {
+    class: { input: hasFocused.value },
+    ...props,
+    value: props.modelValue,
+    rows: 6,
+  });
+
+const inputType = () => {
+  return props.type === 'textarea' ? 'textarea' : 'input';
+};
 
 const handleInput = ({ target }) => {
   emit('update:modelValue', target.value);
@@ -93,7 +102,6 @@ const hasFocus = (event) => {
 };
 
 const focus = (event) => {
-  // It will be replaced in the future for "user-invalid" pseudo class in the future
   return refInput.value.focus();
 };
 
@@ -111,18 +119,13 @@ const emit = defineEmits(['update:modelValue', 'validation', 'onBlur']);
   position: relative;
   width: 100%;
 
-  label {
-    display: block;
-    padding: 0.8rem 0;
-  }
-
   .input-content {
     display: flex;
     align-items: center;
     background: var(--input-secondary);
     border-radius: 0.8rem;
 
-    input {
+    input, textarea {
       width: 100%;
       padding: 2.2rem;
       border-radius: 0.8rem;
@@ -131,21 +134,17 @@ const emit = defineEmits(['update:modelValue', 'validation', 'onBlur']);
       border: none;
     }
 
-    input::placeholder {
-      font-size: 2rem;
-    }
-
-    input:focus-visible {
+    input:focus-visible, textarea:focus-visible {
       outline: 0.2rem solid var(--link-primary);
       border-radius: 0.8rem;
     }
 
-    input:invalid.input {
+    input:invalid.input, textarea:invalid.input {
       background: var(--error-background);
       border-radius: 0.8rem;
     }
 
-    input:invalid:focus-visible.input {
+    input:invalid:focus-visible.input, textarea:invalid:focus-visible.input {
       outline: 2px solid var(--red);
     }
 
@@ -154,6 +153,16 @@ const emit = defineEmits(['update:modelValue', 'validation', 'onBlur']);
     input:-webkit-autofill:focus,
     input:-webkit-autofill:active {
       -webkit-box-shadow: 0 0 0 40px v-bind(backgroundValid) inset !important;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type='number'] {
+      -moz-appearance: textfield;
     }
 
     .icon {

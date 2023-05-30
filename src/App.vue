@@ -19,7 +19,7 @@ import NavBar from '@/layouts/NavBar.vue';
 #view-container {
   display: flex;
   justify-content: center;
-  max-width: 80%;
+  max-width: 90%;
   margin: 0 auto;
   min-height: 92.5svh;
 
