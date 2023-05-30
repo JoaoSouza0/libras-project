@@ -44,12 +44,11 @@ const register = async (form) => {
   }
 
   if (form.type) {
-    return router.push({ name: TEACHER_COMPLEMENT_DATA.name });
+    return router.push({ name: TEACHER_COMPLEMENT_DATA.NAME, params: { id: result.userId } });
   } else {
-    return router.push({ name: STUDENT_COMPLEMENT_DATA.name });
+    return router.push({ name: STUDENT_COMPLEMENT_DATA.NAME, params: { id: result.userId } });
   }
 };
-
 </script>
 
 <style lang="less" scoped>

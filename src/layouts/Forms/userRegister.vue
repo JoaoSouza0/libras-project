@@ -92,7 +92,8 @@ const handleSubmit = () => {
     valid: refForm.value.reportValidity(),
     email: email,
     password: password,
-    type: student
+    type: student,
+    complemented_data: false,
   });
 };
 

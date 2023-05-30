@@ -8,7 +8,7 @@
         @input.stop="handleInput"
         @invalid.prevent
         @focus="hasFocus"
-        @blur="$emit('onBlur')"
+        @blur="$emit('onBlur', modelValue)"
       />
 
       <span class="icon">
@@ -65,7 +65,7 @@ const renderedInput = () =>
     class: { input: hasFocused.value },
     ...props,
     value: props.modelValue,
-    rows: 6,
+    rows: 6
   });
 
 const inputType = () => {
@@ -125,7 +125,8 @@ const emit = defineEmits(['update:modelValue', 'validation', 'onBlur']);
     background: var(--input-secondary);
     border-radius: 0.8rem;
 
-    input, textarea {
+    input,
+    textarea {
       width: 100%;
       padding: 2.2rem;
       border-radius: 0.8rem;
@@ -134,17 +135,20 @@ const emit = defineEmits(['update:modelValue', 'validation', 'onBlur']);
       border: none;
     }
 
-    input:focus-visible, textarea:focus-visible {
+    input:focus-visible,
+    textarea:focus-visible {
       outline: 0.2rem solid var(--link-primary);
       border-radius: 0.8rem;
     }
 
-    input:invalid.input, textarea:invalid.input {
+    input:invalid.input,
+    textarea:invalid.input {
       background: var(--error-background);
       border-radius: 0.8rem;
     }
 
-    input:invalid:focus-visible.input, textarea:invalid:focus-visible.input {
+    input:invalid:focus-visible.input,
+    textarea:invalid:focus-visible.input {
       outline: 2px solid var(--red);
     }
 

@@ -9,10 +9,9 @@
           </p>
         </div>
       </template>
-      <template #button>s
+      <template #button>
         <div class="complete-button">
-          <base-button>Cancelar cadastro</base-button>
-          <base-button :theme="false">Concluir cadastro</base-button>
+          <base-button>Concluir cadastro</base-button>
         </div>
       </template>
     </complementTeacher>
@@ -20,12 +19,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import complementTeacher from '@/layouts/Forms/complementTeacher.vue';
+
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { useUserStore } from '@/stores/UserStore';
+
+const route = useRoute();
+const userStore = useUserStore();
 const formRef = ref(null);
 
 const completeData = (data) => {
-  console.log(data);
+  const userId = route.params.id;
+  userStore.update(data, userId);
 };
 </script>
 
@@ -44,8 +50,10 @@ const completeData = (data) => {
   }
 
   .complete-button {
+    padding: 0 6.6rem;
+    padding-bottom: 4rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     flex-direction: row;
   }
 }

@@ -15,6 +15,7 @@
         />
 
         <base-input
+          ref="refDatePicker"
           v-model="userData.birthDay"
           class="text-input"
           label="Data de nascimento:"
@@ -46,7 +47,7 @@
           ref="refResume"
           class="text-input textarea"
           v-model="userData.resume"
-          id="platform"
+          id="resume"
           type="textarea"
           label="Breve resumo sobre você:"
           required
@@ -55,11 +56,12 @@
         <base-input
           ref="refNeighborhood"
           class="text-input"
-          v-model="userData.neighborhood"
+          v-model="userData.street"
           id="neighborhood"
           type="text"
-          label="Bairro:"
+          label="Logradouro:"
           required
+          @onBlur="handleLocation"
         />
 
         <base-input
@@ -74,18 +76,18 @@
         />
       </div>
     </div>
-
     <slot name="button" />
   </form>
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, toRaw, unref } from 'vue';
 import { enumClassType } from '@/consts/enums';
+import LocationService from '@/service/LocationService.js';
 
 const refForm = ref(null);
-const refPassword = ref(null);
-const refEmail = ref(null);
+const refDatePicker = ref(null);
+const refNeighborhood = ref(null);
 
 const options = [
   {
@@ -104,28 +106,41 @@ const options = [
 
 const userData = reactive({
   name: null, //text
-  neighborhood: null, //text
+  street: null, //text
   platform: null, //text
   resume: null, //text
   contact: null, //number
   lat: null,
   lng: null,
-  //salvar os dados de location tbm
   classType: 0, //select com 3 opções,
   birthDay: null // date
 });
 
-const handleSubmit = () => {
+const handleLocation = async (input) => {
+  if (!input) return;
+
+  const locationService = new LocationService();
+  const response = await locationService.getStreetLocationData(userData.street);
+
+  if (!response.success) return refNeighborhood.value.setCustomValidity(response.message);
+
+  const { body } = response;
+  userData.lat = Number(body.lat);
+  userData.lng = Number(body.lon);
+  return userData;
+};
+
+const handleSubmit = async () => {
+  const rawUserData = toRaw(userData);
+
   emit('submit', {
     valid: refForm.value.reportValidity(),
-    ...userData
+    ...rawUserData,
+    complemented_data: true
   });
 };
 
-const setEmailCustomValidity = (message) => refEmail.value.setCustomValidity(message);
 const emit = defineEmits(['submit']);
-
-defineExpose({ setEmailCustomValidity });
 </script>
 
 <style lang="less" scoped>
@@ -133,14 +148,17 @@ defineExpose({ setEmailCustomValidity });
   padding-top: 6.4rem;
 
   .content {
-    padding: 6.4rem 6.6rem;
+    padding: 4.4rem 6.6rem;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-direction: row;
 
     .section-first,
     .section-second {
       width: 45%;
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
     }
     .text-input {
       margin-bottom: 1.5rem;

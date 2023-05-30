@@ -4,12 +4,12 @@ export const TEACHER_LIST = {
 };
 
 export const TEACHER_COMPLEMENT_DATA = {
-  PATH: '/teacher-complement-data',
+  PATH: '/teacher-complement-data/:id',
   NAME: 'teacherComplementData'
 };
 
 export const STUDENT_COMPLEMENT_DATA = {
-  PATH: '/student-complement-data',
+  PATH: '/student-complement-data/:id',
   NAME: 'studentComplementData'
 };
 

@@ -23,7 +23,18 @@ export const useUserStore = defineStore('storeUser', {
           return userService.failure(e);
         });
 
-        return { success };
+        return { userId: body.user.uid, success };
+      } catch (error) {
+        return error;
+      }
+    },
+
+    async update(payload, id) {
+      const userService = new UserService();
+      try {
+        const result = await userService.put(payload, id);
+        this.user = result.body;
+        return result;
       } catch (error) {
         return error;
       }
