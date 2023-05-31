@@ -11,7 +11,7 @@
         @blur="$emit('onBlur', modelValue)"
       />
 
-      <span class="icon">
+      <span class="icon" v-if="type != 'date'">
         <slot name="icon" />
       </span>
     </div>
@@ -167,6 +167,13 @@ const emit = defineEmits(['update:modelValue', 'validation', 'onBlur']);
 
     input[type='number'] {
       -moz-appearance: textfield;
+    }
+
+    input[type='date']::-webkit-calendar-picker-indicator {
+      position: absolute;
+      cursor: pointer;
+      padding: 2rem;
+      right: 0;
     }
 
     .icon {

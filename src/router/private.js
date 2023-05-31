@@ -1,7 +1,6 @@
 import _ from '@/consts/privateRoutes.js';
 import ViewList from '@/views/ViewList.vue';
-import TeacherComplementData from '@/views/ViewTeacherComplementData.vue';
-import StudentComplementData from '@/views/ViewStudentComplementData.vue';
+import ViewComplementData from '@/views/ViewComplementData.vue';
 
 const privateRoutes = [
   {
@@ -10,14 +9,9 @@ const privateRoutes = [
     component: ViewList
   },
   {
-    path: _.TEACHER_COMPLEMENT_DATA.PATH,
-    name: _.TEACHER_COMPLEMENT_DATA.NAME,
-    component: TeacherComplementData
-  },
-  {
-    path: _.STUDENT_COMPLEMENT_DATA.PATH,
-    name: _.STUDENT_COMPLEMENT_DATA.NAME,
-    component: StudentComplementData
+    path: _.USER_COMPLEMENT_DATA.PATH,
+    name: _.USER_COMPLEMENT_DATA.NAME,
+    component: ViewComplementData
   }
 ];
 

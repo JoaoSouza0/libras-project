@@ -1,7 +1,9 @@
 <template>
   <form id="complement-teacher-form" class="content" ref="refForm" @submit.prevent="handleSubmit">
-    <slot name="head" />
-
+    <div class="head-content">
+      <h1>Concluir Cadastro</h1>
+      <p>Precisamos de mais algumas informações para concluir o seu cadastro. É fácil e rápido!</p>
+    </div>
     <div class="content">
       <div class="section-first">
         <base-input
@@ -132,7 +134,6 @@ const handleLocation = async (input) => {
 
 const handleSubmit = async () => {
   const rawUserData = toRaw(userData);
-
   emit('submit', {
     valid: refForm.value.reportValidity(),
     ...rawUserData,
@@ -146,7 +147,15 @@ const emit = defineEmits(['submit']);
 <style lang="less" scoped>
 #complement-teacher-form {
   padding-top: 6.4rem;
-
+  .head-content {
+    h1 {
+      padding-bottom: 0.8rem;
+    }
+    p {
+      font-size: 2rem;
+      color: var(--text-dark);
+    }
+  }
   .content {
     padding: 4.4rem 6.6rem;
     display: flex;

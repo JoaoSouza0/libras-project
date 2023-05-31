@@ -42,6 +42,9 @@ const optionsFormatted = computed(() => {
 
 <style lang="less" scoped>
 #select-input {
+  display: inline-block;
+  position: relative;
+  width: 100%;
   .content {
     background: var(--input-primary);
     border-radius: 0.8rem;

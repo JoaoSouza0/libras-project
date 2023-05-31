@@ -1,18 +1,18 @@
 <template>
-  <button id="button">
+  <button type="submit" id="button">
     <slot />
   </button>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 const props = defineProps({
   theme: {
     type: Boolean,
     default: true
   }
-})
+});
 
 const themeStyle = computed(() => {
   return props.theme
@@ -27,8 +27,8 @@ const themeStyle = computed(() => {
         bgColor: 'var(--input-secondary)',
         hoverColor: 'var(--white)',
         hoverBgColor: 'var(--text-primary)'
-      }
-})
+      };
+});
 </script>
 
 <style>

@@ -3,18 +3,12 @@ export const TEACHER_LIST = {
   NAME: 'teacherList'
 };
 
-export const TEACHER_COMPLEMENT_DATA = {
-  PATH: '/teacher-complement-data/:id',
-  NAME: 'teacherComplementData'
-};
-
-export const STUDENT_COMPLEMENT_DATA = {
-  PATH: '/student-complement-data/:id',
-  NAME: 'studentComplementData'
+export const USER_COMPLEMENT_DATA = {
+  PATH: '/user-complement-data/:id',
+  NAME: 'userComplementData'
 };
 
 export default {
   TEACHER_LIST,
-  TEACHER_COMPLEMENT_DATA,
-  STUDENT_COMPLEMENT_DATA
+  USER_COMPLEMENT_DATA
 };

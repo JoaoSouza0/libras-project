@@ -28,7 +28,7 @@ export default class UserService extends BaseService {
   }
 
   async put(payload, id) {
-    if (!payload.hash) payload.hash = geohashForLocation([payload.lat, payload.lng]);
+    if (payload.type) payload.hash = geohashForLocation([payload.lat, payload.lng]);
 
     return await updateDoc(this.#factoryDoc(id), payload)
       .then(async () => {

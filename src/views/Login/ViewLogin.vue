@@ -15,11 +15,7 @@
 
 <script setup>
 import { REGISTER } from '@/consts/publicRoutes.js';
-import {
-  TEACHER_LIST,
-  STUDENT_COMPLEMENT_DATA,
-  TEACHER_COMPLEMENT_DATA
-} from '@/consts/privateRoutes.js';
+import { TEACHER_LIST, USER_COMPLEMENT_DATA } from '@/consts/privateRoutes.js';
 
 import userLoginForm from '@/layouts/Forms/userLogin.vue';
 import { useUserStore } from '@/stores/UserStore';
@@ -39,29 +35,18 @@ const handleSubmit = async (data) => {
   if (!data.valid) return;
   const response = await userStore.signIn(data);
 
-  if (!response.success) {
+  if (!response.success)
     return formRef.value.setEmailCustomValidity(`CODE: ${response.code}
     MESSAGE: ${response.message}`);
-  }
+
   const { body } = response;
 
-  return body.type ? handleTeacherResponse(body) : handleStudentResponse(body);
-};
+  if (!body.complemented_data)
+    return router.push({ name: USER_COMPLEMENT_DATA.NAME, params: { id: body.id } });
 
-const handleStudentResponse = ({ complemented_data, id }) => {
-  if (!complemented_data) {
-    return router.push({ name: STUDENT_COMPLEMENT_DATA.NAME, params: { id } });
-  }
-  return router.push({ name: TEACHER_LIST.NAME });
-};
-
-const handleTeacherResponse = ({ complemented_data, id }) => {
-  if (!complemented_data) {
-    return router.push({ name: TEACHER_COMPLEMENT_DATA.NAME, params: { id } });
-  }
-  // return router.push({ name: TEACHER_LIST.NAME }); mandar para a tela de requisições
-
-  console.log('Deu bom o fluxo de complemento de cadastro');
+  return body.type
+    ? router.push({ name: USER_COMPLEMENT_DATA.NAME, params: { id: body.id  } })
+    : router.push({ name: TEACHER_LIST.NAME });
 };
 </script>
 

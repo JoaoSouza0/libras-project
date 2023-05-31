@@ -17,7 +17,7 @@
 
 <script setup>
 import { LOGIN } from '@/consts/publicRoutes.js';
-import { TEACHER_COMPLEMENT_DATA, STUDENT_COMPLEMENT_DATA } from '@/consts/privateRoutes.js';
+import { USER_COMPLEMENT_DATA } from '@/consts/privateRoutes.js';
 
 import userRegister from '@/layouts/Forms/userRegister.vue';
 import { useUserStore } from '../../stores/UserStore';
@@ -38,16 +38,11 @@ const register = async (form) => {
 
   const result = await userStore.create(form);
 
-  if (!result.success) {
+  if (!result.success)
     return formRef.value.setEmailCustomValidity(`CODE: ${result.code}
     MESSAGE: ${result.message}`);
-  }
 
-  if (form.type) {
-    return router.push({ name: TEACHER_COMPLEMENT_DATA.NAME, params: { id: result.userId } });
-  } else {
-    return router.push({ name: STUDENT_COMPLEMENT_DATA.NAME, params: { id: result.userId } });
-  }
+  return router.push({ name: USER_COMPLEMENT_DATA.NAME, params: { id: result.userId } });
 };
 </script>
 
