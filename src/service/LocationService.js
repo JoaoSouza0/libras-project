@@ -1,21 +1,28 @@
 import BaseService from './utils/BaseService';
 import { geohashQueryBounds, distanceBetween } from 'geofire-common';
 import { db } from './utils/firebase';
-import { collection, query, startAt, endAt, orderBy, getDocs } from 'firebase/firestore';
+import { collection, query, startAt, endAt, orderBy, getDocs, where } from 'firebase/firestore';
+import { enumClassType } from '@/consts/enums';
 
 export default class LocationService extends BaseService {
   constructor() {
     super();
   }
 
-  async getItemByRadius(center = [-23.5277704, -46.7759278], collection) {
+  async getItemByRadius(center, classType, collection) {
     const radius = 50 * 1000;
     const bounds = geohashQueryBounds(center, radius);
     const promises = [];
 
     for (const b of bounds) {
       const q = getDocs(
-        query(this.#factoryCollection(collection), orderBy('hash'), startAt(b[0]), endAt(b[1]))
+        query(
+          this.#factoryCollection(collection),
+          where('classType', 'in', [classType, enumClassType.bothClass]),
+          orderBy('hash'),
+          startAt(b[0]),
+          endAt(b[1])
+        )
       );
       promises.push(q);
     }

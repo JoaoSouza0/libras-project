@@ -29,13 +29,12 @@ export default class UserService extends BaseService {
 
   async put(payload, id) {
     if (payload.type) payload.hash = geohashForLocation([payload.lat, payload.lng]);
-
-    return await updateDoc(this.#factoryDoc(id), payload)
+      return await updateDoc(this.#factoryDoc(id), payload)
       .then(async () => {
         const updatedUser = await this.get(id);
         return this.success(updatedUser.body);
       })
-      .catch(this.failure);
+      .catch(this.failure); 
   }
 
   #factoryDoc(id) {

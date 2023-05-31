@@ -35,7 +35,7 @@ const renderForm = () => {
 
 const completeData = (data) => {
   const userId = route.params.id;
-  userStore.update(data, userId);
+  userStore.update({ ...data, type: userStore.user.type }, userId);
 
   return router.push({ name: HOME.NAME });
 };

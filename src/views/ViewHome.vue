@@ -79,7 +79,8 @@ import { LOGIN } from '@/consts/publicRoutes.js';
 import { TEACHER_LIST } from '@/consts/privateRoutes.js';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { useIsAuthenticate } from '../composables/user';
+import { enumClassType } from '@/consts/enums.js';
+import { useIsAuthenticate } from '@/composables/user';
 
 const router = useRouter();
 
@@ -87,11 +88,11 @@ const searchRef = ref(null);
 
 const options = [
   {
-    value: 0,
+    value: enumClassType.inPerson,
     label: 'Aulas presenciais'
   },
   {
-    value: 2,
+    value: enumClassType.remote,
     label: 'Aulas remotas'
   }
 ];
@@ -105,7 +106,7 @@ const handleSearch = async () => {
   if (!searchValue.value) {
     return searchRef.value.focus();
   }
-  
+
   return router.push({
     name: user.body ? TEACHER_LIST.NAME : LOGIN.NAME,
     query: { address: searchValue.value, type: option.value }

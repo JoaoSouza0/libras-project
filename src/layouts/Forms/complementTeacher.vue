@@ -1,5 +1,5 @@
 <template>
-  <form id="complement-teacher-form" class="content" ref="refForm" @submit.prevent="handleSubmit">
+  <form id="complement-teacher-form" class="content" novalidate ref="refForm" @submit.prevent="handleSubmit">
     <div class="head-content">
       <h1>Concluir Cadastro</h1>
       <p>Precisamos de mais algumas informações para concluir o seu cadastro. É fácil e rápido!</p>
@@ -61,7 +61,7 @@
           v-model="userData.street"
           id="neighborhood"
           type="text"
-          label="Logradouro:"
+          label="Endereço Completo:"
           required
           @onBlur="handleLocation"
         />
@@ -83,7 +83,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, toRaw, unref } from 'vue';
+import { computed, reactive, ref, toRaw, unref } from 'vue';
 import { enumClassType } from '@/consts/enums';
 import LocationService from '@/service/LocationService.js';
 
@@ -118,6 +118,10 @@ const userData = reactive({
   birthDay: null // date
 });
 
+const birthUTCDate = computed(() => {
+  return new Date(userData.birthDay).toGMTString();
+});
+
 const handleLocation = async (input) => {
   if (!input) return;
 
@@ -134,11 +138,12 @@ const handleLocation = async (input) => {
 
 const handleSubmit = async () => {
   const rawUserData = toRaw(userData);
-  emit('submit', {
+   emit('submit', {
     valid: refForm.value.reportValidity(),
     ...rawUserData,
-    complemented_data: true
-  });
+    complemented_data: true,
+    birthDay: birthUTCDate.value
+  }); 
 };
 
 const emit = defineEmits(['submit']);

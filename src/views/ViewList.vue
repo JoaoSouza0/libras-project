@@ -35,22 +35,26 @@ import BaseSlideSwiper from '../components/Base/BaseSlideSwiper.vue';
 
 const teacherList = ref([]);
 const currentItem = ref(0);
+const locationService = new LocationService();
 
 const route = useRoute();
 const address = ref(route.query.address);
+const classType = ref(route.query.type);
 
 const handlePage = (page) => {
   return (currentItem.value = page);
 };
 
-onMounted(async () => {
-  teacherList.value = new Array(20);
-  //pegar latitude e longitude com o endereço puxando da api
-  //Tipo de aula para filtrar
-  //const locationService = new LocationService('users');
-  //teacherList.value.push(await locationService.getByRadius());
-});
+const handleAddress = async (address) => {
+  const response = await locationService.getStreetLocationData(address);
+  const { body } = response;
+  return { lat: Number(body.lat), lng: Number(body.lon) };
+};
 
+onMounted(async () => {
+  const { lat, lng } = await handleAddress(address.value);
+  teacherList.value = await locationService.getItemByRadius([lat, lng], classType.value, 'users');
+});
 </script>
 
 <style lang="less" scoped>

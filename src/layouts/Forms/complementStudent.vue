@@ -82,7 +82,8 @@ const handleSubmit = async () => {
   emit('submit', {
     valid: refForm.value.reportValidity(),
     ...rawUserData,
-    complemented_data: true
+    complemented_data: true, 
+    birthDay: new Date(rawUserData.birthDay)
   });
 };
 

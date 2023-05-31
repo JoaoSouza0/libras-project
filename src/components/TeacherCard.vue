@@ -12,9 +12,9 @@
       </p>
 
       <div class="icon">
-        <span class="image-container">
+        <a class="image-container" :href="whatsappLink" target="_blank" rel="noopener noreferrer">
           <img src="@/assets/icon-messages.svg" />
-        </span>
+        </a>
         <span class="image-container">
           <img src="@/assets/icon-teacher.svg" />
         </span>
@@ -26,7 +26,26 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { computed } from 'vue';
+import { useUserStore } from '@/stores/UserStore';
+
+const userStore = useUserStore();
+
+const props = defineProps({
+  resume: String,
+  name: String,
+  contact: Number
+});
+
+const wppText = `Olá Professor ${props.name}, meu chamo ${userStore.state.name} e gostária de saber, mais sobre suas aulas.`;
+
+const whatsappLink = computed(() => {
+  return `https://api.whatsapp.com/send?phone=${props.contact}&text=${wppText}`;
+});
+
+//
+</script>
 
 <style lang="less" scoped>
 #card {
