@@ -31,6 +31,8 @@ export default class LoginService extends BaseService {
   }
 
   async verifyUser() {
-    return auth.currentUser;
+    return new Promise((resolve) =>
+      onAuthStateChanged(auth, (user) => resolve(this.success(user)))
+    );
   }
 }

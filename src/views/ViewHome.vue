@@ -103,17 +103,13 @@ const handleSearch = async () => {
   const { user } = await useIsAuthenticate();
 
   if (!searchValue.value) {
-   return  searchRef.value.focus();
+    return searchRef.value.focus();
   }
-
-  if (user) {
-    return router.push({
-      name: TEACHER_LIST.NAME,
-      query: { address: searchValue.value, type: option.value }
-    });
-  }
-
-  return router.push({ name: LOGIN.NAME });
+  
+  return router.push({
+    name: user.body ? TEACHER_LIST.NAME : LOGIN.NAME,
+    query: { address: searchValue.value, type: option.value }
+  });
 };
 </script>
 

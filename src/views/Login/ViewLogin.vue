@@ -19,7 +19,7 @@ import { TEACHER_LIST, USER_COMPLEMENT_DATA } from '@/consts/privateRoutes.js';
 
 import userLoginForm from '@/layouts/Forms/userLogin.vue';
 import { useUserStore } from '@/stores/UserStore';
-import { useRouter } from 'vue-router';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { ref } from 'vue';
 
 const userStore = useUserStore();
@@ -45,9 +45,19 @@ const handleSubmit = async (data) => {
     return router.push({ name: USER_COMPLEMENT_DATA.NAME, params: { id: body.id } });
 
   return body.type
-    ? router.push({ name: USER_COMPLEMENT_DATA.NAME, params: { id: body.id  } })
+    ? router.push({ name: USER_COMPLEMENT_DATA.NAME, params: { id: body.id } })
     : router.push({ name: TEACHER_LIST.NAME });
 };
+
+onBeforeRouteLeave((to, from) => {
+  const { name: destinyName } = to;
+  const { query: fromQuery } = from;
+
+  if (destinyName === TEACHER_LIST.NAME && fromQuery.address) {
+    to.query = from.query;
+    return true;
+  }
+});
 </script>
 
 <style lang="less" scoped>

@@ -12,8 +12,8 @@
       @prev="handlePage"
       @selected="handlePage"
     >
-      <template #list-item="{}">
-        <teacher-card />
+      <template #list-item="{ index }">
+        <teacher-card :class="index === currentItem && 'active'" />
       </template>
       <template #pagination-informative>
         <div class="pagination">
@@ -29,7 +29,7 @@
 <script setup>
 import TeacherCard from '@/components/TeacherCard.vue';
 import { onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import LocationService from '../service/LocationService';
 import BaseSlideSwiper from '../components/Base/BaseSlideSwiper.vue';
 
@@ -50,6 +50,7 @@ onMounted(async () => {
   //const locationService = new LocationService('users');
   //teacherList.value.push(await locationService.getByRadius());
 });
+
 </script>
 
 <style lang="less" scoped>
@@ -57,6 +58,9 @@ onMounted(async () => {
   margin-top: 8rem;
   width: 70svw;
 
+  .active {
+    outline: 2px solid var(--link-primary);
+  }
   .informative {
     padding-bottom: 3.2rem;
     padding-top: 2.6rem;
