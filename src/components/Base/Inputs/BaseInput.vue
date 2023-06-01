@@ -31,8 +31,7 @@ const message = ref('');
 
 const props = defineProps({
   modelValue: {
-    type: [null, String],
-    required: true
+    type: [null, String]
   },
   id: {
     type: String
@@ -58,8 +57,9 @@ const props = defineProps({
   pattern: {
     type: String
   },
-  disabled:{
-    default:false
+  value: [String, Number, Date],
+  disabled: {
+    default: false
   }
 });
 
@@ -67,7 +67,7 @@ const renderedInput = () =>
   h(inputType(), {
     class: { input: hasFocused.value },
     ...props,
-    value: props.modelValue,
+    value: props.modelValue || props.value,
     rows: 6
   });
 
@@ -102,6 +102,7 @@ const hasFocus = (event) => {
   handleInput(event);
   // It will be replaced in the future for "user-invalid" pseudo class in the future
   hasFocused.value = true;
+  return emit('focus');
 };
 
 const focus = (event) => {
@@ -113,7 +114,7 @@ const backgroundValid = computed(() => {
 });
 
 defineExpose({ setCustomValidity, focus });
-const emit = defineEmits(['update:modelValue', 'validation', 'onBlur']);
+const emit = defineEmits(['update:modelValue', 'validation', 'onBlur', 'focus']);
 </script>
 
 <style lang="less">

@@ -22,14 +22,17 @@
           required
         />
 
-        <base-input
-          ref="refDatePicker"
-          v-model="userData.birthDay"
-          class="text-input"
-          label="Data de nascimento:"
-          placeholder="..."
-          type="date"
-        />
+        <VDatePicker v-model="userData.birthDay" :masks="{ L: 'DD/MM/YYYY' }" mode="date">
+          <template #default="{ inputValue, inputEvents  }">
+            <base-input
+              ref="startRef"
+              class="date-input"
+              label="Data de nascimento"
+              :value="inputValue"
+              v-on="inputEvents"
+            />
+          </template>
+        </VDatePicker>
 
         <select-input
           v-model="userData.classType"
@@ -72,7 +75,6 @@
           required
         />
 
-
         <base-input
           v-if="userData.classType != enumClassType.inPerson"
           ref="refPlatform"
@@ -90,12 +92,11 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref, toRaw, unref } from 'vue';
+import { reactive, ref, toRaw } from 'vue';
 import { enumClassType } from '@/consts/enums';
 import LocationService from '@/service/LocationService.js';
 
 const refForm = ref(null);
-const refDatePicker = ref(null);
 const refNeighborhood = ref(null);
 
 const options = [
@@ -126,10 +127,6 @@ const userData = reactive({
   birthDay: null // date
 });
 
-const birthUTCDate = computed(() => {
-  return new Date(userData.birthDay).toGMTString();
-});
-
 const handleLocation = async (input) => {
   if (!input) return;
   try {
@@ -153,7 +150,6 @@ const handleSubmit = async () => {
     valid: refForm.value.reportValidity(),
     ...rawUserData,
     complemented_data: true,
-    birthDay: birthUTCDate.value
   });
 };
 

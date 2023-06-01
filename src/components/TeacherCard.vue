@@ -49,7 +49,7 @@ const resumeFormatted = computed(() => {
 });
 
 const whatsappLink = computed(() => {
-  console.log(userStore?.user?.name);
+  console.log(userStore?.user);
   const wppText = `Olá Professor ${props.name}, meu nome é ${userStore?.user?.name} e gostária de saber, mais sobre suas aulas.`;
   return `https://api.whatsapp.com/send?phone=${props.contact}&text=${wppText}`;
 });

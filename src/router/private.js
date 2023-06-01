@@ -9,11 +9,12 @@ const privateRoutes = [
     path: _.TEACHER_LIST.PATH,
     name: _.TEACHER_LIST.NAME,
     component: ViewList,
-    beforeEnter: (to) => {
-      if (to.query?.address) {
-        return true;
-      }
-      return { name: HOME.NAME };
+    beforeEnter: ({ query }) => {
+      if (!query?.type) return { name: HOME.NAME };
+
+      const { address = null, end = null, start = null } = query;
+
+      if (address || (end && start)) return true;
     }
   },
   {
