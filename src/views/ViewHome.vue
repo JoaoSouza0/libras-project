@@ -81,9 +81,10 @@ import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { enumClassType } from '@/consts/enums.js';
 import { useIsAuthenticate } from '@/composables/user';
+import { useUserStore } from '@/stores/UserStore';
 
 const router = useRouter();
-
+const userStore = useUserStore();
 const searchRef = ref(null);
 
 const options = [
@@ -112,6 +113,7 @@ const handleSearch = async () => {
     query: { address: searchValue.value, type: option.value }
   });
 };
+
 </script>
 
 <style lang="less" scoped>

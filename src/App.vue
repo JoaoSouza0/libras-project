@@ -21,7 +21,7 @@ import NavBar from '@/layouts/NavBar.vue';
   justify-content: center;
   max-width: 90%;
   margin: 0 auto;
-  min-height: 92.5svh;
+  min-height: 90svh;
 
   .slide-leave-active {
     transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);

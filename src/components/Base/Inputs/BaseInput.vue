@@ -57,6 +57,9 @@ const props = defineProps({
   },
   pattern: {
     type: String
+  },
+  disabled:{
+    default:false
   }
 });
 

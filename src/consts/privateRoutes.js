@@ -8,7 +8,13 @@ export const USER_COMPLEMENT_DATA = {
   NAME: 'userComplementData'
 };
 
+export const TEACHER_DETAILS = {
+  PATH: '/teacher-details/:id',
+  NAME: 'teacherDetails'
+};
+
 export default {
   TEACHER_LIST,
-  USER_COMPLEMENT_DATA
+  USER_COMPLEMENT_DATA,
+  TEACHER_DETAILS
 };

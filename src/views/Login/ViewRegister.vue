@@ -20,7 +20,7 @@ import { LOGIN } from '@/consts/publicRoutes.js';
 import { USER_COMPLEMENT_DATA } from '@/consts/privateRoutes.js';
 
 import userRegister from '@/layouts/Forms/userRegister.vue';
-import { useUserStore } from '../../stores/UserStore';
+import { useUserStore } from '@/stores/UserStore';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 

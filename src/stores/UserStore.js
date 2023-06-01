@@ -40,6 +40,17 @@ export const useUserStore = defineStore('storeUser', {
       }
     },
 
+    async fetch(id) {
+      const userService = new UserService();
+      try {
+        const result = await userService.get(id);
+        this.user = result.body;
+        return result;
+      } catch (error) {
+        return error;
+      }
+    },
+
     async signIn({ email, password }) {
       const authService = new AuthService(email, password);
       const userService = new UserService();

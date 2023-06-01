@@ -5,22 +5,21 @@
     </div>
 
     <div class="content">
-      <h2>Prof.º Daniel</h2>
+      <h2>Prof.º {{ name }}</h2>
       <p>
-        Sorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum
-        est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan.
+        {{ resumeFormatted }}
       </p>
 
       <div class="icon">
         <a class="image-container" :href="whatsappLink" target="_blank" rel="noopener noreferrer">
           <img src="@/assets/icon-messages.svg" />
         </a>
-        <span class="image-container">
+        <a class="image-container">
           <img src="@/assets/icon-teacher.svg" />
-        </span>
-        <span class="image-container">
+        </a>
+        <a @click.prevent="openDetails" class="image-container">
           <img src="@/assets/icon-user.svg" />
-        </span>
+        </a>
       </div>
     </div>
   </div>
@@ -28,21 +27,36 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/UserStore';
+import { TEACHER_DETAILS } from '@/consts/privateRoutes.js';
 
 const userStore = useUserStore();
+const router = useRouter();
 
 const props = defineProps({
+  id: String,
   resume: String,
   name: String,
   contact: Number
 });
 
-const wppText = `Olá Professor ${props.name}, meu chamo ${userStore.state.name} e gostária de saber, mais sobre suas aulas.`;
+const resumeFormatted = computed(() => {
+  if (props.resume.length > 200) {
+    return ` ${props.resume.slice(0, 200)}...`;
+  }
+  return props.resume;
+});
 
 const whatsappLink = computed(() => {
+  console.log(userStore?.user?.name);
+  const wppText = `Olá Professor ${props.name}, meu nome é ${userStore?.user?.name} e gostária de saber, mais sobre suas aulas.`;
   return `https://api.whatsapp.com/send?phone=${props.contact}&text=${wppText}`;
 });
+
+const openDetails = () => {
+  return router.push({ name: TEACHER_DETAILS.NAME, params: { id: props.id } });
+};
 
 //
 </script>
@@ -69,20 +83,19 @@ const whatsappLink = computed(() => {
   }
 
   .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
     height: 50%;
     background-color: white;
     border-radius: 0 0 1.6rem 1.6rem;
 
     h2 {
+      text-align: center;
       padding-top: 4.2rem;
       color: var(--text-dark);
       margin: 0 auto 1.6rem auto;
     }
 
     p {
+      min-height: 16rem;
       text-align: center;
       max-width: 20rem;
       font-size: 1.6rem;
@@ -91,9 +104,11 @@ const whatsappLink = computed(() => {
     }
 
     .icon {
+      position: relative;
+      bottom: 0;
       display: flex;
       justify-content: center;
-      margin-bottom: 1.6rem;
+      padding-bottom: 1.6rem;
       .image-container {
         display: inline-block;
         width: 2rem;

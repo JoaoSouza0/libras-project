@@ -92,7 +92,7 @@ const emit = defineEmits(['submit']);
 
 <style lang="less" scoped>
 #complement-student-form {
-  padding-top: 6.4rem;
+  padding-top: 3.5rem;
 
   .head-content {
     h1 {

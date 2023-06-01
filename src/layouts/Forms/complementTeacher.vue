@@ -1,5 +1,11 @@
 <template>
-  <form id="complement-teacher-form" class="content" novalidate ref="refForm" @submit.prevent="handleSubmit">
+  <form
+    id="complement-teacher-form"
+    class="content"
+    novalidate
+    ref="refForm"
+    @submit.prevent="handleSubmit"
+  >
     <div class="head-content">
       <h1>Concluir Cadastro</h1>
       <p>Precisamos de mais algumas informações para concluir o seu cadastro. É fácil e rápido!</p>
@@ -60,11 +66,12 @@
           class="text-input"
           v-model="userData.street"
           id="neighborhood"
-          type="text"
-          label="Endereço Completo:"
+          type="number"
+          label="CEP:"
+          pattern="[0-9]"
           required
-          @onBlur="handleLocation"
         />
+
 
         <base-input
           v-if="userData.classType != enumClassType.inPerson"
@@ -114,6 +121,7 @@ const userData = reactive({
   contact: null, //number
   lat: null,
   lng: null,
+  neighborhood: null,
   classType: 0, //select com 3 opções,
   birthDay: null // date
 });
@@ -124,26 +132,29 @@ const birthUTCDate = computed(() => {
 
 const handleLocation = async (input) => {
   if (!input) return;
+  try {
+    const locationService = new LocationService();
+    const response = await locationService.getStreetLocationData(userData.street);
 
-  const locationService = new LocationService();
-  const response = await locationService.getStreetLocationData(userData.street);
+    const { body } = response;
 
-  if (!response.success) return refNeighborhood.value.setCustomValidity(response.message);
-
-  const { body } = response;
-  userData.lat = Number(body.lat);
-  userData.lng = Number(body.lon);
-  return userData;
+    userData.lat = Number(body?.geometry.lat);
+    userData.lng = Number(body?.geometry.lng);
+    return userData;
+  } catch (e) {
+    return refNeighborhood.value.setCustomValidity(e.message);
+  }
 };
 
 const handleSubmit = async () => {
-  const rawUserData = toRaw(userData);
-   emit('submit', {
+  const data = await handleLocation(userData.street);
+  const rawUserData = toRaw(data);
+  emit('submit', {
     valid: refForm.value.reportValidity(),
     ...rawUserData,
     complemented_data: true,
     birthDay: birthUTCDate.value
-  }); 
+  });
 };
 
 const emit = defineEmits(['submit']);
@@ -151,7 +162,7 @@ const emit = defineEmits(['submit']);
 
 <style lang="less" scoped>
 #complement-teacher-form {
-  padding-top: 6.4rem;
+  padding-top: 3.5rem;
   .head-content {
     h1 {
       padding-bottom: 0.8rem;
@@ -171,7 +182,7 @@ const emit = defineEmits(['submit']);
     .section-second {
       width: 45%;
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
       flex-direction: column;
     }
     .text-input {

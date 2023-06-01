@@ -46,13 +46,15 @@ export default class LocationService extends BaseService {
     });
   }
 
-  async getStreetLocationData(street) {
-    return this.httpRequestGet('https://nominatim.openstreetmap.org/search', {
-      q: street,
-      format: 'json'
+  async getStreetLocationData(cep) {
+    return this.httpRequestGet('https://api.opencagedata.com/geocode/v1/json', {
+      q: cep,
+      key: '2014bde651c8429fb7dcffbdd7cb662d',
+      language: 'en',
+      pretty: 1
     })
-      .then(([data]) =>
-        !data ? this.failure({ code: 404, message: 'Street not found' }) : this.success(data)
+      .then((data) =>
+        !data ? this.failure({ code: 404, message: 'Street not found' }) : this.success(data.results[0])
       )
       .catch((e) => e);
   }
