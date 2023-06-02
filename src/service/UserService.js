@@ -42,7 +42,7 @@ export default class UserService extends BaseService {
     const path = `image/${id}_profile`;
     const storageChild = ref(storage, path);
     return uploadBytes(storageChild, file)
-      .then((snapshot) => this.success({ ...snapshot, path }))
+      .then(async (snapshot) => this.success({ ...snapshot, path: await this.downloadPhoto(path) }))
       .catch(this.failure);
   }
   async downloadPhoto(path) {

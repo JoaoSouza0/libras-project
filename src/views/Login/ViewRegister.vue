@@ -47,6 +47,7 @@ const register = async (form) => {
 </script>
 
 <style lang="less" scoped>
+
 .head-content {
   h1 {
     margin-bottom: 1.6rem;
@@ -67,6 +68,17 @@ const register = async (form) => {
   a {
     margin-right: 2rem;
     font-size: 1.6rem;
+  }
+}
+
+@media @smartphone {
+  .user-term {
+    flex-wrap: wrap;
+    justify-content: center;
+
+    p {
+      margin-bottom: 2rem;
+    }
   }
 }
 </style>

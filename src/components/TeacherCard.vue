@@ -34,7 +34,9 @@ import { TEACHER_DETAILS } from '@/consts/privateRoutes.js';
 
 const userStore = useUserStore();
 const router = useRouter();
-const profileSrc = ref('');
+const profileSrc = computed(() => {
+  return props.profile || comunistDog;
+});
 const comunistDog = 'https://i.pinimg.com/236x/28/c5/49/28c54966142ad9b4872a6a25564f6f75.jpg';
 
 const props = defineProps({
@@ -65,11 +67,6 @@ const fallbackDog = (e) => {
 const openDetails = () => {
   return router.push({ name: TEACHER_DETAILS.NAME, params: { id: props.id } });
 };
-
-onMounted(async () => {
-  const userService = new UserService();
-  profileSrc.value = props.profile ? await userService.downloadPhoto(props.profile) : comunistDog;
-});
 </script>
 
 <style lang="less" scoped>
@@ -105,6 +102,7 @@ onMounted(async () => {
       padding-top: 4.2rem;
       color: var(--text-dark);
       margin: 0 auto 1.6rem auto;
+      min-height: 40px;
     }
 
     p {

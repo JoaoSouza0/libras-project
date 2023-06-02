@@ -52,5 +52,13 @@ const completeData = ({ data, profileImage }) => {
     justify-content: flex-end;
     flex-direction: row;
   }
+
+  @media @smartphone {
+    width: 95%;
+
+    .complete-button {
+      padding: unset;
+    }
+  }
 }
 </style>

@@ -24,7 +24,14 @@
         </template>
       </base-input>
 
-      <VDatePicker v-else v-model="range" is-range :masks="{ L: 'DD/MM/YYYY' }" mode="date" :min-date="new Date()">
+      <VDatePicker
+        v-else
+        v-model="range"
+        is-range
+        :masks="{ L: 'DD/MM/YYYY' }"
+        mode="date"
+        :min-date="new Date()"
+      >
         <template #default="{ inputValue, inputEvents }">
           <div class="date-container">
             <base-input
@@ -53,8 +60,13 @@
       <img src="@/assets/people-home.svg" alt="jovens fazendo sinais" />
     </div>
 
+    <div class="arrow" @click="handleScroll">
+      <img src="@/assets/arrow-down.svg" />
+    </div>
+
     <div class="section-1">
       <div>
+        <img src="@/assets/point-lines-home-black.svg" />
         <h1>Sobre o projeto</h1>
         <p>
           Yorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum
@@ -70,6 +82,8 @@
 
     <div class="section-2">
       <div>
+        <img src="@/assets/point-lines-home-blue.svg" />
+
         <h1>Para alunos</h1>
         <p>
           Yorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum
@@ -81,7 +95,10 @@
           bibendum lorem.
         </p>
       </div>
+      <img src="@/assets/point-lines-home-blue.svg" />
       <div>
+        <img src="@/assets/point-lines-home-blue.svg" />
+
         <h1>Para professores</h1>
         <p>
           Yorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum
@@ -128,6 +145,13 @@ const range = ref({
 });
 const option = ref(1);
 
+const handleScroll = () => {
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: 'smooth'
+  });
+};
+
 const handleSearch = async () => {
   const { user } = await useIsAuthenticate();
 
@@ -149,13 +173,14 @@ const handleSearch = async () => {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 #view-home {
   margin-top: 8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 
   h1 {
     margin-bottom: 3.2rem;
@@ -179,6 +204,8 @@ const handleSearch = async () => {
 
     .date-container {
       display: flex;
+      flex-wrap: wrap;
+
       flex-direction: row;
       justify-content: space-between;
       .date-input {
@@ -202,13 +229,161 @@ const handleSearch = async () => {
     }
 
     .radio-input {
-      margin-bottom: 8.1rem;
+      margin-bottom: 2rem;
     }
   }
 
   .img {
     min-width: 85.6rem;
     border-bottom: 3px solid black;
+  }
+
+  .arrow {
+    cursor: pointer;
+    margin: 0 auto;
+    padding-top: 6.5rem;
+    padding-bottom: 3.2rem;
+
+    img {
+      display: block;
+      margin: 0 auto;
+      width: 6rem;
+      height: 3rem;
+    }
+  }
+
+  .section-1 {
+    background-color: var(--input-primary);
+    width: 100%;
+    min-height: 36.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+      text-align: center;
+      color: var(--text-dark);
+    }
+
+    p {
+      max-width: 64.6rem;
+      text-align: center;
+      color: var(--text-dark);
+    }
+
+    img {
+      width: 18.7rem;
+      margin: 0 auto;
+      display: block;
+      padding: 0.7rem;
+    }
+  }
+
+  .section-2 {
+    background-color: var(--text-primary);
+    width: 100%;
+    min-height: 45.5rem;
+    display: flex;
+
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+
+    h1 {
+      color: var(--input-primary);
+      text-align: start;
+    }
+
+    & > img {
+      display: inline;
+      transform: rotate(90deg);
+    }
+
+    div {
+      width: 45%;
+    }
+
+    div:first-child {
+      padding-left: 10.5rem;
+    }
+
+    div:last-child {
+      padding-right: 10.5rem;
+      h1 {
+        text-align: end;
+      }
+
+      img {
+        margin-left: auto;
+      }
+      p {
+        margin-left: auto;
+      }
+    }
+
+    p {
+      color: white;
+      max-width: 64.6rem;
+      text-align: center;
+    }
+
+    img {
+      width: 18.7rem;
+      display: block;
+      padding: 0.7rem;
+    }
+  }
+
+  @media @smartphone {
+
+    margin-top: 5rem;
+    & > h1 {
+      text-align: center;
+    }
+
+    & > div {
+      width: 85svw;
+    }
+
+    & > .img {
+      display: none;
+    }
+
+    & .arrow {
+      padding-top: 1.5rem;
+    }
+
+    & .section-1 {
+      p {
+        width: 100%;
+      }
+
+      & > div {
+        padding: 2rem;
+      }
+    }
+
+    & .section-2 {
+      flex-wrap: wrap;
+
+      & > img {
+        display: none;
+      }
+
+      & > div {
+        width: 100svw;
+        padding: 2rem !important;
+
+        h1 {
+          text-align: center !important;
+        }
+
+        img {
+          margin: 0 auto !important;
+        }
+      }
+    }
   }
 }
 </style>

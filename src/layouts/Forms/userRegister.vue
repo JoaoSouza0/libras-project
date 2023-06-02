@@ -93,7 +93,7 @@ const handleSubmit = () => {
     email: email,
     password: password,
     type: student,
-    complemented_data: false,
+    complemented_data: false
   });
 };
 
@@ -101,8 +101,6 @@ const setEmailCustomValidity = (message) => refEmail.value.setCustomValidity(mes
 
 defineExpose({ setEmailCustomValidity });
 const emit = defineEmits(['submit']);
-
-//create validator
 </script>
 
 <style lang="less" scoped>
@@ -132,6 +130,17 @@ const emit = defineEmits(['submit']);
     .radio-input {
       margin-top: 0.8rem;
       margin-bottom: 4.8rem;
+    }
+  }
+
+  @media @smartphone {
+    .img {
+      display: none;
+    }
+
+    .content {
+      width: 100%;
+      padding: 3rem;
     }
   }
 }

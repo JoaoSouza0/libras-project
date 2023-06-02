@@ -129,6 +129,17 @@ const emit = defineEmits(['submit']);
     .second-section {
       width: 45%;
     }
+
+    @media @smartphone {
+      padding: unset;
+      padding-top: 2rem;
+      flex-direction: column;
+      
+      & > .first-section,
+      & > .second-section {
+        width: unset;
+      }
+    }
   }
 }
 </style>

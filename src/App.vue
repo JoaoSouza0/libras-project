@@ -11,6 +11,14 @@
 
 <script setup>
 import NavBar from '@/layouts/NavBar.vue';
+import { computed } from 'vue';
+import { HOME } from '@/consts/publicRoutes';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+
+const width = computed(() => {
+  return route.name === HOME.NAME ? '100%' : '80%';
+});
 </script>
 
 <style lang="less">
@@ -19,7 +27,7 @@ import NavBar from '@/layouts/NavBar.vue';
 #view-container {
   display: flex;
   justify-content: center;
-  max-width: 90%;
+  max-width: v-bind(width);
   margin: 0 auto;
   min-height: 90svh;
 

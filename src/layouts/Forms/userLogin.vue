@@ -55,7 +55,7 @@ const handleBlur = () => {
 const handleSubmit = () => {
   const { email, password } = userData;
 
-  if ((!email && !password)) return;
+  if (!email && !password) return;
 
   emit('submit', {
     valid: refForm.value.reportValidity(),
@@ -94,6 +94,20 @@ defineExpose({ setEmailCustomValidity });
 
     .text-input {
       margin-bottom: 2.4rem;
+    }
+  }
+
+  @media @smartphone {
+    .img {
+      display: none;
+    }
+
+    .content {
+      width: 90%;
+
+      p {
+        margin-bottom: 2rem;
+      }
     }
   }
 }

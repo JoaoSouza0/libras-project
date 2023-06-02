@@ -230,5 +230,28 @@ const emit = defineEmits(['submit']);
       }
     }
   }
+
+  @media @smartphone {
+    .head-content {
+      & > p {
+        text-align: center;
+      }
+    }
+
+    .content {
+      padding: unset;
+      padding-top: 2rem;
+      flex-direction: column;
+
+      p {
+        margin-bottom: 2rem;
+      }
+
+      & > .section-first,
+      & > .section-second {
+        width: unset;
+      }
+    }
+  }
 }
 </style>

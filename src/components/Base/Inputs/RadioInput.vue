@@ -17,9 +17,9 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref } from 'vue';
 
-const value = ref(props.modelValue)
+const value = ref(props.modelValue);
 
 const props = defineProps({
   options: {
@@ -29,14 +29,14 @@ const props = defineProps({
     type: [String, Number, Boolean],
     required: true
   }
-})
+});
 
 const optionsFormatted = computed(() => {
   return props.options.map((option) => ({
     label: option.label,
     value: option.value ?? option.label
-  }))
-})
+  }));
+});
 </script>
 
 <style lang="less" scoped>
@@ -49,6 +49,10 @@ const optionsFormatted = computed(() => {
       display: flex;
       align-items: center;
       margin-right: 3.3rem;
+
+      @media @smartphone {
+        margin-right: 0;
+      }
 
       input {
         margin-right: 0.8rem;

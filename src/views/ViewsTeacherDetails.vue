@@ -2,7 +2,7 @@
   <section id="teacher-details">
     <div class="head">
       <div class="image-container">
-        <img src="https://avatars.githubusercontent.com/u/60666522?v=4" alt="" />
+        <img :src="userData.photo" alt="" />
         <div>
           <h2>Prof.º {{ userData.name }}</h2>
           <span>{{ age }}</span>
@@ -33,6 +33,7 @@
         </div>
       </div>
     </div>
+    <base-button @click="scheduleClass" class="mobile-button">Agendar Aula</base-button>
   </section>
 </template>
 
@@ -53,7 +54,7 @@ const router = useRouter();
 const userData = reactive({});
 
 const age = computed(() => {
-  const birthDate = new Date(userData.birthDay).getFullYear();
+  const birthDate = new Date(userData?.birthDay?.seconds * 1000).getFullYear();
   const currentYear = new Date().getFullYear();
   return `${currentYear - birthDate} anos `;
 });
@@ -141,6 +142,34 @@ onBeforeMount(async () => {
     }
     p {
       font-size: 1.6rem;
+    }
+  }
+
+  .mobile-button {
+    display: none;
+  }
+
+  @media @smartphone {
+    width: 90svw;
+
+    .schedule-button {
+      display: none;
+    }
+    .content {
+      margin-top: 0;
+      flex-direction: column;
+
+      & > div {
+        width: unset;
+      }
+    }
+
+    .mobile-button {
+      display: block;
+      margin: 2rem auto;
+      width: 17rem;
+      font-size: 1.5rem;
+      padding: 1.5rem;
     }
   }
 }

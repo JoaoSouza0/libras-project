@@ -1,6 +1,6 @@
 <template>
   <section id="view-list" v-if="teacherList.length">
-    <h1>Encontramos {{ teacherList.length }} professores na sua região!</h1>
+    <h1>{{ formattedLabel }}!</h1>
     <div class="informative">
       <img src="@/assets/location.svg" />
       <label>
@@ -38,7 +38,7 @@
 
 <script setup>
 import TeacherCard from '@/components/TeacherCard.vue';
-import { onBeforeMount, ref } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import LocationService from '../service/LocationService';
 import BaseSlideSwiper from '../components/Base/BaseSlideSwiper.vue';
@@ -54,6 +54,12 @@ const classType = ref(route.query.type);
 const handlePage = (page) => {
   return (currentItem.value = page);
 };
+
+const formattedLabel = computed(() => {
+  return teacherList.value.length > 1
+    ? `Encontramos ${teacherList.value.length} professores na sua região`
+    : 'Encontramos 1 professor na sua região';
+});
 
 const handleAddress = async (address) => {
   const response = await locationService.getStreetLocationData(address);
@@ -109,6 +115,18 @@ onBeforeMount(async () => {
 
     span {
       font-size: 2rem;
+    }
+  }
+
+  @media @smartphone {
+    width: 90svw;
+
+    h1 {
+      text-align: center;
+    }
+
+    .informative {
+      justify-content: center;
     }
   }
 }

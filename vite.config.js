@@ -15,7 +15,8 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       less: {
-        math: 'parens-division'
+        math: 'parens-division',
+        additionalData:`@import "@/less/main.less";`
       }
     }
   }
