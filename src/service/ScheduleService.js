@@ -25,7 +25,8 @@ export default class ScheduleService extends BaseService {
       query(
         collection(db, 'users', id, collectionSub),
         where('date', '<', new Date(moment(day).endOf('day'))),
-        where('date', '>', new Date(moment(day).startOf('day')))
+        where('date', '>', new Date(moment(day).startOf('day')), 
+        orderBy('date', 'asc'))
       )
     )
       .then(({ docs }) => this.success(docs.map((doc) => doc.data())))

@@ -21,6 +21,7 @@
           :class="index === currentItem && 'active'"
           :resume="item.resume"
           :name="item.name"
+          :profile="item.photo"
           :contact="Number(item.contact)"
         />
       </template>
@@ -88,7 +89,7 @@ onBeforeMount(async () => {
       margin-right: 0.5rem;
     }
 
-    span{
+    span {
       text-decoration: underline;
     }
   }

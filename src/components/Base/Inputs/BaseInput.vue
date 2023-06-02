@@ -9,6 +9,7 @@
         @invalid.prevent
         @focus="hasFocus"
         @blur="$emit('onBlur', modelValue)"
+        @change="(e) => $emit('onChange', e)"
       />
 
       <span class="icon" v-if="type != 'date'">
@@ -114,7 +115,7 @@ const backgroundValid = computed(() => {
 });
 
 defineExpose({ setCustomValidity, focus });
-const emit = defineEmits(['update:modelValue', 'validation', 'onBlur', 'focus']);
+const emit = defineEmits(['update:modelValue', 'validation', 'onBlur', 'focus', 'onChange']);
 </script>
 
 <style lang="less">
@@ -178,6 +179,13 @@ const emit = defineEmits(['update:modelValue', 'validation', 'onBlur', 'focus'])
       cursor: pointer;
       padding: 2rem;
       right: 0;
+    }
+
+    input[type='file' i]::-webkit-file-upload-button {
+      display: none;
+    }
+    input[type='file' i] {
+      cursor: pointer;
     }
 
     .icon {

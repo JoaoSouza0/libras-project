@@ -27,14 +27,17 @@
         required
       />
 
-      <base-input
-        ref="refDatePicker"
-        v-model="userData.birthDay"
-        class="text-input"
-        label="Data de nascimento:"
-        placeholder="..."
-        type="date"
-      />
+      <VDatePicker v-model="userData.birthDay" :masks="{ L: 'DD/MM/YYYY' }" mode="date">
+        <template #default="{ inputValue, inputEvents }">
+          <base-input
+            ref="startRef"
+            class="date-input"
+            label="Data de nascimento"
+            :value="inputValue"
+            v-on="inputEvents"
+          />
+        </template>
+      </VDatePicker>
 
       <select-input
         v-model="userData.classType"
@@ -81,9 +84,10 @@ const handleSubmit = async () => {
   const rawUserData = toRaw(userData);
   emit('submit', {
     valid: refForm.value.reportValidity(),
-    ...rawUserData,
-    complemented_data: true, 
-    birthDay: new Date(rawUserData.birthDay)
+    data: {
+      ...rawUserData,
+      complemented_data: true
+    }
   });
 };
 
@@ -106,7 +110,7 @@ const emit = defineEmits(['submit']);
 
   .content {
     padding: 4.4rem 6.6rem;
-    padding-left:0 ;
+    padding-left: 0;
     display: flex;
     justify-content: space-between;
     flex-direction: column;

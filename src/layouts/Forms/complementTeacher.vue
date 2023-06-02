@@ -23,7 +23,7 @@
         />
 
         <VDatePicker v-model="userData.birthDay" :masks="{ L: 'DD/MM/YYYY' }" mode="date">
-          <template #default="{ inputValue, inputEvents  }">
+          <template #default="{ inputValue, inputEvents }">
             <base-input
               ref="startRef"
               class="date-input"
@@ -51,6 +51,23 @@
           pattern="[0-9]"
           required
         />
+
+        <base-input
+          ref="refAvatar"
+          v-model="userData.photo"
+          class="text-input"
+          id="avatar"
+          type="file"
+          label="Foto de perfil:"
+          required
+          @onChange="handlePhotoUpload"
+        >
+          <template #icon>
+            <div class="icon-wrapper">
+              <img src="@/assets/camera.svg" alt="" srcset="" />
+            </div>
+          </template>
+        </base-input>
       </div>
 
       <div class="section-second">
@@ -65,6 +82,7 @@
         />
 
         <base-input
+          v-if="userData.classType != enumClassType.remote"
           ref="refNeighborhood"
           class="text-input"
           v-model="userData.street"
@@ -97,17 +115,19 @@ import { enumClassType } from '@/consts/enums';
 import LocationService from '@/service/LocationService.js';
 
 const refForm = ref(null);
+const filePhoto = ref(null);
 const refNeighborhood = ref(null);
 
 const options = [
   {
-    label: 'presencial',
-    value: enumClassType.inPerson
-  },
-  {
     label: 'remoto',
     value: enumClassType.remote
   },
+  {
+    label: 'presencial',
+    value: enumClassType.inPerson
+  },
+
   {
     label: 'presencial e remoto',
     value: enumClassType.bothClass
@@ -116,6 +136,7 @@ const options = [
 
 const userData = reactive({
   name: null, //text
+  photo: '',
   street: null, //text
   platform: null, //text
   resume: null, //text
@@ -134,7 +155,6 @@ const handleLocation = async (input) => {
     const response = await locationService.getStreetLocationData(userData.street);
 
     const { body } = response;
-
     userData.lat = Number(body?.geometry.lat);
     userData.lng = Number(body?.geometry.lng);
     return userData;
@@ -143,13 +163,22 @@ const handleLocation = async (input) => {
   }
 };
 
+const handlePhotoUpload = (e) => {
+  const fr = new FileReader();
+  fr.readAsDataURL(e.target.files[0]);
+  filePhoto.value = e.target.files[0];
+};
+
 const handleSubmit = async () => {
   const data = await handleLocation(userData.street);
   const rawUserData = toRaw(data);
   emit('submit', {
     valid: refForm.value.reportValidity(),
-    ...rawUserData,
-    complemented_data: true,
+    data: {
+      ...rawUserData,
+      complemented_data: true
+    },
+    profileImage: filePhoto.value
   });
 };
 
@@ -181,9 +210,24 @@ const emit = defineEmits(['submit']);
       justify-content: flex-start;
       flex-direction: column;
     }
-    .text-input {
+    .text-input,
+    .date-input {
       margin-bottom: 1.5rem;
       max-width: 51.5rem;
+    }
+
+    .icon-wrapper {
+      height: 102%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0 0.8rem 0.8rem 0;
+
+      img {
+        width: 42%;
+        cursor: pointer;
+      }
     }
   }
 }

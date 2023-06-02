@@ -1,7 +1,7 @@
 <template>
   <div id="card">
     <div class="teacher-image">
-      <img src="https://avatars.githubusercontent.com/u/60666522?v=4" alt="" />
+      <img :src="profileSrc" alt="" :on-error="fallbackDog" />
     </div>
 
     <div class="content">
@@ -26,17 +26,21 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onBeforeMount, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/UserStore';
+import UserService from '@/service/UserService';
 import { TEACHER_DETAILS } from '@/consts/privateRoutes.js';
 
 const userStore = useUserStore();
 const router = useRouter();
+const profileSrc = ref('');
+const comunistDog = 'https://i.pinimg.com/236x/28/c5/49/28c54966142ad9b4872a6a25564f6f75.jpg';
 
 const props = defineProps({
   id: String,
   resume: String,
+  profile: String,
   name: String,
   contact: Number
 });
@@ -49,16 +53,23 @@ const resumeFormatted = computed(() => {
 });
 
 const whatsappLink = computed(() => {
-  console.log(userStore?.user);
   const wppText = `Olá Professor ${props.name}, meu nome é ${userStore?.user?.name} e gostária de saber, mais sobre suas aulas.`;
   return `https://api.whatsapp.com/send?phone=${props.contact}&text=${wppText}`;
 });
+
+const fallbackDog = (e) => {
+  console.log(e);
+  //
+};
 
 const openDetails = () => {
   return router.push({ name: TEACHER_DETAILS.NAME, params: { id: props.id } });
 };
 
-//
+onMounted(async () => {
+  const userService = new UserService();
+  profileSrc.value = props.profile ? await userService.downloadPhoto(props.profile) : comunistDog;
+});
 </script>
 
 <style lang="less" scoped>
@@ -75,10 +86,12 @@ const openDetails = () => {
 
     img {
       width: 14rem;
+      height: 14rem;
       border-radius: 50%;
       border: 8px solid var(--text-primary);
       margin: 0 auto;
       display: block;
+      object-fit: cover;
     }
   }
 

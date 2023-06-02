@@ -29,7 +29,7 @@ export const useScheduleStore = defineStore('storeSchedule', {
     async getHourClasses(id, day) {
       const scheduleService = new ScheduleService();
       const { body } = await scheduleService.getClasses('openAppointments', id, day);
-      console.log(body);
+
       return body.map((item) => ({
         id: item.id,
         date: moment(item.date.seconds * 1000).format('HH:mm:ss')

@@ -1,150 +1,37 @@
 <template>
   <div id="view-schedule-class">
     <div class="head">
-      <h2 class="h2">Custom Calendars</h2>
-      <p class="text-lg font-medium text-gray-600 mb-6">
-        Roll your own calendars using scoped slots
-      </p>
+      <h2 class="h2">Agendamento de horario</h2>
     </div>
-
-    <div class="content">
-      <div class="calendar">
-        <v-calendar
-          class="custom-calendar"
-          :masks="data.masks"
-          :attributes="attributesProp"
-          :min-date="new Date()"
-          disable-page-swipe
-          expanded
-        >
-          <template v-slot:day-content="{ day }">
-            <div class="calendar-day" @click="getClasses(day.date)">
-              <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
-              <div class="flex-grow overflow-y-auto overflow-x-auto"></div>
-            </div>
-          </template>
-        </v-calendar>
-      </div>
-
-      <div class="side-bar">
-        <p>Horários disponiveis nesse dia.</p>
-        <div v-for="(item, index) in classes" v-bind:key="index">
-          <a @click.prevent>{{ new Date(item.date) }}</a>
-        </div>
-      </div>
-    </div>
+    <renderedCalendar />
   </div>
 </template>
 
 <script setup>
 import { useScheduleStore } from '@/stores/ScheduleStore';
 import { useRoute } from 'vue-router';
-import { computed, onBeforeMount, ref } from 'vue';
-import ScheduleService from '@/service/ScheduleService';
+import { computed, h, onBeforeMount, ref } from 'vue';
+import ScheduleCalendar from '@/components/ScheduleCalendar.vue';
 
 const scheduleStore = useScheduleStore();
 
 const route = useRoute();
-const month = new Date().getMonth();
-const year = new Date().getFullYear();
-const classes = ref([]);
 
-const attributesProp = ref([
-  {
-    // Boolean
-    dates: scheduleStore.openAppointmentsDay,
-    content: '',
-    highlight: {
-      class: 'highlight' // Circle class
-    }
-  }
-]);
-
-const data = ref({
-  attributes: [
-    {
-      key: 2,
-      /* customData: [
-        {
-          title: 'Lunch with mom',
-          class: 'bg-red-600 text-white'
-        }
-      ], */
-      dates: new Date(year, month, 1)
-    },
-    {
-      key: 1,
-      customData: {
-        title: 'Take Noah to basketball practice',
-        class: 'bg-blue-500 text-white'
-      },
-      dates: new Date(year, month, 1)
-    },
-    {
-      key: 3,
-      customData: {
-        title: "Noah's basketball game.",
-        class: 'bg-blue-500 text-white'
-      },
-      dates: new Date(year, month, 5)
-    },
-    {
-      key: 4,
-      customData: {
-        title: 'Take car to the shop',
-        class: 'bg-indigo-500 text-white'
-      },
-      dates: new Date(year, month, 1)
-    },
-    {
-      key: 4,
-      customData: {
-        title: 'Meeting with new client.',
-        class: 'bg-teal-500 text-white'
-      },
-      dates: new Date(year, month, 7)
-    },
-    {
-      key: 5,
-      customData: {
-        title: "Mia's gymnastics practice.",
-        class: 'bg-pink-500 text-white'
-      },
-      dates: new Date(year, month, 11)
-    },
-    {
-      key: 6,
-      customData: {
-        title: 'Cookout with friends.',
-        class: 'bg-orange-500 text-white'
-      },
-      dates: { months: 5, ordinalWeekdays: { 2: 1 } }
-    },
-    {
-      key: 7,
-      customData: {
-        title: "Mia's gymnastics recital.",
-        class: 'bg-pink-500 text-white'
-      },
-      dates: new Date(year, month, 22)
-    },
-    {
-      key: 8,
-      customData: {
-        title: 'Visit great grandma.',
-        class: 'bg-red-600 text-white'
-      },
-      dates: new Date(year, month, 25)
-    }
-  ]
-});
-
-const getClasses = async (day) => {
-  classes.value = await scheduleStore.getHourClasses(route.params.id, day);
-};
-
-const timeList = computed(() => {
-  return scheduleStore.openAppointments;
+const renderedCalendar = computed(() => {
+  return scheduleStore.openAppointmentsDay.length
+    ? h(ScheduleCalendar, {
+        attributesProp: [
+          {
+            dates: scheduleStore.openAppointmentsDay,
+            content: '',
+            highlight: {
+              class: 'highlight' // Circle class
+            }
+          }
+        ],
+        idUser: route.params.id
+      })
+    : h('div');
 });
 
 onBeforeMount(async () => {
@@ -160,29 +47,6 @@ onBeforeMount(async () => {
 
   .head {
     padding-bottom: 2rem;
-  }
-
-  .content {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    .calendar {
-      width: 65%;
-    }
-
-    .side-bar {
-      background-color: white;
-      border: 1px solid #cbd5e1;
-      width: 30%;
-
-      p {
-        text-align: center;
-        padding: 1.5rem;
-        border-bottom: 1px solid #cbd5e1;
-        font-size: 2rem;
-      }
-    }
   }
 }
 ::-webkit-scrollbar {
@@ -247,6 +111,11 @@ onBeforeMount(async () => {
   .vc-arrow,
   .vc-title {
     background: none;
+  }
+
+  .calendar-day {
+    height: 100%;
+    cursor: pointer;
   }
 }
 </style>

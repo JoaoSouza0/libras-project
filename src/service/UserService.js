@@ -1,5 +1,6 @@
-import { db } from './utils/firebase';
+import { db, storage } from './utils/firebase';
 import { collection, setDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
 import { geohashForLocation } from 'geofire-common';
 
 import BaseService from './utils/BaseService';
@@ -29,12 +30,26 @@ export default class UserService extends BaseService {
 
   async put(payload, id) {
     if (payload.type) payload.hash = geohashForLocation([payload.lat, payload.lng]);
-      return await updateDoc(this.#factoryDoc(id), payload)
+    return await updateDoc(this.#factoryDoc(id), payload)
       .then(async () => {
         const updatedUser = await this.get(id);
         return this.success(updatedUser.body);
       })
-      .catch(this.failure); 
+      .catch(this.failure);
+  }
+
+  async uploadPhoto(file, id) {
+    const path = `image/${id}_profile`;
+    const storageChild = ref(storage, path);
+    return uploadBytes(storageChild, file)
+      .then((snapshot) => this.success({ ...snapshot, path }))
+      .catch(this.failure);
+  }
+  async downloadPhoto(path) {
+      console.log(path)
+    const starsRef = ref(storage, path); /* 'image/login_bg.png' */
+    const urlImg = await getDownloadURL(starsRef);
+    return String(urlImg);
   }
 
   #factoryDoc(id) {
