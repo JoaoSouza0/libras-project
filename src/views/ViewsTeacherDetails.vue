@@ -9,7 +9,7 @@
           <span> {{ availability }}</span>
         </div>
       </div>
-      <base-button class="schedule-button">Agendar Aula</base-button>
+      <base-button @click="scheduleClass" class="schedule-button">Agendar Aula</base-button>
     </div>
     <div class="content">
       <div class="first-section">
@@ -38,9 +38,9 @@
 
 <script setup>
 import { computed, onBeforeMount, reactive } from 'vue';
-import { useRoute } from 'vue-router';
-import { enumClassType } from '@/consts/enums';
-import UserService from '../service/UserService';
+import { SCHEDULE_CLASS } from '@/consts/privateRoutes';
+import { useRoute, useRouter } from 'vue-router';
+import UserService from '@/service/UserService';
 
 const availabilityEnum = {
   0: 'Disponivel para aulas remotas',
@@ -49,6 +49,7 @@ const availabilityEnum = {
 };
 
 const route = useRoute();
+const router = useRouter();
 const userData = reactive({});
 
 const age = computed(() => {
@@ -64,6 +65,10 @@ const availability = computed(() => {
 const contact = computed(() => {
   return String(userData.contact).replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
 });
+
+const scheduleClass = () => {
+  return router.push({ name: SCHEDULE_CLASS.NAME, params: { id: userData.id } });
+};
 
 onBeforeMount(async () => {
   const userService = new UserService();

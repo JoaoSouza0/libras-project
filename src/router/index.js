@@ -22,7 +22,6 @@ router.beforeEach(async (to, from) => {
 
   if (!user.body) return { name: LOGIN.NAME }; //retornar para a pagina de not found
 
-
   return true;
 });
 

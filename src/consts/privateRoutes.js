@@ -13,8 +13,13 @@ export const TEACHER_DETAILS = {
   NAME: 'teacherDetails'
 };
 
+export const SCHEDULE_CLASS = {
+  NAME: 'scheduleClass',
+  PATH: '/schedule-class/:id'
+};
 export default {
   TEACHER_LIST,
   USER_COMPLEMENT_DATA,
-  TEACHER_DETAILS
+  TEACHER_DETAILS,
+  SCHEDULE_CLASS
 };

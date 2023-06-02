@@ -33,8 +33,6 @@ export default class LocationService extends BaseService {
         for (const doc of snap.docs) {
           const lat = doc.get('lat');
           const lng = doc.get('lng');
-          // We have to filter out a few false positives due to GeoHash
-          // accuracy, but most will match
           const distanceInKm = distanceBetween([lat, lng], center);
           const distanceInM = distanceInKm * 1000;
           if (distanceInM <= radius) {
