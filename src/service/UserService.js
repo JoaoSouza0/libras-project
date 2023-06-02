@@ -46,8 +46,7 @@ export default class UserService extends BaseService {
       .catch(this.failure);
   }
   async downloadPhoto(path) {
-      console.log(path)
-    const starsRef = ref(storage, path); /* 'image/login_bg.png' */
+    const starsRef = ref(storage, path);
     const urlImg = await getDownloadURL(starsRef);
     return String(urlImg);
   }

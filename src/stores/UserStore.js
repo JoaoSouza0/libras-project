@@ -32,10 +32,12 @@ export const useUserStore = defineStore('storeUser', {
     async update(payload, profileImage = null, id) {
       const userService = new UserService();
       try {
-        const { body } = profileImage && (await userService.uploadPhoto(profileImage, id));
-        payload.photo = body.path;
-        const result = await userService.put(payload, id);
+        if (profileImage) {
+          const { body } = profileImage && (await userService.uploadPhoto(profileImage, id));
+          payload.photo = body.path;
+        }
 
+        const result = await userService.put(payload, id);
         this.user = result.body;
         return result;
       } catch (error) {

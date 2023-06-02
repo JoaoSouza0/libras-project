@@ -6,45 +6,49 @@
     </div>
 
     <div class="content">
-      <base-input
-        ref="refName"
-        class="text-input"
-        v-model="userData.name"
-        id="name"
-        type="text"
-        label="Nome completo: "
-        required
-      />
+      <div class="first-section">
+        <base-input
+          ref="refName"
+          class="text-input"
+          v-model="userData.name"
+          id="name"
+          type="text"
+          label="Nome completo: "
+          required
+        />
 
-      <base-input
-        ref="refContact"
-        class="text-input"
-        v-model="userData.contact"
-        id="contact"
-        type="number"
-        label="Contato:"
-        pattern="[0-9]"
-        required
-      />
+        <select-input
+          v-model="userData.classType"
+          class="text-input"
+          label="Preferência de ambiente:"
+          :options="options"
+        />
+      </div>
 
-      <VDatePicker v-model="userData.birthDay" :masks="{ L: 'DD/MM/YYYY' }" mode="date">
-        <template #default="{ inputValue, inputEvents }">
-          <base-input
-            ref="startRef"
-            class="date-input"
-            label="Data de nascimento"
-            :value="inputValue"
-            v-on="inputEvents"
-          />
-        </template>
-      </VDatePicker>
+      <div class="second-section">
+        <VDatePicker v-model="userData.birthDay" :masks="{ L: 'DD/MM/YYYY' }" mode="date">
+          <template #default="{ inputValue, inputEvents }">
+            <base-input
+              ref="startRef"
+              class="date-input"
+              label="Data de nascimento"
+              :value="inputValue"
+              v-on="inputEvents"
+            />
+          </template>
+        </VDatePicker>
 
-      <select-input
-        v-model="userData.classType"
-        class="text-input"
-        label="Preferência de ambiente:"
-        :options="options"
-      />
+        <base-input
+          ref="refContact"
+          class="text-input"
+          v-model="userData.contact"
+          id="contact"
+          type="number"
+          label="Contato:"
+          pattern="[0-9]"
+          required
+        />
+      </div>
     </div>
 
     <slot name="button" />
@@ -56,16 +60,15 @@ import { reactive, ref, toRaw } from 'vue';
 import { enumClassType } from '@/consts/enums';
 
 const refForm = ref(null);
-const refDatePicker = ref(null);
 
 const options = [
   {
-    label: 'presencial',
-    value: enumClassType.inPerson
-  },
-  {
     label: 'remoto',
     value: enumClassType.remote
+  },
+  {
+    label: 'presencial',
+    value: enumClassType.inPerson
   },
   {
     label: 'presencial e remoto',
@@ -113,12 +116,18 @@ const emit = defineEmits(['submit']);
     padding-left: 0;
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
+    flex-direction: row;
 
-    .text-input {
+    .text-input,
+    .date-input {
       margin: 0 auto;
       margin-bottom: 1.5rem;
       max-width: 51.5rem;
+    }
+
+    .first-section,
+    .second-section {
+      width: 45%;
     }
   }
 }
