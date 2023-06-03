@@ -61,6 +61,11 @@ const completeData = ({ data, profileImage }) => {
 
     .complete-button {
       padding: unset;
+      margin-bottom: 2rem;
+
+      button{
+        width: 100%;
+      }
     }
   }
 }

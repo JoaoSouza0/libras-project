@@ -45,8 +45,8 @@ export default class LocationService extends BaseService {
   }
 
   async getPostalCodeLocation(cep) {
-    return this.httpRequestGet('https://api.openagedata.com/geocode/v1/json', {
-      q: cep,
+    return this.httpRequestGet('https://api.opencagedata.com/geocode/v1/json', {
+      q: String(cep),
       key: '2014bde651c8429fb7dcffbdd7cb662d',
       language: 'en',
       pretty: 1

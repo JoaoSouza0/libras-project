@@ -15,7 +15,7 @@
         class="search-input"
         id="search"
         required
-        placeholder="Encontrar professores próximos ao CEP"
+        placeholder="Professores próximos ao CEP"
         type="number"
         pattern="[0-9]"
       >
@@ -188,7 +188,8 @@ const handleSearch = async () => {
     margin-bottom: 3.2rem;
   }
 
-  p {
+  & > p,
+  div > p {
     max-width: 85.6rem;
     font-size: 2rem;
     margin-bottom: 4.7rem;

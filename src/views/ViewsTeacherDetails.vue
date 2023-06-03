@@ -99,6 +99,7 @@ onBeforeMount(async () => {
         outline: 0.4rem solid var(--text-primary);
         border-radius: 1.6rem;
         margin-right: 1.5rem;
+        object-fit: cover;
       }
 
       div {

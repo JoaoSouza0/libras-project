@@ -135,6 +135,13 @@ const emit = defineEmits(['submit']);
       padding-top: 2rem;
       flex-direction: column;
 
+      .head-content {
+        h1 {
+          padding-bottom: 0.8rem;
+          font-size: 3.1rem;
+        }
+      }
+
       & > .first-section,
       & > .second-section {
         width: unset;

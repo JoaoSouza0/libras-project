@@ -15,7 +15,7 @@
 
 <script setup>
 import { REGISTER } from '@/consts/publicRoutes.js';
-import { TEACHER_LIST, USER_COMPLEMENT_DATA } from '@/consts/privateRoutes.js';
+import { TEACHER_LIST, USER_COMPLEMENT_DATA, CREATE_CLASS } from '@/consts/privateRoutes.js';
 
 import userLoginForm from '@/layouts/Forms/userLogin.vue';
 import { useUserStore } from '@/stores/UserStore';
@@ -45,7 +45,7 @@ const handleSubmit = async (data) => {
     return router.push({ name: USER_COMPLEMENT_DATA.NAME, params: { id: body.id } });
 
   return body.type
-    ? router.push({ name: USER_COMPLEMENT_DATA.NAME, params: { id: body.id } })
+    ? router.push({ name: CREATE_CLASS.NAME, params: { id: body.id } })
     : router.push({ name: TEACHER_LIST.NAME });
 };
 
@@ -84,7 +84,6 @@ p {
 
   p {
     text-align: center;
-    /* padding: 28px; */
     width: 25rem;
     margin: 0 auto;
     margin-bottom: 2rem;

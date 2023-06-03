@@ -7,7 +7,7 @@
         </div>
       </RouterLink>
 
-      <div class="call-action" v-if="!route.meta.requireAuth">
+      <div class="call-action" v-if="route.name === HOME.NAME">
         <a @click.prevent="handleScroll">Sobre nós</a>
         <RouterLink :to="{ name: LOGIN.NAME }">Entrar</RouterLink>
         <base-button @click="pushRegister" class="nav-btn" :theme="false">Criar conta</base-button>
@@ -22,8 +22,8 @@
 
 <script setup>
 import { useUserStore } from '@/stores/UserStore.js';
-import { REGISTER, LOGIN } from '@/consts/publicRoutes.js';
-import { TEACHER_LIST, TEACHER_DETAILS } from '@/consts/privateRoutes.js';
+import { REGISTER, HOME, LOGIN } from '@/consts/publicRoutes.js';
+import { TEACHER_LIST } from '@/consts/privateRoutes.js';
 import { useRouter, useRoute } from 'vue-router';
 import { onMounted } from 'vue';
 
@@ -46,7 +46,7 @@ const signOut = async () => {
   //TODO: REMOVE SIGNOUT
   //await userStore.signOut();
 
-  console.log(route.name);
+  console.log(route.name, HOME.NAME);
 };
 </script>
 

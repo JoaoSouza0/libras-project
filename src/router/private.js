@@ -1,11 +1,13 @@
 import _ from '@/consts/privateRoutes.js';
 import { HOME } from '@/consts/publicRoutes.js';
+import teacherRoutes from './teacherRoutes';
 import ViewList from '@/views/ViewList.vue';
 import ViewComplementData from '@/views/ViewComplementData.vue';
 import ViewsTeacherDetails from '@/views/ViewsTeacherDetails.vue';
 import ViewScheduleClass from '@/views/ViewScheduleClass.vue';
 
 const privateRoutes = [
+  ...teacherRoutes,
   {
     path: _.TEACHER_LIST.PATH,
     name: _.TEACHER_LIST.NAME,
@@ -32,12 +34,17 @@ const privateRoutes = [
     path: _.SCHEDULE_CLASS.PATH,
     name: _.SCHEDULE_CLASS.NAME,
     component: ViewScheduleClass
-  },
+  }
 ];
 
 export default privateRoutes.map((route) => {
-  route.meta = {
-    requireAuth: true
-  };
+  if (route.meta) {
+    route.meta.requireAuth = true;
+  } else {
+    route.meta = {
+      requireAuth: true
+    };
+  }
+
   return route;
 });

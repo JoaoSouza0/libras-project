@@ -51,7 +51,8 @@ export default class UserService extends BaseService {
     return String(urlImg);
   }
 
-  #factoryDoc(id) {
+  #factoryDoc(id, type = 1) {
+    //checar se existe a possibilidade de criar o usuario já com as subcollections ou elas podem ser criadas ondemand
     return doc(db, this.collectionName, id);
   }
 }

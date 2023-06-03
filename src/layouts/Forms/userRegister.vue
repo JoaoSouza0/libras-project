@@ -134,6 +134,7 @@ const emit = defineEmits(['submit']);
   }
 
   @media @smartphone {
+    padding: 3rem 0.1rem;
     .img {
       display: none;
     }
@@ -142,7 +143,7 @@ const emit = defineEmits(['submit']);
       width: 100%;
       padding: unset;
 
-      .radio-input{
+      .radio-input {
         margin-bottom: 2.8rem;
       }
     }

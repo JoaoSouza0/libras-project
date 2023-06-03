@@ -16,7 +16,7 @@
         <slot name="icon" />
       </span>
     </div>
-    <div class="error">
+    <div id="error">
       <p>{{ message }}</p>
     </div>
   </div>
@@ -203,12 +203,13 @@ const emit = defineEmits(['update:modelValue', 'validation', 'onBlur', 'focus', 
       }
     }
   }
-  .error {
+  & > div#error {
     position: absolute;
     margin-top: 5px;
     padding-left: 2px;
 
-    p {
+    & > p {
+      font-size: 1rem;
       color: var(--red);
     }
   }

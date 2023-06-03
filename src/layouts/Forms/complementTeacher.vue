@@ -1,10 +1,5 @@
 <template>
-  <form
-    id="complement-teacher-form"
-    class="content"
-    ref="refForm"
-    @submit.prevent="handleSubmit"
-  >
+  <form id="complement-teacher-form" class="content" ref="refForm" @submit.prevent="handleSubmit">
     <div class="head-content">
       <h1>Concluir Cadastro</h1>
       <p>Precisamos de mais algumas informações para concluir o seu cadastro. É fácil e rápido!</p>
@@ -257,6 +252,9 @@ const emit = defineEmits(['submit']);
 
   @media @smartphone {
     .head-content {
+      & > h1 {
+        font-size: 3.1rem;
+      }
       & > p {
         text-align: center;
       }
