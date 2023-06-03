@@ -15,7 +15,9 @@
         class="search-input"
         id="search"
         required
-        placeholder="Encontrar professores próximos a..."
+        placeholder="Encontrar professores próximos ao CEP"
+        type="number"
+        pattern="[0-9]"
       >
         <template #icon>
           <div class="icon-wrapper" @click="handleSearch">

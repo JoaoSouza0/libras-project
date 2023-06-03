@@ -2,7 +2,6 @@
   <form
     id="complement-teacher-form"
     class="content"
-    novalidate
     ref="refForm"
     @submit.prevent="handleSubmit"
   >
@@ -83,14 +82,25 @@
 
         <base-input
           v-if="userData.classType != enumClassType.remote"
-          ref="refNeighborhood"
+          ref="refPostalCode"
           class="text-input"
           v-model="userData.street"
-          id="neighborhood"
+          id="postalcode"
           type="number"
           label="CEP:"
           pattern="[0-9]"
+          @onBlur="handlePostalCode"
           required
+        />
+
+        <base-input
+          v-if="userData.classType != enumClassType.remote"
+          class="text-input"
+          v-model="userData.neighborhood"
+          id="neighborhood"
+          type="text"
+          label="Localidade:"
+          disabled
         />
 
         <base-input
@@ -113,10 +123,10 @@
 import { reactive, ref, toRaw } from 'vue';
 import { enumClassType } from '@/consts/enums';
 import LocationService from '@/service/LocationService.js';
-
+const locationService = new LocationService();
 const refForm = ref(null);
 const filePhoto = ref(null);
-const refNeighborhood = ref(null);
+const refPostalCode = ref(null);
 
 const options = [
   {
@@ -148,18 +158,30 @@ const userData = reactive({
   birthDay: null // date
 });
 
-const handleLocation = async (input) => {
-  if (!input) return;
+const handlePostalCode = async (input) => {
   try {
-    const locationService = new LocationService();
-    const response = await locationService.getStreetLocationData(userData.street);
+    const {
+      body: { bairro, localidade, uf }
+    } = await locationService.getPostalCodeData(input);
 
-    const { body } = response;
-    userData.lat = Number(body?.geometry.lat);
-    userData.lng = Number(body?.geometry.lng);
+    userData.neighborhood = `${bairro}- ${localidade} ${uf}`;
+  } catch (e) {
+    userData.neighborhood = null;
+    return refPostalCode.value.setCustomValidity(e.message);
+  }
+};
+
+const handleLocation = async (input) => {
+  try {
+    if (!input) throw 'Preencha o campo';
+
+    const { body: location } = await locationService.getPostalCodeLocation(input);
+    userData.lat = Number(location?.geometry.lat);
+    userData.lng = Number(location?.geometry.lng);
+
     return userData;
   } catch (e) {
-    return refNeighborhood.value.setCustomValidity(e.message);
+    return refPostalCode.value.setCustomValidity(e.message);
   }
 };
 
@@ -170,16 +192,18 @@ const handlePhotoUpload = (e) => {
 };
 
 const handleSubmit = async () => {
-  const data = await handleLocation(userData.street);
+  const data = await handleLocation(userData.neighborhood);
   const rawUserData = toRaw(data);
-  emit('submit', {
-    valid: refForm.value.reportValidity(),
-    data: {
-      ...rawUserData,
-      complemented_data: true
-    },
-    profileImage: filePhoto.value
-  });
+
+  if (refForm.value.reportValidity()) {
+    emit('submit', {
+      data: {
+        ...rawUserData,
+        complemented_data: true
+      },
+      profileImage: filePhoto.value
+    });
+  }
 };
 
 const emit = defineEmits(['submit']);

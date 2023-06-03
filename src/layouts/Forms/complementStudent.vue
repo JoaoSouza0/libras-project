@@ -85,13 +85,13 @@ const userData = reactive({
 
 const handleSubmit = async () => {
   const rawUserData = toRaw(userData);
-  emit('submit', {
-    valid: refForm.value.reportValidity(),
-    data: {
-      ...rawUserData,
-      complemented_data: true
-    }
-  });
+  if (refForm.value.reportValidity())
+    emit('submit', {
+      data: {
+        ...rawUserData,
+        complemented_data: true
+      }
+    });
 };
 
 const emit = defineEmits(['submit']);
@@ -134,7 +134,7 @@ const emit = defineEmits(['submit']);
       padding: unset;
       padding-top: 2rem;
       flex-direction: column;
-      
+
       & > .first-section,
       & > .second-section {
         width: unset;

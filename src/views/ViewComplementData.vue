@@ -34,10 +34,13 @@ const renderForm = () => {
 };
 
 const completeData = ({ data, profileImage }) => {
-  const userId = route.params.id;
-  userStore.update({ ...data, type: userStore.user.type }, profileImage, userId);
-
-  return router.push({ name: HOME.NAME });
+  try {
+    const userId = route.params.id;
+    userStore.update({ ...data, type: userStore.user.type }, profileImage, userId);
+    return router.push({ name: HOME.NAME });
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 

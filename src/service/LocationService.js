@@ -44,17 +44,30 @@ export default class LocationService extends BaseService {
     });
   }
 
-  async getStreetLocationData(cep) {
-    return this.httpRequestGet('https://api.opencagedata.com/geocode/v1/json', {
+  async getPostalCodeLocation(cep) {
+    return this.httpRequestGet('https://api.openagedata.com/geocode/v1/json', {
       q: cep,
       key: '2014bde651c8429fb7dcffbdd7cb662d',
       language: 'en',
       pretty: 1
-    })
-      .then((data) =>
-        !data ? this.failure({ code: 404, message: 'Street not found' }) : this.success(data.results[0])
-      )
-      .catch((e) => e);
+    }).then((data) =>
+      data.results.length
+        ? this.success(data.results[0])
+        : this.failure({ code: 404, message: 'Localização indefinida' })
+    );
+  }
+
+  async getPostalCodeData(cep) {
+    const headers = {
+      'Access-Control-Allow-Origin': 'Access-Control-Allow-Origin'
+    };
+
+    return this.httpRequestGet(`https://viacep.com.br/ws/${cep}/json/`, {}, headers).then(
+      (response) =>
+        response.erro
+          ? this.failure({ code: 404, message: 'CEP não encontrado' })
+          : this.success(response)
+    );
   }
 
   #factoryCollection(name) {

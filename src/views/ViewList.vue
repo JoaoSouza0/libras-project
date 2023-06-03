@@ -62,7 +62,7 @@ const formattedLabel = computed(() => {
 });
 
 const handleAddress = async (address) => {
-  const response = await locationService.getStreetLocationData(address);
+  const response = await locationService.getPostalCodeLocation(address);
   console.log(response);
   const { body } = response;
   return { lat: Number(body.geometry.lat), lng: Number(body.geometry.lng) };

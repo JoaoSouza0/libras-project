@@ -11,11 +11,13 @@ export default class BaseService {
     };
   }
 
-  async httpRequestGet(URL, params) {
+  async httpRequestGet(URL, params, headers) {
     const fetchURL = `${URL}?${new URLSearchParams(params).toString()} `;
-    const request = fetch(fetchURL, {
-      method: 'GET'
-    });
-    return (await request).json();
+    return fetch(fetchURL, {
+      method: 'GET',
+      ...headers
+    })
+      .then(async (response) => await response.json())
+      .catch(this.failure);
   }
 }
