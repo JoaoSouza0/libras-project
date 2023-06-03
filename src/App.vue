@@ -17,7 +17,7 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 
 const width = computed(() => {
-  return route.name === HOME.NAME ? '100%' : '80%';
+  return route.name === HOME.NAME ? '100%' : '85%';
 });
 </script>
 

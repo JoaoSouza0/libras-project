@@ -336,7 +336,6 @@ const handleSearch = async () => {
   }
 
   @media @smartphone {
-
     margin-top: 5rem;
     & > h1 {
       text-align: center;
@@ -383,6 +382,10 @@ const handleSearch = async () => {
           margin: 0 auto !important;
         }
       }
+    }
+
+    input::placeholder {
+      font-size: 1.4rem;
     }
   }
 }

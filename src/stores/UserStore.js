@@ -10,7 +10,8 @@ export const useUserStore = defineStore('storeUser', {
     async create({ email, password, type }) {
       const payload = {
         email,
-        type
+        type,
+        complemented_data: false
       };
       const authService = new AuthService(email, password);
       const userService = new UserService();

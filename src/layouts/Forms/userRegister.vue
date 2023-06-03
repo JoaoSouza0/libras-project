@@ -140,7 +140,11 @@ const emit = defineEmits(['submit']);
 
     .content {
       width: 100%;
-      padding: 3rem;
+      padding: unset;
+
+      .radio-input{
+        margin-bottom: 2.8rem;
+      }
     }
   }
 }

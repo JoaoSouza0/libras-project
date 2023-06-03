@@ -79,6 +79,10 @@ const register = async (form) => {
     p {
       margin-bottom: 2rem;
     }
+
+    button{
+      width: 100%;
+    }
   }
 }
 </style>

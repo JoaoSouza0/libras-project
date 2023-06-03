@@ -76,4 +76,24 @@ p {
   font-size: 2rem;
   margin-bottom: 5rem;
 }
+
+@media @smartphone {
+  h1 {
+    text-align: center;
+  }
+
+  p {
+    text-align: center;
+    /* padding: 28px; */
+    width: 25rem;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+  }
+
+  .user-term {
+    button {
+      width: 100%;
+    }
+  }
+}
 </style>

@@ -9,7 +9,7 @@
 
       <div class="call-action" v-if="!route.meta.requireAuth">
         <a @click.prevent="handleScroll">Sobre nós</a>
-        <a href="">Entrar</a>
+        <RouterLink :to="{ name: LOGIN.NAME }">Entrar</RouterLink>
         <base-button @click="pushRegister" class="nav-btn" :theme="false">Criar conta</base-button>
       </div>
 
@@ -22,7 +22,7 @@
 
 <script setup>
 import { useUserStore } from '@/stores/UserStore.js';
-import { REGISTER } from '@/consts/publicRoutes.js';
+import { REGISTER, LOGIN } from '@/consts/publicRoutes.js';
 import { TEACHER_LIST, TEACHER_DETAILS } from '@/consts/privateRoutes.js';
 import { useRouter, useRoute } from 'vue-router';
 import { onMounted } from 'vue';

@@ -135,7 +135,7 @@ const emit = defineEmits(['update:modelValue', 'validation', 'onBlur', 'focus', 
       width: 100%;
       padding: 2.2rem;
       border-radius: 0.8rem;
-      padding-right: 5rem;
+      padding-right: 6.4rem;
       background: transparent;
       border: none;
     }
@@ -207,7 +207,10 @@ const emit = defineEmits(['update:modelValue', 'validation', 'onBlur', 'focus', 
     position: absolute;
     margin-top: 5px;
     padding-left: 2px;
-    color: var(--red);
+
+    p {
+      color: var(--red);
+    }
   }
 }
 </style>

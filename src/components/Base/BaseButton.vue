@@ -1,5 +1,5 @@
 <template>
-  <button type="submit" id="button">
+  <button type="submit" class="base-button">
     <slot />
   </button>
 </template>
@@ -31,8 +31,8 @@ const themeStyle = computed(() => {
 });
 </script>
 
-<style>
-#button {
+<style lang="less" scoped>
+.base-button {
   width: 24rem;
   font-size: 2rem;
   padding: 2.5rem;
