@@ -16,7 +16,12 @@
           required
         />
 
-        <VDatePicker v-model="userData.birthDay" :masks="{ L: 'DD/MM/YYYY' }" mode="date">
+        <VDatePicker
+          v-model="userData.birthDay"
+          :max-date="new Date()"
+          :masks="{ L: 'DD/MM/YYYY' }"
+          mode="date"
+        >
           <template #default="{ inputValue, inputEvents }">
             <base-input
               ref="startRef"

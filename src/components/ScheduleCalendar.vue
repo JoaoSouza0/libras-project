@@ -16,13 +16,6 @@
         </template>
       </v-calendar>
     </div>
-
-    <div class="side-bar">
-      <p>Horários disponiveis nesse dia.</p>
-      <div v-for="(item, index) in classes" v-bind:key="index">
-        <a @click.prevent>{{ item.date }}</a>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -30,7 +23,7 @@
 import { ref } from 'vue';
 import { useScheduleStore } from '@/stores/ScheduleStore';
 const scheduleStore = useScheduleStore();
-
+const dayOpened = ref(false);
 const props = defineProps({
   attributesProp: Array,
   idUser: String
@@ -39,7 +32,7 @@ const props = defineProps({
 const classes = ref([]);
 
 const getClasses = async (day) => {
-  classes.value = await scheduleStore.getHourClasses(props.idUser, day);
+  //classes.value = await scheduleStore.getHourClasses(props.idUser, day);
 };
 </script>
 
@@ -65,5 +58,89 @@ const getClasses = async (day) => {
       font-size: 2rem;
     }
   }
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+::-webkit-scrollbar-track {
+  display: none;
+}
+/deep/ & .custom-calendar.vc-container {
+  --day-border: 1px solid black;
+  --day-border-highlight: 1px solid black;
+  --day-width: 90px;
+  --day-height: 90px;
+  --weekday-bg: #f8fafc;
+  --weekday-border: 1px solid #eaeaea;
+  border-radius: 0;
+  width: 100%;
+
+  & .vc-header {
+    margin: 20px 0;
+  }
+  & .vc-weeks {
+    z-index: 0;
+    padding: 0;
+  }
+  & .vc-weekday {
+    background-color: var(--weekday-bg);
+    border-bottom: var(--weekday-border);
+    border-top: var(--weekday-border);
+    padding: 5px 0;
+  }
+  & .vc-day {
+    text-align: left;
+    height: var(--day-height);
+    min-width: var(--day-width);
+    .is-not-in-month {
+      display: none !important;
+    }
+    &.is-not-in-month.in-next-month {
+      display: none;
+    }
+    &:not(.on-bottom) {
+      border-bottom: var(--day-border);
+      &.weekday-1 {
+        border-bottom: var(--day-border-highlight);
+      }
+    }
+    &:not(.on-right) {
+      border-right: var(--day-border);
+    }
+  }
+  .highlight {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    background-color: var(--link-primary);
+  }
+
+  .vc-day.in-month {
+    background-color: #eaeaea;
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+  }
+
+  .zoomed {
+    transform: scale(3);
+    z-index: 1000000000;
+  }
+
+  .vc-arrow,
+  .vc-title {
+    background: none;
+  }
+
+  .calendar-day {
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .close-day {
+    display: none;
+  }
+
+ 
 }
 </style>

@@ -24,6 +24,7 @@ export const useUserStore = defineStore('storeUser', {
           return userService.failure(e);
         });
 
+        this.user = payload;
         return { userId: body.user.uid, success };
       } catch (error) {
         return error;
@@ -78,7 +79,9 @@ export const useUserStore = defineStore('storeUser', {
     async signOut() {
       const authService = new AuthService();
       try {
-        return await authService.signOut();
+        await authService.signOut();
+        this.user = {};
+        return;
       } catch (e) {
         console.log(e);
         return e;
