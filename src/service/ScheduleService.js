@@ -13,14 +13,16 @@ import {
 } from 'firebase/firestore';
 
 export default class ScheduleService extends BaseService {
-  constructor() {
+  constructor(subCollection, teacherId) {
     super();
+    this.collection = subCollection;
+    this.teacherId = teacherId;
   }
 
-  async getClasses(collectionSub, id, day) {
+  async getClasses(day) {
     return await getDocs(
       query(
-        collection(db, 'users', id, collectionSub),
+        collection(...this.#factoryCollection()),
         where('date', '<=', new Date(moment(day).endOf('day'))),
         where('date', '>=', new Date(moment(day).startOf('day')), orderBy('date', 'desc'))
       )
@@ -29,45 +31,36 @@ export default class ScheduleService extends BaseService {
       .catch(this.failure);
   }
 
-  async postOpenAppointments(id, payload) {
-    console.log(id,payload)
-    const ref = collection(db, 'users', id, 'openAppointments');
+  async postAppointments(payload) {
+    const ref = collection(...this.#factoryCollection());
     try {
       return payload.forEach(async (document) => {
-        await setDoc(doc(ref), { date: document })
-          .then((docRef) => {
-            console.log('Document saved with ID:', docRef.id);
-          })
-          .catch((error) => {
-            console.error('Error saving document:', error);
-          });
+        await setDoc(doc(ref), { date: document }).then(this.success).catch(this.failure);
       });
     } catch (error) {
       console.log(error);
     }
   }
 
-  async deleteAppointments(id, item) {
+  async deleteAppointments(item) {
     try {
-      return await deleteDoc( doc(db, 'users', id, 'openAppointments', item))
-        .then((docRef) => {
-          console.log('Document deleted with ID:');
-        })
-        .catch((error) => {
-          console.error('Error deleting  document:', error);
-        });
+      return await deleteDoc(doc(...this.#factoryCollection(item)))
+        .then(this.success)
+        .catch(this.failure);
     } catch (error) {
       console.log(error);
     }
   }
 
-  async getAppointments(collection, id, ...args) {
-    return await getDocs(this.#factoryCollection(collection, id, ...args))
+  async getAppointments() {
+    return await getDocs(collection(...this.#factoryCollection()))
       .then(({ docs }) => this.success(docs.map((doc) => doc.data())))
       .catch(this.failure);
   }
 
-  #factoryCollection(subCollection, id, ...args) {
-    return collection(db, 'users', id, subCollection, ...args);
+  #factoryCollection(item) {
+    const parameters = [db, 'users', this.teacherId, this.collection];
+    if (item) parameters.push(item);
+    return parameters;
   }
 }

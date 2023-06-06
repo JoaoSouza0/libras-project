@@ -34,10 +34,6 @@ defineEmits(['open']);
   flex-direction: row;
   justify-content: space-between;
 
-  .calendar {
-    width: 65%;
-  }
-
   .side-bar {
     background-color: white;
     border: 1px solid #cbd5e1;
