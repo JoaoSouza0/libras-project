@@ -43,7 +43,7 @@ const themeStyle = computed(() => {
   background: v-bind('themeStyle.bgColor');
 }
 
-#button:hover {
+.base-button:hover {
   transition: 0.5s;
   color: v-bind('themeStyle.hoverColor');
   background: v-bind('themeStyle.hoverBgColor');

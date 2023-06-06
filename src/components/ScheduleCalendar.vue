@@ -9,7 +9,7 @@
         expanded
       >
         <template v-slot:day-content="{ day }">
-          <div class="calendar-day" @click="getClasses(day.date)">
+          <div class="calendar-day" @click="$emit('open', day.date)">
             <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
             <div class="flex-grow overflow-y-auto overflow-x-auto"></div>
           </div>
@@ -20,20 +20,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useScheduleStore } from '@/stores/ScheduleStore';
-const scheduleStore = useScheduleStore();
-const dayOpened = ref(false);
 const props = defineProps({
   attributesProp: Array,
   idUser: String
 });
 
-const classes = ref([]);
-
-const getClasses = async (day) => {
-  //classes.value = await scheduleStore.getHourClasses(props.idUser, day);
-};
+defineEmits(['open']);
 </script>
 
 <style lang="less">
@@ -60,9 +52,6 @@ const getClasses = async (day) => {
   }
 }
 
-::-webkit-scrollbar {
-  width: 0px;
-}
 ::-webkit-scrollbar-track {
   display: none;
 }
@@ -109,11 +98,19 @@ const getClasses = async (day) => {
       border-right: var(--day-border);
     }
   }
+
   .highlight {
     width: 100%;
     height: 100%;
     border-radius: 0;
     background-color: var(--link-primary);
+  }
+
+  .closed-day {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    background-color: red;
   }
 
   .vc-day.in-month {
@@ -140,7 +137,5 @@ const getClasses = async (day) => {
   .close-day {
     display: none;
   }
-
- 
 }
 </style>

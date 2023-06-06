@@ -2,29 +2,71 @@
   <section id="view-create-class">
     <div class="next-classes"></div>
     <div class="calendar">
-      <ScheduleCalendar>
-        <template #day-content>
-          <div class="date-container">
-            <VDatePicker id="online" v-model="range" mode="time" :rules="rules" />
-            <base-button @click="teste" class="button">adicionar</base-button>
-          </div>
-        </template>
-      </ScheduleCalendar>
+      <ScheduleCalendar :attributesProp="attributesProp" @open="handleModal" />
     </div>
-
-    <edit-modal></edit-modal>
-    
+    <edit-modal
+      v-if="open"
+      :time-list="formattedClasses"
+      :selected-day="selectedDay"
+      @close="open = false"
+      @save="handleSaveHours"
+      @remove="handleRemove"
+    />
   </section>
 </template>
 
 <script setup>
 import ScheduleCalendar from '@/components/ScheduleCalendar.vue';
 import EditModal from '@/layouts/Modais/EditModal.vue';
-import { ref } from 'vue';
+import { ref, reactive, onBeforeMount, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { useScheduleStore } from '@/stores/ScheduleStore';
 
-const range = ref(new Date(2020, 0, 6));
-const rules = ref({
-  minutes: { interval: 5 }
+const route = useRoute();
+const scheduleStore = useScheduleStore();
+
+const open = ref(false);
+const selectedDay = ref(null);
+
+const attributesProp = reactive([
+  {
+    dates: [],
+    content: '',
+    highlight: {
+      class: 'highlight' // Circle class
+    }
+  }
+]);
+
+const classes = ref([]);
+const formattedClasses = computed(() => {
+  return classes.value.map((item) => item.date).sort((a, b) => a - b);
+});
+
+const handleModal = async (date) => {
+  const data = await scheduleStore.getHourClasses(route.params.id, date);
+  classes.value = data;
+  open.value = true;
+  console.log(classes.value.length);
+
+  return (selectedDay.value = date);
+};
+
+const handleSaveHours = (date) => {
+  scheduleStore.saveOpenAppointments(route.params.id, date);
+  attributesProp[0].dates.push(selectedDay.value);
+  return (open.value = false);
+};
+
+const handleRemove = (key) => {
+  scheduleStore.deleteOpenAppointments(route.params.id, classes.value[key].id);
+  console.log(classes.value.length);
+  return;
+};
+
+onBeforeMount(async () => {
+  await scheduleStore.getOpenAppointments(route.params.id);
+  attributesProp[0].dates = scheduleStore.openAppointmentsDay;
 });
 </script>
 
