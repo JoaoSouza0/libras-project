@@ -1,7 +1,9 @@
 <template>
-  <div class="modal-backdrop">
-    <slot />
-  </div>
+  <Teleport to="#modal">
+    <div class="modal-backdrop">
+      <slot />
+    </div>
+  </Teleport>
 </template>
 
 <style lang="less" scoped>
@@ -13,7 +15,5 @@
   right: 0;
   background-color: rgba(0, 0, 0, 0.3);
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>

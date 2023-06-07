@@ -9,7 +9,8 @@ import {
   getDocs,
   where,
   setDoc,
-  deleteDoc
+  deleteDoc,
+  limit
 } from 'firebase/firestore';
 
 export default class ScheduleService extends BaseService {
@@ -31,11 +32,22 @@ export default class ScheduleService extends BaseService {
       .catch(this.failure);
   }
 
+  async getNextClasses(day) {
+    return await getDocs(
+      query(
+        collection(...this.#factoryCollection()),
+        where('date', '>=', new Date(), orderBy('date', 'desc'), limit(10))
+      )
+    )
+      .then(({ docs }) => this.success(docs.map((doc) => ({ id: doc.id, ...doc.data() }))))
+      .catch(this.failure);
+  }
+
   async postAppointments(payload) {
     const ref = collection(...this.#factoryCollection());
     try {
       return payload.forEach(async (document) => {
-        await setDoc(doc(ref), { date: document }).then(this.success).catch(this.failure);
+        await setDoc(doc(ref), document).then(this.success).catch(this.failure);
       });
     } catch (error) {
       console.log(error);

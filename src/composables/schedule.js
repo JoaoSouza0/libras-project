@@ -41,6 +41,7 @@ export function useSchedule(schedule, id) {
   });
 
   return {
+    appointments: appointments,
     appointmentsDay: appointmentsDay,
     saveAppointments,
     deleteAppointments,

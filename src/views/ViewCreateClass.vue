@@ -2,11 +2,15 @@
   <section id="view-create-class">
     <div class="next-classes">
       <h2>Próximas aulas</h2>
-      <div class="content">
-        <i class="date">16 de julho, 13h30m </i>
-        <p class="student-name">Joaquim da Silva Pereira</p>
-        <a class="place">Presencial - Liberdade</a>
-      </div>
+      <base-slide-swiper :list="nextClasses">
+        <template #list-item="{ item }">
+          <div class="content">
+            <i class="date">{{ formattedDate(item.date) }} </i>
+            <p class="student-name">{{ item.name }}</p>
+            <a class="place">Presencial - Liberdade</a>
+          </div>
+        </template>
+      </base-slide-swiper>
     </div>
     <div class="calendar">
       <h2>Agenda</h2>
@@ -26,50 +30,64 @@
 <script setup>
 import ScheduleCalendar from '@/components/ScheduleCalendar.vue';
 import EditModal from '@/layouts/Modais/EditModal.vue';
-import { ref, reactive, onBeforeMount, computed, onMounted } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useSchedule } from '../composables/schedule.js';
+import moment from 'moment/min/moment-with-locales';
+moment.locale('pt');
 
 const route = useRoute();
-const schedule = useSchedule('openAppointments', route.params.id);
+const openSchedule = useSchedule('openAppointments', route.params.id);
+const closeSchedule = useSchedule('closeAppointments', route.params.id);
 
 const open = ref(false);
 const selectedDay = ref(null);
+const nextClasses = ref(closeSchedule.appointments);
+const classes = ref([]);
 
 const attributesProp = reactive([
   {
-    dates: schedule.appointmentsDay,
+    dates: openSchedule.appointmentsDay,
     content: '',
     highlight: {
       class: 'highlight'
     }
+  },
+  {
+    dates: closeSchedule.appointmentsDay,
+    content: '',
+    highlight: {
+      class: 'closed-day'
+    }
   }
 ]);
 
-const classes = ref([]);
 const formattedClasses = computed(() => {
   return classes.value.map((item) => item.date).sort((a, b) => a - b);
 });
 
+const formattedDate = (date) => {
+  return moment(date).format('DD [de] MMMM, h[h]mm[m]');
+};
+
 const handleModal = async (date) => {
-  const data = await schedule.getHourClasses(date);
+  const data = await openSchedule.getHourClasses(date);
   classes.value = data;
   open.value = true;
   return (selectedDay.value = date);
 };
 
 const handleSaveHours = (date) => {
-  schedule.saveAppointments(date);
+  openSchedule.saveAppointments(date);
   attributesProp[0].dates.push(selectedDay.value);
   return (open.value = false);
 };
 
 const handleRemove = (key) => {
-  schedule.deleteAppointments(classes.value[key].id);
+  openSchedule.deleteAppointments(classes.value[key].id);
   console.log(classes.value.length);
   return;
 };
-
 </script>
 
 <style lang="less" scoped>
@@ -102,7 +120,7 @@ const handleRemove = (key) => {
   .next-classes {
     margin-bottom: 5rem;
     .content {
-      padding-left: 1rem;
+      padding: 0 1rem;
       border-left: 0.5rem solid var(--text-primary);
       min-height: 6.5rem;
       display: inline-flex;

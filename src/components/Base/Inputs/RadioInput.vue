@@ -1,6 +1,6 @@
 <template>
   <div id="select-input">
-    <fieldset>
+    <fieldset :class="[direction]">
       <div v-for="(option, index) in optionsFormatted" :key="index">
         <input
           type="radio"
@@ -8,7 +8,7 @@
           :id="option.label"
           :name="option.label"
           :value="option.value"
-          @change="$emit('update:modelValue', value)"
+          @change="$emit('update:modelValue', value), $emit('onChange', value)"
         />
         <label :for="option.label">{{ option.label }}</label>
       </div>
@@ -21,9 +21,17 @@ import { computed, ref } from 'vue';
 
 const value = ref(props.modelValue);
 
+const emit = defineEmits(['onChange', 'update:modelValue']);
 const props = defineProps({
   options: {
     type: Array
+  },
+  direction: {
+    type: String,
+    default: 'row',
+    validator(value) {
+      return ['row', 'column'].includes(value);
+    }
   },
   modelValue: {
     type: [String, Number, Boolean],
@@ -41,14 +49,21 @@ const optionsFormatted = computed(() => {
 
 <style lang="less" scoped>
 #select-input {
+  .row {
+    align-items: center;
+  }
+  .column {
+    flex-direction: column;
+  }
+
   fieldset {
     display: flex;
-    align-items: center;
 
     div {
       display: flex;
       align-items: center;
       margin-right: 3.3rem;
+      margin-bottom: 1.3rem;
 
       @media @smartphone {
         margin-right: 0;

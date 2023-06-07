@@ -1,35 +1,33 @@
 <template>
-  <Teleport to="body">
-    <base-modal>
-      <div id="modal-container" class="container">
-        <nav>
-          <a @click="$emit('close')">
-            <img src="@/assets/close-icon.svg" alt="close icon" srcset="" />
-          </a>
-        </nav>
-        <div class="content">
-          <h2>Editar horários disponíveis</h2>
+  <base-modal>
+    <div id="modal-container" class="container">
+      <nav>
+        <a @click="$emit('close')">
+          <img src="@/assets/close-icon.svg" alt="close icon" srcset="" />
+        </a>
+      </nav>
+      <div class="content">
+        <h2>Editar horários disponíveis</h2>
 
-          <label>Adicionar horários</label>
-          <div class="actions">
-            <base-button @click="addDay" class="button" :theme="false">+</base-button>
-            <VDatePicker v-model="date" mode="time" locale="pt" :rules="rules" is24hr />
+        <label>Adicionar horários</label>
+        <div class="actions">
+          <base-button @click="addDay" class="button" :theme="false">+</base-button>
+          <VDatePicker v-model="date" mode="time" locale="pt" :rules="rules" is24hr />
+        </div>
+        <div class="available-time">
+          <label>Horários disponíveis</label>
+          <div>
+            <span v-for="(day, key) in formattedAvailableDays" :key="key">
+              <base-button @click="removeDay(key)" class="button" :theme="false">-</base-button>
+              {{ day }}</span
+            >
           </div>
-          <div class="available-time">
-            <label>Horários disponíveis</label>
-            <div>
-              <span v-for="(day, key) in formattedAvailableDays" :key="key">
-                <base-button @click="removeDay(key)" class="button" :theme="false">-</base-button>
-                {{ day }}</span
-              >
-            </div>
 
-            <base-button @click="save" class="save-button">salvar</base-button>
-          </div>
+          <base-button @click="save" class="save-button">salvar</base-button>
         </div>
       </div>
-    </base-modal>
-  </Teleport>
+    </div>
+  </base-modal>
 </template>
 
 <script setup>
@@ -73,7 +71,11 @@ const removeDay = (key) => {
 const save = () => {
   const availableDaysRaw = toRaw(availableDays)._rawValue;
   const onlyNewData = availableDaysRaw.filter((item) => !props.timeList.includes(item));
-  emit('save', onlyNewData);
+
+  emit(
+    'save',
+    onlyNewData.map((item) => ({ date: item }))
+  );
 };
 
 const emit = defineEmits(['close', 'save', 'remove']);
@@ -86,6 +88,8 @@ const emit = defineEmits(['close', 'save', 'remove']);
   min-width: 45rem;
   min-height: 60rem;
   background: white;
+  margin: auto;
+  align-self: center;
 
   nav {
     background-color: var(--text-primary);
