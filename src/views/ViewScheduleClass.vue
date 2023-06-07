@@ -1,13 +1,15 @@
 <template>
-  <div id="view-schedule-class">
-    <div class="head">
-      <h2>Agenda do Professor</h2>
-      <p>Clique em um dos dias disponíveis para escolher um horário</p>
+  <section>
+    <div id="view-schedule-class">
+      <div class="head">
+        <h2>Agenda do Professor</h2>
+        <p>Clique em um dos dias disponíveis para escolher um horário</p>
+      </div>
+      <ScheduleCalendar :attributesProp="attributesProp" @open="handleModal" />
     </div>
-    <ScheduleCalendar :attributesProp="attributesProp" @open="handleModal" />
-  </div>
-  <side-modal v-if="open" :options="formattedClasses" @close="open = false" @save="handleSave">
-  </side-modal>
+    <side-modal v-if="open" :options="formattedClasses" @close="open = false" @save="handleSave">
+    </side-modal>
+  </section>
 </template>
 
 <script setup>
