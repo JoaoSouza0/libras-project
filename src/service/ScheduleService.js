@@ -36,7 +36,7 @@ export default class ScheduleService extends BaseService {
     return await getDocs(
       query(
         collection(...this.#factoryCollection()),
-        where('date', '>=', new Date(), orderBy('date', 'desc'), limit(10))
+        where('date', '>=', new Date(), orderBy('date', 'desc'), limit(20))
       )
     )
       .then(({ docs }) => this.success(docs.map((doc) => ({ id: doc.id, ...doc.data() }))))

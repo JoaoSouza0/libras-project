@@ -107,7 +107,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .hub-swiper {
   position: relative;
   display: flex;
@@ -142,30 +142,23 @@ onMounted(() => {
     button {
       background: transparent;
       border: none;
-
-      svg {
-        path {
-          fill: #ebebeb;
-          stroke: var(--default-brand-btn-secondary-color);
-        }
-      }
     }
 
     .bullets {
       span {
-        width: 13px;
-        height: 13px;
+        width: 9px;
+        height: 9px;
         display: inline-block;
         border-radius: 100%;
-        border: 2px solid var(--brand-primary-color);
+        border: 2px solid var(--text-primary);
         margin: 0 4px;
-        background: var(--second-color);
+        background: var(--link-primary);
         opacity: 1;
         cursor: pointer;
       }
 
       span.active {
-        background: var(--brand-primary-color);
+        background: var(--text-primary);
       }
     }
   }

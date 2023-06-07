@@ -99,18 +99,18 @@ defineEmits(['open']);
     width: 100%;
     height: 100%;
     border-radius: 0;
-    background-color: var(--link-primary);
+    background-color: var(--input-primary);
   }
 
   .closed-day {
     width: 100%;
     height: 100%;
     border-radius: 0;
-    background-color: red;
+    background-color: var(--error-background) ;
   }
 
   .vc-day.in-month {
-    background-color: #eaeaea;
+    background-color: white;
     transition: transform 0.3s ease;
     transform-origin: center center;
   }

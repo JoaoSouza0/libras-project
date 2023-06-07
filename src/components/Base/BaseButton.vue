@@ -11,10 +11,20 @@ const props = defineProps({
   theme: {
     type: Boolean,
     default: true
-  }
+  },
+  error: Boolean
 });
 
 const themeStyle = computed(() => {
+  if (props.error) {
+    return {
+      color: 'var(--error-background)',
+      bgColor: 'var(--error-background)',
+      hoverColor: 'var(--error-background)',
+      hoverBgColor: 'var(--error-background))'
+    };
+  }
+
   return props.theme
     ? {
         color: 'var(--white)',

@@ -1,7 +1,7 @@
 <template>
   <div id="card">
     <div class="teacher-image">
-      <img :src="profileSrc" alt="" :on-error="fallbackDog" />
+      <img :src="profileSrc" alt="" />
     </div>
 
     <div class="content">
@@ -14,7 +14,7 @@
         <a class="image-container" :href="whatsappLink" target="_blank" rel="noopener noreferrer">
           <img src="@/assets/icon-messages.svg" />
         </a>
-        <a class="image-container">
+        <a class="image-container" @click="scheduleClass">
           <img src="@/assets/icon-teacher.svg" />
         </a>
         <a @click.prevent="openDetails" class="image-container">
@@ -30,7 +30,7 @@ import { computed, onBeforeMount, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/UserStore';
 import UserService from '@/service/UserService';
-import { TEACHER_DETAILS } from '@/consts/privateRoutes.js';
+import { TEACHER_DETAILS, SCHEDULE_CLASS } from '@/consts/privateRoutes.js';
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -59,9 +59,8 @@ const whatsappLink = computed(() => {
   return `https://api.whatsapp.com/send?phone=${props.contact}&text=${wppText}`;
 });
 
-const fallbackDog = (e) => {
-  console.log(e);
-  //
+const scheduleClass = () => {
+  return router.push({ name: SCHEDULE_CLASS.NAME, params: { id: props.id } });
 };
 
 const openDetails = () => {

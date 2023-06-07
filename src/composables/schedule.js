@@ -24,8 +24,14 @@ export function useSchedule(schedule, id) {
     const { body } = await scheduleService.getAppointments();
     return parseDates(body);
   };
+
   const getHourClasses = async (day) => {
     const { body } = await scheduleService.getClasses(day);
+    return parseDates(body);
+  };
+
+  const getNextClasses = async (day) => {
+    const { body } = await scheduleService.getNextClasses(day);
     return parseDates(body);
   };
 
@@ -46,6 +52,7 @@ export function useSchedule(schedule, id) {
     saveAppointments,
     deleteAppointments,
     getAppointments,
-    getHourClasses
+    getHourClasses,
+    getNextClasses
   };
 }
