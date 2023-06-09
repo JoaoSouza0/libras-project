@@ -164,7 +164,7 @@ const handlePostalCode = async (input) => {
       body: { bairro, localidade, uf }
     } = await locationService.getPostalCodeData(input);
 
-    userData.neighborhood = `${bairro}- ${localidade} ${uf}`;
+    userData.neighborhood = `${bairro} - ${localidade} ${uf}`;
   } catch (e) {
     userData.neighborhood = null;
     return refPostalCode.value.setCustomValidity(e.message);
@@ -172,6 +172,8 @@ const handlePostalCode = async (input) => {
 };
 
 const handleLocation = async (input) => {
+  if (userData.classType === enumClassType.remote) return;
+
   try {
     if (!input) throw 'Preencha o campo';
 
@@ -234,10 +236,13 @@ const emit = defineEmits(['submit']);
       justify-content: flex-start;
       flex-direction: column;
     }
-    .text-input,
-    .date-input {
+    .text-input,    .date-input {
       margin-bottom: 1.5rem;
       max-width: 51.5rem;
+    }
+
+    .text-input:last-child{
+      margin-bottom: 2.5rem;
     }
 
     .icon-wrapper {

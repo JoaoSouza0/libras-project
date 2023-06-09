@@ -13,6 +13,7 @@ import { ref, h } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { HOME } from '@/consts/publicRoutes';
+import { CREATE_CLASS } from '@/consts/privateRoutes';
 import { useUserStore } from '@/stores/UserStore';
 
 const route = useRoute();
@@ -37,7 +38,9 @@ const completeData = ({ data, profileImage }) => {
   try {
     const userId = route.params.id;
     userStore.update({ ...data, type: userStore.user.type }, profileImage, userId);
-    return router.push({ name: HOME.NAME });
+    return userStore.user.type
+      ? router.push({ name: CREATE_CLASS.NAME, params: { id: route.params.id } })
+      : router.push({ name: HOME.NAME });
   } catch (error) {
     console.log(error);
   }
@@ -63,7 +66,7 @@ const completeData = ({ data, profileImage }) => {
       padding: unset;
       margin-bottom: 2rem;
 
-      button{
+      button {
         width: 100%;
       }
     }

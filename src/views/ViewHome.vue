@@ -3,8 +3,8 @@
     <h1>Aulas de LIBRAS gratuitas pertinho de você!</h1>
 
     <p>
-      Rorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est
-      a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem.
+      Procure o professor ideal para você! Basta escolher a região e o modelo de ensino de sua
+      preferência.
     </p>
 
     <div>
@@ -71,13 +71,10 @@
         <img src="@/assets/point-lines-home-black.svg" />
         <h1>Sobre o projeto</h1>
         <p>
-          Yorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum
-          est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin
-          lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet
-          feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-          inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante
-          pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel
-          bibendum lorem.
+          Helpers é um site desenvolvido com um intuito simples e objetivo: conectar pessoas que
+          estejam interessadas em começar a aprender Libras com pessoas que estejam disponíveis e
+          interessadas em dar aulas de forma totalmente gratuita, utilizando o modelo de ensino que
+          combine mais com você: presencial ou remoto... Você escolhe!
         </p>
       </div>
     </div>
@@ -88,13 +85,10 @@
 
         <h1>Para alunos</h1>
         <p>
-          Yorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum
-          est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin
-          lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet
-          feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-          inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante
-          pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel
-          bibendum lorem.
+          Se você está interessado em começar a aprender Libras, o Helpers pode ser a escolha ideal.
+          Aqui, você pode escolher o modelo de ensino de sua preferência: remoto, presencial ou
+          ambos. Assim, ao concluir seu cadastro, você pode estar procurando professores de acordo
+          com a região e/ou modelo de ensino. Tudo isso de forma totalmente gratuita.
         </p>
       </div>
       <img src="@/assets/point-lines-home-blue.svg" />
@@ -103,13 +97,9 @@
 
         <h1>Para professores</h1>
         <p>
-          Yorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum
-          est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin
-          lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet
-          feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-          inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante
-          pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel
-          bibendum lorem.
+          Para professores Se você entende Libras, aqui sua ajuda é sempre bem-vinda. Cadastre-se
+          como professor voluntário, escolha seu modelo de ensino de preferência, e ensine alunos
+          interessados em mergulhar nos estudos de Libras. Contamos com a sua ajuda!
         </p>
       </div>
     </div>
@@ -190,10 +180,10 @@ const handleSearch = async () => {
 
   & > p,
   div > p {
-    max-width: 85.6rem;
+    max-width: 88rem;
     font-size: 2rem;
     margin-bottom: 4.7rem;
-    text-align: center;
+    text-align: justify;
     color: var(--text-primary);
   }
 
@@ -271,7 +261,7 @@ const handleSearch = async () => {
 
     p {
       max-width: 64.6rem;
-      text-align: center;
+      text-align: justify;
       color: var(--text-dark);
     }
 
@@ -328,7 +318,7 @@ const handleSearch = async () => {
     p {
       color: white;
       max-width: 64.6rem;
-      text-align: center;
+      text-align: justify;
     }
 
     img {
@@ -343,7 +333,9 @@ const handleSearch = async () => {
     & > h1 {
       text-align: center;
     }
-
+    & > p{
+      width: 30rem;
+    }
     & > div {
       width: 85svw;
     }

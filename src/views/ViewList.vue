@@ -1,39 +1,47 @@
 <template>
-  <section id="view-list" v-if="teacherList.length">
-    <h1>{{ formattedLabel }}!</h1>
-    <div class="informative">
-      <img src="@/assets/location.svg" />
-      <label>
-        perto de:
-        <span>{{ address }} </span>
-      </label>
-    </div>
-
-    <base-slide-swiper
-      :list="teacherList"
-      @next="handlePage"
-      @prev="handlePage"
-      @selected="handlePage"
-    >
-      <template #list-item="{ item, index }">
-        <teacher-card
-          :id="item.id"
-          :class="index === currentItem && 'active'"
-          :resume="item.resume"
-          :name="item.name"
-          :profile="item.photo"
-          :contact="Number(item.contact)"
-        />
-      </template>
-      <template #pagination-informative>
-        <div class="pagination">
-          <span>
-            {{ currentItem + 1 }}
-          </span>
+  <div cl :style="{ alignSelf: isloading && 'center' }">
+    <base-loader v-if="isloading" />
+    <template v-else>
+      <section id="view-list" v-if="teacherList.length">
+        <h1>{{ formattedLabel }}!</h1>
+        <div class="informative">
+          <img src="@/assets/location.svg" />
+          <label>
+            perto de:
+            <span>{{ address }} </span>
+          </label>
         </div>
-      </template>
-    </base-slide-swiper>
-  </section>
+
+        <base-slide-swiper
+          :list="teacherList"
+          @next="handlePage"
+          @prev="handlePage"
+          @selected="handlePage"
+        >
+          <template #list-item="{ item, index }">
+            <teacher-card
+              :id="item.id"
+              :class="index === currentItem && 'active'"
+              :resume="item.resume"
+              :name="item.name"
+              :profile="item.photo"
+              :contact="Number(item.contact)"
+            />
+          </template>
+          <template #pagination-informative>
+            <div class="pagination">
+              <span>
+                {{ currentItem + 1 }}
+              </span>
+            </div>
+          </template>
+        </base-slide-swiper>
+      </section>
+      <section v-if="!teacherList.length">
+        <h1>Não encontramos professores perto da sua região</h1>
+      </section>
+    </template>
+  </div>
 </template>
 
 <script setup>
@@ -45,10 +53,11 @@ import BaseSlideSwiper from '../components/Base/BaseSlideSwiper.vue';
 
 const teacherList = ref([]);
 const currentItem = ref(0);
+const isloading = ref(true);
 const locationService = new LocationService();
 
 const route = useRoute();
-const address = ref(route.query.address);
+const address = ref('');
 const classType = ref(route.query.type);
 
 const handlePage = (page) => {
@@ -61,16 +70,33 @@ const formattedLabel = computed(() => {
     : 'Encontramos 1 professor na sua região';
 });
 
-const handleAddress = async (address) => {
-  const response = await locationService.getPostalCodeLocation(address);
-  console.log(response);
-  const { body } = response;
-  return { lat: Number(body.geometry.lat), lng: Number(body.geometry.lng) };
+const handleAddress = async (cep) => {
+  try {
+    const { body } = await locationService.getPostalCodeData(cep);
+    const neighborhood = `${body.bairro} - ${body.localidade} ${body.uf}`;
+    address.value = neighborhood;
+    const response = await locationService.getPostalCodeLocation(neighborhood);
+    const { body: bodyLocation } = response;
+
+    return { lat: Number(bodyLocation.geometry.lat), lng: Number(bodyLocation.geometry.lng) };
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
 };
 
 onBeforeMount(async () => {
-  const { lat, lng } = await handleAddress(address.value);
-  teacherList.value = await locationService.getItemByRadius([lat, lng], classType.value, 'users');
+  await handleAddress(route.query.address)
+    .then(async ({ lat, lng }) => {
+      teacherList.value = await locationService.getItemByRadius(
+        [lat, lng],
+        classType.value,
+        'users'
+      );
+    })
+    .finally(() => {
+      isloading.value = false;
+    });
 });
 </script>
 

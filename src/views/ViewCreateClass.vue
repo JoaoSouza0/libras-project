@@ -7,7 +7,7 @@
           <div class="content">
             <i class="date">{{ formattedDate(item.date) }} </i>
             <p class="student-name">{{ item.name }}</p>
-            <a class="place">Presencial - Liberdade</a>
+            <a class="place">{{ userStore.user.neighborhood }}</a>
           </div>
         </template>
       </base-slide-swiper>
@@ -33,10 +33,12 @@ import EditModal from '@/layouts/Modais/EditModal.vue';
 import { ref, reactive, computed, onBeforeMount, shallowRef, toRaw } from 'vue';
 import { useRoute } from 'vue-router';
 import { useSchedule } from '../composables/schedule.js';
+import { useUserStore } from '@/stores/UserStore';
 import moment from 'moment/min/moment-with-locales';
 moment.locale('pt');
 
 const route = useRoute();
+const userStore = useUserStore();
 const openSchedule = useSchedule('openAppointments', route.params.id);
 const closeSchedule = useSchedule('closeAppointments', route.params.id);
 

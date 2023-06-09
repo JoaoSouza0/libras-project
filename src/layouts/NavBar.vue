@@ -63,9 +63,6 @@ const signOut = async () => {
   background-color: var(--text-primary);
 
   @media @smartphone {
-    .container {
-      width: unset !important;
-    }
     .call-action {
       justify-content: space-between;
       align-items: end;
