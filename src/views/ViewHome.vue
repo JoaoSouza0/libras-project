@@ -26,35 +26,6 @@
         </template>
       </base-input>
 
-      <VDatePicker
-        v-else
-        v-model="range"
-        is-range
-        :masks="{ L: 'DD/MM/YYYY' }"
-        mode="date"
-        :min-date="new Date()"
-      >
-        <template #default="{ inputValue, inputEvents }">
-          <div class="date-container">
-            <base-input
-              ref="startRef"
-              class="date-input"
-              label="Data de inicio"
-              v-model="inputValue.start"
-              v-on="inputEvents.start"
-            />
-
-            <base-input class="date-input" disabled label="Data final" v-model="inputValue.end">
-              <template #icon>
-                <div class="icon-wrapper" @click="handleSearch">
-                  <img src="@/assets/calendar.svg" alt="" srcset="" />
-                </div>
-              </template>
-            </base-input>
-          </div>
-        </template>
-      </VDatePicker>
-
       <radio-input class="radio-input" v-model="option" :options="options" />
     </div>
 
@@ -333,7 +304,7 @@ const handleSearch = async () => {
     & > h1 {
       text-align: center;
     }
-    & > p{
+    & > p {
       width: 30rem;
     }
     & > div {
