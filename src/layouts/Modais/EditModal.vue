@@ -15,38 +15,20 @@
           <VDatePicker v-model="date" mode="time" locale="pt" :rules="rules" is24hr />
         </div>
         <div class="available-time">
-          <label>Horários disponíveis</label>
-          <div>
-            <span v-for="(day, key) in availableDays" :key="key">
-              <base-button
-                @click="removeDay(key)"
-                :class="['button', day?.name && 'inactive']"
-                :disabled="day.name"
-                :theme="false"
-                :error="!!day.name"
-              >
-                -
-              </base-button>
-              {{ formatDates(day?.date) }}
-            </span>
-          </div>
-
-          <base-button @click="save" class="save-button">salvar</base-button>
+          <availableTimesList :style="{ flexDirection: 'column' }" :list="newDays" />
         </div>
+        <base-button @click="save" class="save-button">salvar</base-button>
       </div>
     </div>
   </base-modal>
 </template>
 
 <script setup>
-import { reactive, ref, toRaw } from 'vue';
+import availableTimesList from '../../components/availableTimesList.vue';
+import { ref, shallowReactive } from 'vue';
 
 const props = defineProps({
-  selectedDay: Date,
-  timeList: {
-    type: Array,
-    default: () => []
-  }
+  selectedDay: Date
 });
 
 const rules = ref({
@@ -54,43 +36,25 @@ const rules = ref({
 });
 
 const date = ref(props.selectedDay);
-const availableDays = reactive([...props.timeList]);
-
-const formatDates = (day) => {
-  return `${day.getHours()}:${String(day.getMinutes()).padStart(2, '0')}`;
-};
+const newDays = shallowReactive([]);
 
 const addDay = () => {
-  const availableDaysRaw = toRaw(availableDays);
-  const hasDate = availableDaysRaw.some(
-    (item) => item.date.toISOString() == date.value.toISOString()
-  );
+  const hasDate = newDays.some((item) => item.date.toISOString() == date.value.toISOString());
   if (hasDate) return;
-  availableDays.push({ date: date.value });
-  return availableDays.sort((a, b) => a.date - b.date);
+  newDays.push({ date: date.value });
+  return newDays.sort((a, b) => a.date - b.date);
 };
 
-const removeDay = (key) => {
-  if (availableDays[key].name) return;
-
-  availableDays.splice(key, 1);
-  emit('remove', key);
-};
 const save = () => {
-  const availableDaysRaw = toRaw(availableDays);
-  const onlyNewData = availableDaysRaw.filter((item) => !props.timeList.includes(item));
-  console.log(onlyNewData);
-  emit('save', onlyNewData);
+  emit('save', newDays);
 };
 
 const emit = defineEmits(['close', 'save', 'remove']);
 </script>
 
 <style lang="less">
-@import '@/less/modules/components/EditModal.less';
-
 #modal-container {
-  min-width: 45rem;
+  max-width: 45rem;
   min-height: 60rem;
   background: white;
   margin: auto;
@@ -119,8 +83,7 @@ const emit = defineEmits(['close', 'save', 'remove']);
       margin-bottom: 2.4rem;
     }
 
-    label,
-    .available-time span {
+    label {
       color: var(--text-dark);
       display: block;
       font-size: 1.6rem;
@@ -148,36 +111,20 @@ const emit = defineEmits(['close', 'save', 'remove']);
     }
 
     .available-time {
-      .button {
-        margin-right: 0.8rem;
-      }
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
 
-      .button:hover {
-        background-color: none;
+      i {
+        font-size: 1.4rem;
       }
+    }
 
-      & > div {
-        height: 20rem;
-        overflow: auto;
-      }
-
-      .save-button {
-        margin: 3rem 0;
-        width: 9.8rem;
-        padding: 1rem;
-        float: right;
-      }
-
-      ::-webkit-scrollbar {
-        -webkit-appearance: none;
-        width: 7px;
-      }
-
-      ::-webkit-scrollbar-thumb {
-        border-radius: 4px;
-        background-color: rgba(0, 0, 0, 0.5);
-        box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
-      }
+    .save-button {
+      margin: 3rem 0;
+      width: 9.8rem;
+      padding: 1rem;
+      float: right;
     }
   }
 }

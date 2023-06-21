@@ -1,103 +1,83 @@
 <template>
   <section id="view-create-class">
-    <div class="next-classes">
-      <h2>Próximas aulas</h2>
-      <base-slide-swiper :list="nextClasses">
-        <template #list-item="{ item }">
-          <div class="content">
-            <i class="date">{{ formattedDate(item.date) }} </i>
-            <p class="student-name">{{ item.name }}</p>
-            <a class="place">{{ userStore.user.neighborhood }}</a>
-          </div>
-        </template>
-      </base-slide-swiper>
-    </div>
-    <div class="calendar">
-      <h2>Agenda</h2>
-      <ScheduleCalendar :attributesProp="attributesProp" @open="handleModal" :key="k" />
-    </div>
+    <schedule-mobile
+      :attributes="attributesProp"
+      :time-list="formattedClasses"
+      @open="open = true"
+      @change="handleChangeDay"
+      @remove="handleRemove"
+    />
     <edit-modal
       v-if="open"
-      :time-list="formattedClasses"
       :selected-day="selectedDay"
       @close="open = false"
       @save="handleSaveHours"
-      @remove="handleRemove"
     />
   </section>
 </template>
 
 <script setup>
-import ScheduleCalendar from '@/components/ScheduleCalendar.vue';
+import ScheduleMobile from '@/layouts/ScheduleMobile.vue';
 import EditModal from '@/layouts/Modais/EditModal.vue';
-import { ref, reactive, computed, onBeforeMount, shallowRef, toRaw } from 'vue';
+import { ref, reactive, computed} from 'vue';
 import { useRoute } from 'vue-router';
 import { useSchedule } from '../composables/schedule.js';
-import { useUserStore } from '@/stores/UserStore';
 import moment from 'moment/min/moment-with-locales';
 moment.locale('pt');
 
 const route = useRoute();
-const userStore = useUserStore();
 const openSchedule = useSchedule('openAppointments', route.params.id);
 const closeSchedule = useSchedule('closeAppointments', route.params.id);
 
 const open = ref(false);
 const k = ref(0);
 const selectedDay = ref(null);
-const nextClasses = ref();
-const classes = shallowRef([]);
+let classes = reactive([]);
 
 const attributesProp = reactive([
   {
-    dates: openSchedule.appointmentsDay,
-    content: '',
+    dates: closeSchedule.appointmentsDay,
     highlight: {
-      class: 'highlight'
+      content: 'white',
+      color: 'red',
+      fillMode: 'light',
+      class: 'closed-day'
     }
   },
   {
-    dates: closeSchedule.appointmentsDay,
-    content: '',
+    dates: openSchedule.appointmentsDay,
     highlight: {
-      class: 'closed-day'
+      class: 'highlight',
+      content: 'white',
+      fillMode: 'light',
+      contentClass: 'italic'
     }
   }
 ]);
 
 const formattedClasses = computed(() => {
-  return classes.value.map((item) => item).sort((a, b) => a.date - b.date);
+  return classes?.map((item) => item).sort((a, b) => a.date - b.date);
 });
 
-const formattedDate = (date) => {
-  return moment(date).format('DD [de] MMMM, HH[h]mm[m]');
-};
-
-const handleModal = async (date) => {
-  const openData = (await openSchedule.getHourClasses(date));
-  const closeData = (await closeSchedule.getHourClasses(date));
-
-  classes.value = [...toRaw(openData), ...toRaw(closeData)];
-  open.value = true;
+const handleChangeDay = async (date) => {
+  classes.length = 0;
+  const openData = await openSchedule.getHourClasses(date);
+  const closeData = await closeSchedule.getHourClasses(date);
+  classes.push(...openData, ...closeData);
   return (selectedDay.value = date);
 };
 
 const handleSaveHours = (date) => {
   openSchedule.saveAppointments(date);
-  attributesProp[0].dates.push(selectedDay.value);
-  k.value++;
+  classes.push(...date);
   return (open.value = false);
 };
 
 const handleRemove = (key) => {
-  openSchedule.deleteAppointments(classes.value[key].id);
-  console.log(classes.value.length);
+  openSchedule.deleteAppointments(formattedClasses.value[key].id);
+  classes.splice(classes.indexOf(formattedClasses.value[key]), 1);
   return;
 };
-
-onBeforeMount(async () => {
-  nextClasses.value = await closeSchedule.getNextClasses(new Date());
-});
 </script>
 
 <style lang="less" scoped>
@@ -129,34 +109,6 @@ onBeforeMount(async () => {
 
   .next-classes {
     margin-bottom: 2rem;
-    .content {
-      width: 22rem;
-      padding: 0 1rem;
-      margin-right: 1rem;
-      border-left: 0.5rem solid var(--text-primary);
-      min-height: 6.5rem;
-      display: inline-flex;
-      flex-direction: column;
-      justify-content: center;
-
-      p,
-      a {
-        margin-top: 0.7rem;
-      }
-
-      a {
-        color: black;
-      }
-    }
-    .date {
-      font-size: 1.2rem;
-    }
-    .student-name {
-      font-size: 1.6rem;
-    }
-    .place {
-      font-size: 1.4rem;
-    }
   }
 
   .calendar {

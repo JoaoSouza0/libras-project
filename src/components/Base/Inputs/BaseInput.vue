@@ -10,6 +10,8 @@
         @focus="hasFocus"
         @blur="$emit('onBlur', modelValue)"
         @change="(e) => $emit('onChange', e)"
+        @click="(e) => $emit('onClick', e)"
+        v-on="on"
       />
 
       <span class="icon" v-if="type != 'date'">
@@ -34,6 +36,7 @@ const props = defineProps({
   modelValue: {
     type: [null, String]
   },
+  on:Object,
   id: {
     type: String
   },
@@ -61,7 +64,7 @@ const props = defineProps({
   value: [String, Number, Date],
   disabled: {
     default: false
-  }
+  },
 });
 
 const renderedInput = () =>
@@ -115,7 +118,7 @@ const backgroundValid = computed(() => {
 });
 
 defineExpose({ setCustomValidity, focus });
-const emit = defineEmits(['update:modelValue', 'validation', 'onBlur', 'focus', 'onChange']);
+const emit = defineEmits(['update:modelValue', 'validation', 'onBlur', 'focus', 'onChange', 'onClick']);
 </script>
 
 <style lang="less">

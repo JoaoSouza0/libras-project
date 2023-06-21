@@ -1,4 +1,4 @@
-import GenericError from '@/utils/GenericError';
+import GenericError from '@/utils/Error/GenericError';
 export default class BaseService {
   failure(error) {
     throw new GenericError(error?.code, error?.message);

@@ -1,9 +1,9 @@
-import { computed, onBeforeMount, ref, toRaw } from 'vue';
+import { computed, onBeforeMount, reactive } from 'vue';
 import ScheduleService from '../service/ScheduleService';
 
 export function useSchedule(schedule, id) {
   const scheduleService = new ScheduleService(schedule, id);
-  const appointments = ref([]);
+  const appointments = reactive([]);
 
   const appointmentsDay = computed(() => {
     const dictionaryDate = appointments.value.reduce((acc, current) => {
@@ -15,7 +15,9 @@ export function useSchedule(schedule, id) {
   });
 
   const saveAppointments = async (payload) => {
-    return await scheduleService.postAppointments(payload);
+    await scheduleService.postAppointments(payload);
+    appointments.value.push(...payload);
+    return appointments.value
   };
   const deleteAppointments = async (item) => {
     return await scheduleService.deleteAppointments(item);

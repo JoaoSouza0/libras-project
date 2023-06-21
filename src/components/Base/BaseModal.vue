@@ -8,6 +8,8 @@
 
 <style lang="less" scoped>
 .modal-backdrop {
+  z-index: 100000;
+
   position: fixed;
   top: 0;
   bottom: 0;

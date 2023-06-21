@@ -16,7 +16,7 @@ export default defineConfig({
     preprocessorOptions: {
       less: {
         math: 'parens-division',
-        additionalData:`@import "@/less/main.less";`
+        additionalData:`@import "@/less/modules/screen-variables.less";`
       }
     }
   }
