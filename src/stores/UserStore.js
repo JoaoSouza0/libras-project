@@ -4,7 +4,9 @@ import UserService from '../service/UserService';
 
 export const useUserStore = defineStore('storeUser', {
   state: () => ({
-    user: {}
+    user: {
+      procedures:[]
+    }
   }),
   actions: {
     async create({ email, password, type }) {

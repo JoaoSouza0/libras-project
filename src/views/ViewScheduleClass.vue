@@ -5,15 +5,18 @@
         <span></span>
       </template>
       <template #bottom="{ key, item }">
-        <base-button v-if="!item.name" id="button" @click="handleSave(key)">Confirmar</base-button>
+        <base-button v-if="!item.name" id="button" @click="handleModal(key)">Confirmar</base-button>
       </template>
     </schedule-mobile>
-    <!-- Perguntar para a mãe sobre qual é a melhor maneira de impedir a pessoa de ficar marcando varios dias -->
+    <procedure-modal v-if="procedureModal" @submit="handleSave" @close="handleModal(null)">
+      <base-button id="button">Confirmar</base-button>
+    </procedure-modal>
   </div>
 </template>
 
 <script setup>
 import ScheduleMobile from '@/layouts/ScheduleMobile.vue';
+import ProcedureModal from '@/layouts/Modais/ProcedureModal.vue';
 import { ref, reactive } from 'vue';
 import { useUserStore } from '@/stores/UserStore';
 import { useSchedule } from '../composables/schedule.js';
@@ -26,6 +29,8 @@ const teacherCloseSchedule = useSchedule('closeAppointments', route.params.id);
 const studentCloseSchedule = useSchedule('closeAppointments', 'PGHkG6ZOLLPQL3RCJzhDHMNZUVx1');
 
 const classes = reactive([]);
+const procedureModal = ref(false);
+const selectedSchedule = ref(null);
 
 const attributesProp = reactive([
   {
@@ -49,8 +54,9 @@ const attributesProp = reactive([
   }
 ]);
 
-const handleSave = async (index) => {
-  const classDate = classes[index].date.getDate();
+const handleSave = async (procedure) => {
+  const key = selectedSchedule.value;
+  const classDate = classes[key].date.getDate();
   const result = studentCloseSchedule.appointmentsDay.value.find(
     (item) => item.getDate() === classDate
   );
@@ -59,34 +65,41 @@ const handleSave = async (index) => {
 
   const payload = {
     name: 'Horário reservado',
-    date: classes[index].date
+    date: classes[key].date
   };
 
   try {
-    await Promise.all([handleTeacherAppointment(index), handleStudentAppointment(index)]);
-    classes.splice(index, 1);
-    return classes.push(payload);
+    await Promise.all([
+      handleTeacherAppointment(key, procedure),
+      handleStudentAppointment(key, procedure)
+    ]);
+    classes.splice(key, 1);
+    classes.push(payload);
+    return handleModal();
   } catch (e) {
     console.log(e);
   }
 };
 
-const handleTeacherAppointment = async (index) => {
+const handleTeacherAppointment = async (index, procedure) => {
   const payload = {
     name: userStore.user.name,
-    date: classes[index].date
+    date: classes[index].date,
+    procedure: procedure.name,
+    observation: procedure.observation
   };
 
   return await teacherCloseSchedule
     .saveAppointments([payload])
     .then(teacherOpenSchedule.deleteAppointments(classes[index].id));
 };
-const handleStudentAppointment = async (index) => {
-  const payload = {
-    name: 'Horario já reservado',
-    date: classes[index].date
-  };
 
+const handleStudentAppointment = async (index, procedure) => {
+  const payload = {
+    name: 'Horario reservado',
+    date: classes[index].date,
+    procedure: procedure.name
+  };
   return await studentCloseSchedule
     .saveAppointments([payload])
     .then(teacherOpenSchedule.deleteAppointments(classes[index].id));
@@ -100,6 +113,11 @@ const handleChangeDay = async (date) => {
   let list = studentData.length ? studentData : teacherDate;
 
   return classes.push(...list);
+};
+
+const handleModal = async (key) => {
+  procedureModal.value = !procedureModal.value;
+  selectedSchedule.value = key;
 };
 </script>
 

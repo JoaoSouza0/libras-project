@@ -54,6 +54,7 @@ const emit = defineEmits(['close', 'save', 'remove']);
 
 <style lang="less">
 #modal-container {
+  min-width: 35.6rem;
   max-width: 45rem;
   min-height: 60rem;
   background: white;
@@ -114,7 +115,7 @@ const emit = defineEmits(['close', 'save', 'remove']);
       display: flex;
       flex-direction: column;
       overflow: auto;
-
+      height: 20rem;
       i {
         font-size: 1.4rem;
       }

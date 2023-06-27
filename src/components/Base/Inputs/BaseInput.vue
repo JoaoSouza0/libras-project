@@ -36,7 +36,10 @@ const props = defineProps({
   modelValue: {
     type: [null, String]
   },
-  on:Object,
+  on: {
+    type: Object,
+    default: () => ({})
+  },
   id: {
     type: String
   },
@@ -65,6 +68,9 @@ const props = defineProps({
   disabled: {
     default: false
   },
+  readonly: {
+    default: false
+  }
 });
 
 const renderedInput = () =>
@@ -118,7 +124,14 @@ const backgroundValid = computed(() => {
 });
 
 defineExpose({ setCustomValidity, focus });
-const emit = defineEmits(['update:modelValue', 'validation', 'onBlur', 'focus', 'onChange', 'onClick']);
+const emit = defineEmits([
+  'update:modelValue',
+  'validation',
+  'onBlur',
+  'focus',
+  'onChange',
+  'onClick'
+]);
 </script>
 
 <style lang="less">

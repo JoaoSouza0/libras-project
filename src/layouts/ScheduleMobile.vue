@@ -2,7 +2,7 @@
   <section id="mobile-schedule">
     <VDatePicker v-model="selectedDay" locale="pt" :attributes="attributes" :popover="false">
       <template #default="{ togglePopover, inputValue, inputEvents }">
-        <base-input @onClick="() => togglePopover()" :value="inputValue" :on="inputEvents">
+        <base-input readonly @onClick="() => togglePopover()" :value="inputValue" :on="inputEvents">
           <template #icon>
             <div class="plus-icon" @click="$emit('open')">
               <img class="plus-icon-content" src="@/assets/close-icon.svg" alt="close icon" />
@@ -15,9 +15,7 @@
       <div class="dates-container" :key="count">
         <available-times-list :list="timeList" v-if="timeList?.length">
           <template #head="{ key }">
-            <slot name="head">
-              <img src="@/assets/close-icon.svg" alt="close icon" @click="$emit('remove', key)" />
-            </slot>
+            <slot name="head" :key="key" />
           </template>
           <template #bottom="{ key, item }">
             <slot name="bottom" :key="key" :item="item" />
@@ -72,8 +70,12 @@ watch(
 
   .plus-icon {
     z-index: 1000;
+    width: 100%;
+    height: 100%;
     &-content {
       rotate: 45deg;
+      margin: 35% auto;
+      display: block;
     }
   }
 

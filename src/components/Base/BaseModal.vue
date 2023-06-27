@@ -9,7 +9,7 @@
 <style lang="less" scoped>
 .modal-backdrop {
   z-index: 100000;
-
+  padding: 3rem;
   position: fixed;
   top: 0;
   bottom: 0;

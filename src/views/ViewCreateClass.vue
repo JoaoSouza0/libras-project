@@ -3,35 +3,62 @@
     <schedule-mobile
       :attributes="attributesProp"
       :time-list="formattedClasses"
-      @open="open = true"
+      @open="modalStatus.edit = true"
       @change="handleChangeDay"
-      @remove="handleRemove"
-    />
+    >
+      <template #head="{ key }">
+        <img
+          v-if="isScheduled(key)"
+          src="@/assets/close-icon.svg"
+          alt="close icon"
+          @click="handleRemove(key)"
+        />
+        <img v-else src="@/assets/info-icon.svg" alt="close icon" @click="handleInfo(key)" />
+      </template>
+    </schedule-mobile>
     <edit-modal
-      v-if="open"
+      v-if="modalStatus.edit"
       :selected-day="selectedDay"
-      @close="open = false"
+      @close="modalStatus.edit = false"
       @save="handleSaveHours"
     />
+    <procedure-modal
+      v-if="modalStatus.procedure"
+      :procedure="selectedAppointment.procedure"
+      :observation="selectedAppointment.observation"
+      @close="modalStatus.procedure = false"
+      @submit="handleCancel"
+    >
+      <!--       <base-button id="button">Cancelar</base-button> -->
+    </procedure-modal>
   </section>
 </template>
 
 <script setup>
 import ScheduleMobile from '@/layouts/ScheduleMobile.vue';
 import EditModal from '@/layouts/Modais/EditModal.vue';
-import { ref, reactive, computed} from 'vue';
+import ProcedureModal from '@/layouts/Modais/ProcedureModal.vue';
+import { ref, reactive, computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { useUserStore } from '@/stores/UserStore';
 import { useSchedule } from '../composables/schedule.js';
 import moment from 'moment/min/moment-with-locales';
+
 moment.locale('pt');
 
+const userStore = useUserStore();
 const route = useRoute();
 const openSchedule = useSchedule('openAppointments', route.params.id);
 const closeSchedule = useSchedule('closeAppointments', route.params.id);
 
-const open = ref(false);
-const k = ref(0);
 const selectedDay = ref(null);
+const selectedAppointment = reactive({});
+
+const modalStatus = reactive({
+  edit: false,
+  procedure: false
+});
+
 let classes = reactive([]);
 
 const attributesProp = reactive([
@@ -77,6 +104,23 @@ const handleRemove = (key) => {
   openSchedule.deleteAppointments(formattedClasses.value[key].id);
   classes.splice(classes.indexOf(formattedClasses.value[key]), 1);
   return;
+};
+
+const handleInfo = (key) => {
+  const selected = formattedClasses.value[key];
+  selectedAppointment.procedure = userStore?.user?.procedures?.findIndex(
+    (item) => selected.procedure === item
+  );
+  selectedAppointment.observation = selected.observation;
+  return (modalStatus.procedure = true);
+};
+
+const handleCancel = (key) => {
+  console.log(key);
+};
+
+const isScheduled = (key) => {
+  return formattedClasses.value[key]?.day;
 };
 </script>
 
