@@ -6,11 +6,7 @@
           <img src="@/assets/close-icon.svg" alt="close icon" srcset="" />
         </a>
       </nav>
-      <procedure-form
-        :procedure="procedure"
-        :observation="observation"
-        @submit="(v) => $emit('submit', v)"
-      >
+      <procedure-form :procedure="procedure" :observation="observation" @submit="handleSubmit">
         <slot />
       </procedure-form>
     </div>
@@ -19,7 +15,12 @@
 
 <script setup>
 import ProcedureForm from '@/layouts/Forms/procedureForm.vue';
+import { LOGIN } from '@/consts/publicRoutes.js';
+import { TEACHER_LIST } from '@/consts/privateRoutes.js';
+import { useIsAuthenticate } from '@/composables/user';
+import { useRouter } from 'vue-router';
 const emits = defineEmits(['submit', 'close']);
+const router = useRouter();
 const props = defineProps({
   procedure: {
     default: 1,
@@ -30,6 +31,14 @@ const props = defineProps({
     type: [String, null]
   }
 });
+
+const handleSubmit = async (v) => {
+  const { user } = await useIsAuthenticate();
+  emits('submit', v);
+  return router.push({
+    name: user.body ? TEACHER_LIST.NAME : LOGIN.NAME
+  });
+};
 </script>
 
 <style lang="less">
