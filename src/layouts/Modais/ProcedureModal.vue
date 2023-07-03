@@ -34,10 +34,13 @@ const props = defineProps({
 
 const handleSubmit = async (v) => {
   const { user } = await useIsAuthenticate();
-  emits('submit', v);
-  return router.push({
-    name: user.body ? TEACHER_LIST.NAME : LOGIN.NAME
-  });
+
+  if (!user.body) {
+    return router.push({
+      name: LOGIN.NAME
+    });
+  }
+  return emits('submit', v);
 };
 </script>
 
