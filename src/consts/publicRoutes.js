@@ -11,8 +11,14 @@ export const HOME = {
   NAME: 'home'
 };
 
+export const SCHEDULE_CLASS = {
+  NAME: 'scheduleClass',
+  PATH: '/schedule-class/:id'
+};
+
 export default {
   REGISTER,
   LOGIN,
+  SCHEDULE_CLASS,
   HOME
 };

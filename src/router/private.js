@@ -4,7 +4,6 @@ import teacherRoutes from './teacherRoutes';
 import ViewList from '@/views/ViewList.vue';
 import ViewComplementData from '@/views/ViewComplementData.vue';
 import ViewsTeacherDetails from '@/views/ViewsTeacherDetails.vue';
-import ViewScheduleClass from '@/views/ViewScheduleClass.vue';
 
 const privateRoutes = [
   ...teacherRoutes,
@@ -29,11 +28,6 @@ const privateRoutes = [
     path: _.TEACHER_DETAILS.PATH,
     name: _.TEACHER_DETAILS.NAME,
     component: ViewsTeacherDetails
-  },
-  {
-    path: _.SCHEDULE_CLASS.PATH,
-    name: _.SCHEDULE_CLASS.NAME,
-    component: ViewScheduleClass
   }
 ];
 

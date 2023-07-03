@@ -26,11 +26,11 @@
 </template>
 
 <script setup>
-import { computed, onBeforeMount, onMounted, ref } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/UserStore';
-import UserService from '@/service/UserService';
-import { TEACHER_DETAILS, SCHEDULE_CLASS } from '@/consts/privateRoutes.js';
+import { TEACHER_DETAILS } from '@/consts/privateRoutes.js';
+import { SCHEDULE_CLASS } from '@/consts/publicRoutes.js';
 
 const userStore = useUserStore();
 const router = useRouter();

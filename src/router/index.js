@@ -14,10 +14,12 @@ router.beforeEach(async (to, from) => {
   const userStore = useUserStore();
 
   const { meta } = to;
+
+  if (!meta.requireAuth) return true;
+
   const { user } = await useIsAuthenticate();
 
   if (!from.name) userStore.fetch(user?.body?.uid);
-  if (!meta.requireAuth) return true;
   if (!user.body) return { name: LOGIN.NAME }; //retornar para a pagina de not found
 
   return true;

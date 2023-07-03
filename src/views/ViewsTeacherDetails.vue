@@ -39,7 +39,7 @@
 
 <script setup>
 import { computed, onBeforeMount, reactive } from 'vue';
-import { SCHEDULE_CLASS } from '@/consts/privateRoutes';
+import { SCHEDULE_CLASS } from '@/consts/publicRoutes';
 import { useRoute, useRouter } from 'vue-router';
 import UserService from '@/service/UserService';
 

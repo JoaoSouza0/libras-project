@@ -13,11 +13,6 @@ export const TEACHER_DETAILS = {
   NAME: 'teacherDetails'
 };
 
-export const SCHEDULE_CLASS = {
-  NAME: 'scheduleClass',
-  PATH: '/schedule-class/:id'
-};
-
 export const CREATE_CLASS = {
   NAME: 'createClass',
   PATH: '/create-class/:id'
@@ -27,6 +22,5 @@ export default {
   TEACHER_LIST,
   USER_COMPLEMENT_DATA,
   TEACHER_DETAILS,
-  SCHEDULE_CLASS,
   CREATE_CLASS
 };

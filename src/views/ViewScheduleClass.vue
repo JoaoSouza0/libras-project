@@ -5,7 +5,7 @@
         <span></span>
       </template>
       <template #bottom="{ key, item }">
-        <base-button v-if="!item.name" id="button" @click="handleModal(key)">Confirmar</base-button>
+        <base-button v-if="!item.name" id="button" @click="handleModal(key)">Reservar</base-button>
       </template>
     </schedule-mobile>
     <procedure-modal v-if="procedureModal" @submit="handleSave" @close="handleModal(null)">

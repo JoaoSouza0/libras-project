@@ -3,6 +3,7 @@ import _ from '@/consts/publicRoutes.js';
 import ViewRegister from '@/views/Login/ViewRegister.vue';
 import ViewLogin from '@/views/Login/ViewLogin.vue';
 import ViewHome from '@/views/ViewHome.vue';
+import ViewScheduleClass from '@/views/ViewScheduleClass.vue';
 
 const publicRoutes = [
   {
@@ -19,6 +20,11 @@ const publicRoutes = [
     path: _.LOGIN.PATH,
     name: _.LOGIN.NAME,
     component: ViewLogin
+  },
+  {
+    path: _.SCHEDULE_CLASS.PATH,
+    name: _.SCHEDULE_CLASS.NAME,
+    component: ViewScheduleClass
   }
 ];
 
